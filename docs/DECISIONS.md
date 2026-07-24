@@ -8,11 +8,23 @@ Short ADR-lite log. Newest first.
 - **Why:** Private repos cannot enable Pages on the free plan; SIS-16 / landing spec require a live Pages URL.
 - **Consequence:** Never commit secrets. Landing deploys from `gh-pages` (bootstrap) and via `.github/workflows/pages.yml` (Actions) after merge — URL `https://condopartners.github.io/condopartners/`.
 
+## 2026-07-24 — Local Postgres host port 5433
+
+- **Decision:** Publish Docker Postgres on host **`:5433`** (`5433:5432`), not `:5432`.
+- **Why:** Host `:5432` is commonly occupied on shared/dev machines; remapping avoids bind failures without changing the in-container Postgres port.
+- **Consequence:** `.env.example`, Drizzle fallbacks, and docs use `localhost:5433`. Run `bun run db:up` then `bun run db:migrate`.
+
+## 2026-07-24 — Vendored Impeccable stays local (gitignored)
+
+- **Decision:** Ignore locally installed Impeccable skill/hooks (`.github/skills/`, `.github/hooks/`, `.cursor/`) in git and Biome.
+- **Why:** Impeccable is agent tooling installed per machine; linting/committing the vendored tree would noise CI and PRs.
+- **Consequence:** Install/refresh Impeccable locally; do not commit skill blobs. Shared detector exceptions (if any) belong in committed `.impeccable/config.json` later — not in the skill tree.
+
 ## 2026-07-24 — Postgres local via Docker + Drizzle ORM
 
 - **Decision:** Local Postgres 17 via `docker-compose.yml` + Drizzle ORM (`drizzle-orm/bun-sql`) in `apps/api`.
 - **Why:** Matches the foundation docs’ Postgres assumption; Bun-native driver; typed schema/migrations without inventing domain tables yet.
-- **Consequence:** Infra is wired (`bun run db:up`, `db:migrate`, `db:studio`). Schema stays **empty** until an approved feature spec adds tables. Supersedes “Persistence deferred”. Health reports `database: ok | unreachable` (soft-fail).
+- **Consequence:** Infra is wired (`bun run db:up`, `db:migrate`, `db:studio`). Schema stays **empty** until an approved feature spec adds tables. Supersedes “Persistence deferred”. Health reports `database: ok | unreachable` (soft-fail). Host port is **5433** (see ADR above).
 
 ## 2026-07-24 — Product UI and operator templates in pt-BR
 

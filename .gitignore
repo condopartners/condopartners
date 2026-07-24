@@ -162,6 +162,10 @@ graphify-out/
 # Local agent tooling
 .cursor/
 
-# Vendored AI skills (installed locally)
+# Vendored AI skills / hooks (installed locally — Impeccable, etc.)
 .github/skills/
 .github/hooks/
+
+# Impeccable per-developer overrides (shared config.json may be committed later)
+.impeccable/config.local.json
+.impeccable/*.local.json

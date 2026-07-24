@@ -31,8 +31,8 @@ CondoPartners is a multi-tenant B2B platform for hierarchical partner networks, 
 
 ```bash
 bun install          # install workspaces
-bun run db:up        # start local Postgres (Docker)
-bun run db:migrate   # apply Drizzle migrations
+bun run db:up        # start local Postgres (Docker → host :5433)
+bun run db:migrate   # apply Drizzle migrations (empty schema until approved feature)
 bun run db:down      # stop Postgres
 bun run db:generate  # generate migrations from schema
 bun run db:studio    # Drizzle Studio

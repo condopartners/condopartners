@@ -27,10 +27,12 @@ Schema is **empty** until an approved feature spec adds tables ([`docs/DECISIONS
 # Requires Bun (https://bun.sh) and Docker
 bun install
 cp .env.example .env
-bun run db:up
-bun run db:migrate
+bun run db:up        # Postgres on host :5433 (avoids clash with :5432)
+bun run db:migrate   # Drizzle migrations (schema empty until an approved feature)
 bun run dev
 ```
+
+Local Postgres is published on **host port 5433** (`docker-compose.yml` maps `5433:5432`) because `:5432` is often already taken on shared machines. `DATABASE_URL` in `.env.example` matches that.
 
 - API: http://localhost:3000 — try `curl http://localhost:3000/health`
 - Web: http://localhost:5173 — shell page calls `/health` via Eden
