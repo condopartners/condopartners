@@ -1,36 +1,37 @@
-## Summary
+## Resumo
 
-<!-- What changed and why -->
+<!-- O que mudou e por quê -->
 
 ## Issue
 
-Closes #
+Fecha #
 
 ## Spec
 
-<!-- Path under docs/specs/ (required for features). N/A for chore/docs-only. -->
+<!-- Caminho em docs/specs/ (obrigatório para features). N/A para chore/docs. -->
 
-## Type of change
+## Tipo de mudança
 
 - [ ] Feature
-- [ ] Fix
+- [ ] Correção (fix)
 - [ ] Docs / guardrails
 - [ ] Chore / tooling
 - [ ] Refactor
 
 ## Checklist
 
-- [ ] English only (code, comments, commits)
-- [ ] Follows `rules/`
-- [ ] Tests added/updated when behavior changes
-- [ ] `bun run check` passes locally
-- [ ] No secrets committed
-- [ ] PR is focused (one concern)
+- [ ] Textos de UI/produto em **pt-BR**
+- [ ] Código, identificadores e mensagens de commit seguem as `rules/`
+- [ ] Segue `rules/`
+- [ ] Testes adicionados/atualizados quando o comportamento muda
+- [ ] `bun run check` passa localmente
+- [ ] Nenhum segredo commitado
+- [ ] PR focado (uma preocupação)
 
-## Test plan
+## Plano de teste
 
-<!-- Steps a reviewer can follow -->
+<!-- Passos que um revisor pode seguir -->
 
-## Notes for reviewers
+## Notas para revisores
 
-<!-- Risks, follow-ups, screenshots if UI -->
+<!-- Riscos, follow-ups, screenshots se houver UI -->

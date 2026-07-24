@@ -65,4 +65,4 @@ Read [`AGENTS.md`](AGENTS.md) for golden rules and the company skills roster (su
 
 ## Product context
 
-See [`docs/PRODUCT.md`](docs/PRODUCT.md). Deeper design artifacts (Portuguese) live on branch `docs/fundacao-design` and are merged by the team separately.
+See [`docs/PRODUCT.md`](docs/PRODUCT.md) and [`docs/FEATURES.md`](docs/FEATURES.md). Deeper design artifacts live on branch `docs/fundacao-design` and are merged by the team separately.

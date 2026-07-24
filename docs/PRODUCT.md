@@ -6,6 +6,8 @@ English distillation of the product intent. Detailed design (PRD, data model, fl
 
 CondoPartners is a **multi-tenant B2B platform** for managing hierarchical partner networks that sell products into condominiums and other properties, with configurable commission rules, sales tracking, and payment-gated payouts.
 
+**Product UI language: pt-BR.**
+
 ## Problem
 
 - Partner networks grow into trees (partner → sub-partner) without a shared system of record.
@@ -15,14 +17,16 @@ CondoPartners is a **multi-tenant B2B platform** for managing hierarchical partn
 
 ## Core capabilities (future features — not built yet)
 
-1. **Multi-level partner management** — tree of partners and sub-partners; invitations and hierarchy for commission distribution.
-2. **Commission control** — automatic calculation from sold price and level rules; strategies include overprice (sale − base) and percent-of-sale; distribution across the chain.
-3. **Products and per-product rules** — base price and commission configuration per product; multiple independent catalogs per tenant.
-4. **Sales registration and attribution** — who originated the customer; final sold amount; audit trail.
-5. **Finance integration** — mark payments received (API/automation); release commissions only after money is collected.
-6. **Earnings reports** — each partner sees earnings and which sales they came from.
-7. **Shared ecosystem (vision)** — multiple companies may share opportunities over time; MVP keeps **strict tenant isolation**.
-8. **Commercial flexibility** — variable prices, discounts, volume/region conditions.
+See [`FEATURES.md`](FEATURES.md) for the full organized list. Summary:
+
+1. Multi-level partner management
+2. Commission control (overprice and/or percent-of-sale)
+3. Products and per-product rules
+4. Sales registration and attribution
+5. Finance integration (pay only after receipt)
+6. Earnings reports
+7. Shared ecosystem (vision; MVP stays tenant-isolated)
+8. Commercial flexibility (price, discount, volume/region)
 
 ## Domain glossary
 

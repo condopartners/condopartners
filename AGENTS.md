@@ -7,6 +7,7 @@ This repository is developed primarily by **Paperclip agents** (vibe coding). En
 CondoPartners is a multi-tenant B2B platform for hierarchical partner networks, product catalogs, sales tracking, and commission distribution across companies (starting with Clique Retire and eCondos).
 
 - Product overview and glossary: [`docs/PRODUCT.md`](docs/PRODUCT.md)
+- Core features (not built yet): [`docs/FEATURES.md`](docs/FEATURES.md)
 - Architecture decisions: [`docs/DECISIONS.md`](docs/DECISIONS.md)
 - Specs (required before features): [`docs/specs/`](docs/specs/)
 - Detailed design pack (Portuguese, merge separately): branch `docs/fundacao-design`
@@ -15,12 +16,12 @@ CondoPartners is a multi-tenant B2B platform for hierarchical partner networks, 
 
 ## Golden rules
 
-1. **English only** — code, comments, commits, PRs, specs, issues, and agent output.
-2. **No feature without an approved issue + spec** in `docs/specs/`.
+1. **Language** — product UI and operator-facing GitHub issues/PRs are **pt-BR**. Code identifiers, file names, `AGENTS.md` / `rules/` / `skills/`, and conventional commit *prefixes* stay in English for tooling consistency.
+2. **No feature without an approved issue + spec** in `docs/specs/` (specs may be written in pt-BR).
 3. **TDD** — failing test first for behavior changes (see `rules/50-testing.md`).
 4. **`bun run check` must be green** before opening or updating a PR (lint + typecheck + test).
 5. **Small PRs** — one concern per PR; prefer vertical slices over giant diffs.
-6. **Conventional commits** — `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`, `ci:`.
+6. **Conventional commits** — `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`, `ci:` (message body may be pt-BR).
 7. **No secrets** in the repo. Use `.env` (never commit) from `.env.example`.
 8. **Money as integer cents** (or the smallest currency unit). Never floating-point money.
 9. **Follow `rules/`** — they are mandatory, not suggestions.

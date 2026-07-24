@@ -17,12 +17,12 @@ export function App() {
     try {
       const { data, error } = await api.health.get()
       if (error || !data) {
-        setState({ kind: "error", message: "API health check failed" })
+        setState({ kind: "error", message: "Falha ao verificar a saúde da API" })
         return
       }
       setState({ kind: "ok", data })
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Unknown error"
+      const message = err instanceof Error ? err.message : "Erro desconhecido"
       setState({ kind: "error", message })
     }
   }, [])
@@ -39,14 +39,14 @@ export function App() {
         </p>
         <h1 className="text-3xl font-semibold tracking-tight">{APP_NAME}</h1>
         <p className="text-muted-foreground">
-          Monorepo wiring check. No product features yet — this page only proves the web app can
-          call the API through Eden Treaty.
+          Verificação do monorepo. Ainda sem features de produto — esta página só prova que o web
+          consegue chamar a API via Eden Treaty.
         </p>
       </header>
 
       <section className="rounded-lg border bg-card p-5 shadow-sm">
         <h2 className="mb-3 text-sm font-medium text-muted-foreground">API /health</h2>
-        {state.kind === "loading" && <p>Checking…</p>}
+        {state.kind === "loading" && <p>Verificando…</p>}
         {state.kind === "error" && (
           <p className="text-sm text-red-700" role="alert">
             {state.message}
@@ -56,7 +56,7 @@ export function App() {
           <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
             <dt className="text-muted-foreground">Status</dt>
             <dd className="font-medium">{state.data.status}</dd>
-            <dt className="text-muted-foreground">Service</dt>
+            <dt className="text-muted-foreground">Serviço</dt>
             <dd className="font-medium">{state.data.service}</dd>
             <dt className="text-muted-foreground">Timestamp</dt>
             <dd className="font-mono text-xs">{state.data.timestamp}</dd>
@@ -64,7 +64,7 @@ export function App() {
         )}
         <div className="mt-4">
           <Button type="button" onClick={() => void loadHealth()}>
-            Recheck
+            Verificar de novo
           </Button>
         </div>
       </section>

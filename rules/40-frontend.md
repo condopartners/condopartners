@@ -8,3 +8,4 @@
 - Before building UI, consult **ui-ux-pro-max** (design system) and run a **taste-skill** pre-flight to avoid generic AI slop.
 - Do not add routing libraries, state managers, or animation frameworks unless the approved spec requires them.
 - Prefer calm, dense B2B UI over marketing flash for product screens.
+- Default locale for all user-visible strings is **pt-BR** (labels, errors, empty states, emails). Do not ship English UI copy unless the spec explicitly requires bilingual support.

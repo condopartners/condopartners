@@ -1,7 +1,8 @@
 # 00 — Project
 
 - This is a Bun workspaces monorepo: `apps/api`, `apps/web`, `packages/shared`.
-- Everything agents produce must be in **English**.
+- **Product UI and user-facing copy: pt-BR.** Operator-facing GitHub issues/PRs: pt-BR.
+- **Code identifiers, file paths, and agent manuals (`AGENTS.md`, `rules/`, `skills/`): English.**
 - Do not invent product features. Implement only what an approved issue + `docs/specs/` entry require.
 - Prefer the smallest change that satisfies the spec (YAGNI / ponytail).
 - Keep the modular monolith: no microservices, no premature abstractions.

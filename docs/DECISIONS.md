@@ -2,17 +2,23 @@
 
 Short ADR-lite log. Newest first.
 
+## 2026-07-24 — Product UI and operator templates in pt-BR
+
+- **Decision:** End-user software copy is **pt-BR**. GitHub issue/PR templates (and filled issues/PRs) are **pt-BR** for Brazilian Paperclip operators.
+- **Why:** Operators and users are Brazilian; English-only process friction is unnecessary.
+- **Consequence:** Code identifiers, file names, and agent manuals (`AGENTS.md`, `rules/`, `skills/`) remain English for coding-agent consistency. Conventional commit prefixes stay English; commit/PR bodies may be pt-BR. Specs in `docs/specs/` may be written in pt-BR.
+
 ## 2026-07-24 — Agent-driven development with engineer PR review
 
 - **Decision:** Paperclip agents implement; engineers review/merge via CODEOWNERS.
 - **Why:** Accelerate delivery while keeping quality gates (specs, TDD, CI, human approval).
 - **Consequence:** `AGENTS.md`, `rules/`, `skills/`, issue/PR templates are mandatory process infrastructure.
 
-## 2026-07-24 — English-only repository language
+## 2026-07-24 — Durable product docs in English; foundation pack separate
 
-- **Decision:** Code, docs produced by agents, commits, and PRs are English.
-- **Why:** Shared language for multi-company contributors and agent tooling.
-- **Consequence:** Portuguese source materials (transcript, foundation branch) remain reference inputs; durable docs are English distillations (`PRODUCT.md`).
+- **Decision:** Core durable docs (`PRODUCT.md`, `FEATURES.md`, `DECISIONS.md`) stay English unless/until the team translates them. Operator workflow templates are pt-BR.
+- **Why:** Keep a stable English technical spine for agents while localizing operator UX.
+- **Consequence:** The foundation design pack on branch `docs/fundacao-design` remains a separate reference until merged.
 
 ## 2026-07-24 — Persistence deferred
 

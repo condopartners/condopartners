@@ -1,49 +1,51 @@
 # Specs
 
-No product feature may be implemented without an **approved GitHub issue** and a matching **spec file** in this directory.
+Nenhuma feature de produto pode ser implementada sem uma **issue aprovada no GitHub** e um arquivo de **spec** correspondente neste diretório.
 
-## Process
+Specs podem ser escritas em **pt-BR** (operadores Paperclip no Brasil). Identificadores de código e caminhos de arquivo permanecem em inglês.
 
-1. Open / claim an approved issue.
-2. Write `docs/specs/<slug>.md` using superpowers brainstorming / writing-plans.
-3. Get human approval when the issue or complexity requires it.
-4. Implement with TDD.
-5. Link the spec path in the PR.
+## Processo
 
-## Spec template
+1. Abrir / reivindicar uma issue aprovada.
+2. Escrever `docs/specs/<slug>.md` com superpowers (brainstorming / writing-plans).
+3. Obter aprovação humana quando a issue ou a complexidade exigir.
+4. Implementar com TDD.
+5. Linkar o caminho da spec no PR.
+
+## Template de spec
 
 ```md
-# <Title>
+# <Título>
 
 ## Status
-Draft | Approved
+Rascunho | Aprovada
 
 ## Issue
 #123
 
-## Summary
-What changes and why (2–5 sentences).
+## Resumo
+O que muda e por quê (2–5 frases).
 
-## Scope
-- In:
-- Out:
+## Escopo
+- Dentro:
+- Fora:
 
-## Behavior
-Acceptance criteria as testable bullets.
+## Comportamento
+Critérios de aceite como bullets testáveis.
 
-## Data / API
-Contracts, types, endpoints (if any).
+## Dados / API
+Contratos, tipos, endpoints (se houver).
 
 ## UI
-Screens/states (if any). Link design-system notes.
+Telas/estados (se houver). Textos de UI em **pt-BR**. Linkar notas do design system.
 
-## Risks
-Edge cases, security, tenancy.
+## Riscos
+Casos de borda, segurança, tenancy.
 
-## Test plan
-How we prove it works.
+## Plano de teste
+Como provamos que funciona.
 ```
 
-## Note on foundation docs
+## Nota sobre a fundação de design
 
-Branch `docs/fundacao-design` contains deeper Portuguese design artifacts (PRD, data model, flows). Treat them as product source material. Specs in this folder are the English, implementation-ready contracts agents execute against.
+O branch `docs/fundacao-design` contém artefatos de design em português (PRD, modelo de dados, fluxos). Trate-os como material de produto. As specs neste diretório são os contratos prontos para implementação.
