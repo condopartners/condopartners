@@ -1,0 +1,46 @@
+name: Feature
+description: Propose a product feature (requires a later spec in docs/specs/)
+title: "feat: "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user/business problem are we solving?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Testable acceptance criteria.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: In scope / out of scope.
+      value: |
+        In:
+        - 
+        Out:
+        - 
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Primary area
+      options:
+        - API
+        - Web
+        - Shared / platform
+        - Docs / process
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        After approval, agents must write `docs/specs/<slug>.md` before implementation.

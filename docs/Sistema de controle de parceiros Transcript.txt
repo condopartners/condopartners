@@ -1,0 +1,359 @@
+Sistema de controle de parceiros
+Fri, Jun 19, 2026
+
+0:00 - Gustavo Artuzo
+Mas agora tudo primeiro teve a época do Kindle eu ainda leio bastante no Kindle mas hoje em dia é audiolivro né cara?
+
+0:09 - Ricardo Paiva
+Hoje em dia é resumo da IA. Mas da IA resumir e ditar pra você. Pois é cara, isso é. Mas ainda a graça é não resumir né cara, ainda a graça é ler né?
+
+0:23 - Gustavo Artuzo
+É. Mas livro assim, livro técnico eu vou botar pra você.
+
+0:28 - Gustavo Artuzo
+existe mais libretérico, né?
+
+0:29 - Ricardo Paiva
+Não, libretérico não tem, cara. Não existe.
+
+0:32 - Gustavo Artuzo
+É só vídeozinho de YouTube, o tutorial e aí aqui a gente resume rapidinho, né? Aí a galera... Coloca os PDF lá no notebook e pergunta pra ele. Os vídeos mais vistos no YouTube é tudo short, né, cara?
+
+0:47 - Ricardo Paiva
+É o quê? Aqueles shorts do YouTube, né, galera? Não é só pra ver o vídeo inteiro, não, agora é só dez 20 segundos. Próximo, cara. Boa tarde. Fala, Darlan.
+
+1:00 - Unidentified Speaker
+Beleza, cara?
+
+1:01 - Gustavo Artuzo
+É um prazer, Darlan. Beleza?
+
+1:03 - Ricardo Paiva
+Opa, beleza. Prazer.
+
+1:05 - Darlan Oliveira Paiva
+O Ed vai entrar daqui a pouquinho, né?
+
+1:09 - Gustavo Artuzo
+Mas já vamos fazendo as introduções aqui, né? Então, Darlan aí tá tá com a gente, né, Darlan? Já passou por várias posições E a posição dele já tem uns seis meses já, é líder mundial de AI na Cricatíria.
+
+1:34 - Ricardo Paiva
+Inglês essa sílaba, né? International...
+
+1:37 - Ricardo Paiva
+Global, né?
+
+1:38 - Gustavo Artuzo
+That of AI.
+
+1:40 - Ricardo Paiva
+Caraca, aí sim, hein? Respeita, hein? Respeita o homem. Respeita o homem, cara.
+
+1:49 - Gustavo Artuzo
+É isso. Né? Então, então essa é a essa é a parada, o Darlan ele faz várias automações com a gente, né? Começou na parte de de N8N e pelo menos pedindo isso, né Darlan? Depois foi avançando pra pegar as coisas de as ferramentas de energia artificial, primeiro aquele depois foi sei lá.
+
+2:16 - Unidentified Speaker
+Antigravite.
+
+2:16 - Gustavo Artuzo
+Antigravite e isso. Agora tá mais no Clóud, né?
+
+2:21 - Ricardo Paiva
+O Cláudio é bom pra caralho, mas conseguiu manter o custo baixo dele.
+
+2:26 - Darlan Oliveira Paiva
+Cara, tô desenvolvendo umas coisas bem legais com o Cláudio, mantendo o custo básico.
+
+2:32 - Ricardo Paiva
+Sim, a gente usa o Cursor, né cara, que é o Cursor, ele tem até 40 dólares aí, você usa um monte de coisa cara pra um detalhe assim dele lá, entrega pra cacete, depois de 40 dólares, você bota no modo automático, pode usar infinito que não aumenta o custo. Eu testei o curso também, é bom pra caramba, mas aí optei por continuar no cloud, tava me entregando bem, tava seguindo.
+
+3:01 - Ricardo Paiva
+Aí você consegue usar o cloud dentro do cursor também, né?
+
+3:05 - Ricardo Paiva
+Então, assim, eu tentei usar o cloud, mas cara, qualquer coisinha que eu mandava lá, 10 dólares, só um prompt que eu mandava lá, eu falei, caraca. É, eu não sei usar, sei lá, né?
+
+3:22 - Darlan Oliveira Paiva
+Plano básico, calma aí, aguenta. É, né? Tô dando um pouco ali, mudar, mudar, mudar a potência, mudar o modelo.
+
+3:31 - Ricardo Paiva
+É isso aí. Na vida, doutor. É, a gente usa o N8n e uma porrada de ferramenta de IA também já estamos usando aí, acho que até usa pouco hoje.
+
+3:46 - Darlan Oliveira Paiva
+O N8n tem diminuído, né?
+
+3:49 - Ricardo Paiva
+Parou um pouco, faz tempo que eu não uso o N8n. Tá fazendo aí a plataforma de parcerias aí.
+
+3:58 - Gustavo Artuzo
+Então, aí fica a ideia toda, tá Darlan? O Ricardo, ele é o fundador e contos né aí quando é o nosso parceiro de aplicativo de condomínio né então ele tem aí mais três mil condomínios que usam aí quando já é um negócio bacana tá nós estudamos junto a faculdade né ele é bem mais esperto que eu ele foi fazer computação desenvolvimento inverte essa frase aí aí desculpa fala fala é de pô beleza cara fazendo as apresentações aí então a gente falou do Darlan agora falando do Ricardo né então Ricardo ele a gente estudou junto Darlan né e Ed o Ricardo que a gente chama de Ricardo os apelidos não né tá até achando estranho né não tem que me policiar então é então Ricardo ele a gente estudou junto até 2003 né até um cara agora que trabalhei com ele dois anos e meio e era lá no Back 4 Up lá e era queijo, né?
+
+5:06 - Ricardo Paiva
+Pronto, aí o cara já tá, beleza queijo, bora trabalhar junto, tá? A gente é o primeiro cara que conversa, falei, pronto, agora vai pra gente chamar de queijo aqui na minha própria empresa.
+
+5:17 - Gustavo Artuzo
+Bom, foi você que falou, não fui eu que falei, então, assim, o o eu só chamo ele de queijo, né? Cê nem sabe, nem sabe o nome dele, né? Brincadeira da parte, mas chama, a gente é né? Os apelidos da faculdade e e até hoje a gente né? Amigo e tudo mais. Mas então assim ele ele tem essa a encontros como como a empresa dele tem mais três mil condomínios né? E a gente tá fazendo aquela aquela estratégia de condomínios residenciais né? Aquela ataque mais forte junto com a Ernesto tudo mais aqui né? Com a Brenda e a Camila a Thaís tá ajudando não tem jeito de ajudando né?
+
+5:54 - Ricardo Paiva
+E aí aí a quando a gente falou daquela do o ecossistema de controle de parceiros o queijo se se interessou bastante né e a trazer não só o controlar os parceiros dele também como parceiro de parceiro né e aí criar um ecossistema maior com muita gente muitos produtos diferentes muitos parceiros diferentes é dividindo né eu compartilhando o ecossistema maior de de parceiros e um ajudando o outro a montar o ecossistema né mas assim se você monta o seu outro cara monta o dele né e aí vocês vão lá e trocam esses ecossistemas todo mundo sai ganhando assim estão com estratégia de fechar parceria com os integradores né eu já tenho na minha base como cliente mais de 300 integradores eu tenho aqui no meu o meu pai assim de lidia assim acho que uns dois mil três mil assim que a gente tá trabalhando ainda né a ideia de trocar figurinhas aí né agora na na expo século a né eu até tenho que mandar o caso lá chegou demorou pra caramba aí pra gente pegar também né a lista lá da dos leads a noite também acho que 200 e poucas empresas, 200 e poucos, sendo umas 180 empresas aí. Então tem uma galerinha que a gente corre atrás também dessa. E fora dos eventos que a gente faz em conjunto, tem bastante coisa.
+
+7:34 - Gustavo Artuzo
+E para o cara também, para o integrador, uma coisa é ele fechar acordo com a Icondus, outro acordo com a Clique e tudo mais. Quando ele fecha acordo com todo mundo, ele pode ver tem muito mais coisa também, né? Ele tem sua muito mais capacidade de gerar negócio pra ele mesmo, né? Porque tem parceiros Ford apoiando ele. Então, acho que é bom pra clique, é bom pra e-conta, é bom pro integrador, é bom pra todo mundo. Esse compartilhamento do ecossistema. Então, assim, estamos entusiasmados com com criar isso juntos, né? Tamo querendo fazer, né? E aí, o Ricardo, ele tá se oferecendo pra apoiar a gente a fazer, né? Esse processo, né? Não ele diretamente, mas a equipe dele, e para a gente construir a quatro mãos isso. Então, o que a gente pensou em fazer? A gente estava falando com o Ricardo ontem, muita noite, a gente acabou se falando um pouco mais tarde ontem, de visão de negócio, como é que funcionaria e tudo mais, estamos bem alinhados naquele aspecto, A ideia realmente é compartilhar, gerar negócio para todo mundo, mas a gente também ter acesso à base. Então, acho que isso é um assunto que a gente ultrapassou, esse assunto. Não seria um problema para a gente. Estamos alinhados nessa visão, e da gente estar alinhado na visão, acho que é como executar essa visão junto. E aí, quando eu comecei com o Ricardo, eu também quis dividir errado a visão. Ele não quer fazer sozinho. Ele quer fazer conosco, ele quer colocar gente da equipe dele junto com a gente da nossa equipe pra ter uma equipe maior e fazer juntos, né? Então essa foi a conversa, né? Um resumo em dois minutos, né?
+
+9:29 - Ricardo Paiva
+Que a gente começou ontem à noite, né? Exato. Assim, a gente é empresa puramente de tecnologia, né? O bit bite aqui né escovando servidor assim é temos mais devs assim ajudar, para entendeu? É... Consegue também... É... Tem uma galerinha também que tá querendo virar dev, né? Que já tá ali no suporte, estudando... Estudando programação à base de IA, né? Melhor ideia que eu tô fazendo. Aí, cara, eu acho o máximo isso, né? Falei, cara, vamos resolver o problema e depois a gente vê a merda que Não pode fazer isso no core, né? Você no core, taca-lhe pau, né? A gente tá muito assim nessa vibe. Inclusive, até pra poder facilitar cada vez mais, né? O negócio de vibe code, né, cara? Quer saber, eu não vou remar contra, não. Vou fazer o contrário, vou facilitar. Então, eu tô criando um espaço de service bus pra que qualquer um consiga criar mini aplicativos integrados ao nosso, né? E aí, cara, tá dando super certo isso aí também, viu? Isso aí tá sendo ótimo, cara. Cria qualquer meco. Você acabou... Ah, você tem tal funcionalidade? Espera aí que daqui 10 minutos eu terei. Vai falando o que você quer aí, que eu vou transformar o seu texto em funcionalidade rapidinho, né? Estamos nessa linha aí, né? Eu... O Leite lá que... Quando me deu alto padrão. Porra! Queria que você criasse aqui mais uns três campos novos. Cara, duas semanas pra subir três campos novos. Duas, três semanas. Pelo amor de Deus, que assim... E fica um negócio chato, porque aqueles três campos novos só... Vai ser útil pra poucas pessoas. Ah, vou criar uma ferramenta de campo não customizava, não sei o que. Pô, é melhor deixar o cara criar um mini app lá, que ele sobe o campo que ele quiser, o valor que ele quiser, as pedras, né, infra que ele quiser, vai estar conectado, só bota um link lá do meu ID lá, com os campos dele lá e pronto. Ele já era, né? Então a gente tá muito nessa vibe assim, até pra poder subir rápido muita coisa, né? Porque... Como o nosso sistema é muito sensível a falhas, né? Hoje mesmo deu um... Deu dois pipoco aí. Deu um ontem, o cara foi fazer um deploy, o NPMstal deu pau e... Cara, crashou o sistema, ficou dois minutos fora. Cara... 50 ligações em dois minutos. Hoje, o cara pagou o índice do banco lá, que achou que não estava sendo usado, porque não tinha utilização, só que o índice era usado no logout. Aí, as pessoas quase não fazem logout, mas um retardado resolveu fazer logout. No logout, ele tenta destravar alguma coisa que o cara estava fazendo lá, pra passar o atendimento pra outro, E aí travou o banco de dados. Aí deu uma OBO, entendeu? Então assim... Cara, dá raiva nessas coisas assim, né? Porque quanto mais o sistema vai inchando, mais suscetível a falhas, mais controle, e aí acaba que você vira mais uma... Mais um Titanic, né? Titanic cheio de código. Então eu tô muito nessa pegada de... Agora... Mas a hora que a gente estruturar melhor esse marketplace de aplicativos, a gente vai desfazer as features que a gente tem. Vamos fazer o contrário, a gente vai desfazer features, transformar todas as features em mini aplicativos que a pessoa consegue clonar e modificar.
+
+13:39 - Edipo Crispim
+Não tem nada que faça ganhar mais vendido que apagar a linha de código.
+
+13:44 - Ricardo Paiva
+Cara, vai ser lindo a hora que fizer isso aí, cara. O sistema vai ficar a gente vai controlar só o cor e o cor cara quase nunca mexe né então é isso a ideia é criar marketplace e é assim um tipo um sistema desse aí igual esse daí poderia até colocar lá no marketplace você quer usar um sistema de parceria aí tá aqui pronto aqui lugar daqui não é quando se você quiser fazer isso por conta própria com a vontade também mas é e é isso e aí vamos ajudar vocês aí também evoluir né e vai que o darlan queira fazer isso aí virar startup aí pede demissão aí eu e o ganso a gente bota dinheiro nele que a gente é bobo né eu tenho certeza que eu vou tá graninha e vai ficar aqui sozinho não vai dar não quem fica aí vai ter que emprestar por outra e é isso né pessoal é isso é exatamente isso tá então aí o que que é um pouco a ideia aqui tá é a primeira coisa acho que é ouvir um pouco do é de puta também suas pensamentos, né?
+
+15:08 - Gustavo Artuzo
+O que que cê cê acha disso, tudo mais, né? De como fazer isso a quatro mãos, né? Qual que é a as complexidades disso, quais quais não são, tá? A ideia do do queijo é realmente ter um time eh eh usando IA, né? Então, seriam como se fosse pares do Darlan, né? Usando IA, né? Eh pra poder fazer acelerar esse esse deploy aí, né? Eh e aí a gente tem um de ambiente, de hospedagem, de de colaborar, né? E tudo mais que a gente usa o nosso time de de desenvolvimento, mas o não usa isso no dia a dia, né? Então, tem um pouco de também acompanhar isso, né? Um pouco de puts, que que a gente tá fazendo, como a gente vai fazer, né? Quem faz o quê, como divide o time, mas aí eu acho que tanto é quanto queijo tem muito mais experiência do que eu e o para poder ter essa discussão. Mas eu queria ouvir um pouco o Ed, o que você acha, o que está na sua cabeça, Ed?
+
+16:15 - Edipo Crispim
+Para ser sincero, eu não estava esperando essa ideia de fazer a quatro mãos. Eu acho que é bem interessante. Acho que a gente tem ferramentas para fazer tudo isso. O meu bem, se a gente for fazer tudo nesse nível de divide e code quem é que assina no final? Quem é que garante que a feature de um com a feature do outro tá alinhada?
+
+16:54 - Ricardo Paiva
+acho interessante como é que a gente funciona na vida real né tem um monte de projeto pensar lá no GitHub e descreve a isso lá é e para poder por essa isso aqui vai ser uma feature né a gente escreve que a gente quer você dá seu espetáculo a gente dá o espetáculo aprovado aprovado aí qualquer um pode pegar e uma vez o request lá e passa lá para a qualidadeação de código, coisa assim, a gente tem um... O próprio GitHub tem um monte de ferramentas, né, para fazer code review automático e etc, etc, né, até depois automático. Pode deixar algumas ferramentas automáticas assim, pode deixar, e deixa ele estar trabalhando ótimo. E aí, sei lá, um cara mais sênior e eu, você, pode eleger alguma outra pessoa também, só alguém que é mais sênior que tem direito a aprovar aquele pull request. Basicamente é trabalhar igual todo mundo trabalha no GitHub, não tem tanto segredo. Dá até para automatizar algum deploy, os projetinhos menorzinhos, eu gosto de meter no Cloudflare, é que se ficar começar a ter problema de perfor, o negócio ficar grande, a gente pensa em hospedar em outro lugar, talvez, né?
+
+18:33 - Edipo Crispim
+Enquanto tá pequenininho, eu jogo lá e ligo o foda-se, né?
+
+18:40 - Unidentified Speaker
+Entendi.
+
+18:41 - Edipo Crispim
+É, faz sentido.
+
+18:43 - Ricardo Paiva
+E aí Tá, tá cortando. Tô aí pra gente... Tá, tá melhor?
+
+18:49 - Edipo Crispim
+Sim.
+
+18:50 - Edipo Crispim
+Fica a questão do desenho nesse sistema, né?
+
+18:53 - Edipo Crispim
+Imagina que com quatro cabeças aqui tem quatro versões desse... Desse sistema.
+
+18:59 - Ricardo Paiva
+A ideia é a gente entrar num consenso, né, cara? Sei lá, se eu quiser criar uma versão realmente diferente, eu gero um fork lá e... Pelo que eu conversei com o Gunza, assim, o intuito de vocês e o nosso é exatamente o mesmo, assim, né? Não vi nada de diferente, assim, que possa causar um impacto muito grande, né? Basicamente é um sistema de indicação multinível ali que todo mundo ganha, né?
+
+19:39 - Edipo Crispim
+Sim. Eu tinha falado duas com vezes o Gus ontem, mas acho que ele já deve ter falado com você a questão de... Sobre qual marca iria...
+
+19:51 - Unidentified Speaker
+estar atrelado, né?
+
+19:53 - Edipo Crispim
+Imagino que não seja mais um problema isso aí.
+
+19:57 - Edipo Crispim
+Acho que não tem nada que eu precise trazer aqui.
+
+20:01 - Ricardo Paiva
+Vou colocar aí que é 100% de você e direito autoral 100% de você. Pra vocês e tudo mais. A gente contribuiu porque a gente quis. Fica bom? Não quero... Não tenho pretensão nenhuma. A ideia é mais pra gente resolver logo essa questão aí de... Eu sei que eu já tô sofrendo com alguns parceiros que... Que a gente tem esse problema de... De tá deixando bem claro o que que é dele, o que que não é dele, entendeu? E aí no sistema IAD você vai ajudar, acredito que vai ajudar. E aí até a forma de parceria também, né? Ah, a gente tem um parceiro em Campinas, né? Uma vez eu conversei, falei, cara, manda aí o boleto aí da sua filha da faculdade pra eu pagar, cara, porque desse jeito ele não dá não, né? Ah, esse cliente aqui é meu, Como assim cliente é seu? O contrato ali não foi comigo, não foi com você? É, mas... Ele é cliente da minha loja aqui, eu atendo ele há um milhão de anos. Eu falei, por que você não vendeu o software pra ele? É mais justo. É, por que ele teve que me procurar, sendo que você e eu, a gente vende no mesmo preço? Por que ele preferiu comprar de mim do que de você? Se o cara é seu amigo, né? Cara, você é uma amiga, cara, que você vai na casa dele, come churrasco, e mesmo assim não comprou de você. Tem que fazer essa pergunta pra ele, cara, não pra mim, né? Aí a boca até abriu as pernas lá, falei, tá bom, vou te dar a porcentagem lá. Pra você parar de encher o saco, mas assim, não me vê, mas conhece, entendeu? É, tem que ficar claro, né? Quem que trouxe o cliente, né, cara? E aí... Se o cara trouxe, beleza. Agora, se o cara não trouxe, mano... Tem que me encher o saco, né? Então, o Sisteminha já ajuda nessa dor aí, né? E outra coisa, alimentar... Hoje a gente criou uma API pra alimentar ele automaticamente lá com o financeiro, né? Pô, pagou? Beleza. Ó, tá aqui. O cara pagou, pagou, pagou. Ó, não pagou, tá indo na de plant. Cara, se tá indo na de plant, você não vai ganhar sua comissão, entendeu? Se quiser ajudar a cobrar o cara lá, ajuda aí também, né? Se eu não receber, eu não vou te pagar, né? A gente é bem assim, né? Só paga se eu receber, né? Um dia caiu na conta, beleza, a gente repassa.
+
+22:54 - Unidentified Speaker
+Isso aí caiu nos requisitos.
+
+22:55 - Darlan Oliveira Paiva
+Quando a gente estava fazendo a documentação, você estava com o Gustavo conversando aí, tinha essa questão, né? Como que a gente vai ter para marcar ali que foi pago, né?
+
+23:07 - Ricardo Paiva
+Aí eu ia no 8N, porque a gente estava usando o 8N, né?
+
+23:11 - Darlan Oliveira Paiva
+Como ia ser uma coisa mais interna, né? Deixou para o becosse, deixou para o calcário comercial, vai lá, marca que pagou.
+
+23:19 - Ricardo Paiva
+pandemia financeira assim eu falei quer saber mano usa o Google Sheets aí vamos usar esse 8n aí pode linkar esse Google Sheets com as coisas é a melhor coisa que a gente fez cara pelo amor de Deus e obviamente né mas é esse detalhezinho assim o planilho é a melhor coisa a melhor coisa que inventaram na vida foi o planilho né graça falei é exatamente é assim aqui a gente tem que tem que eu a gente tá bastante alinhado de na visão, né?
+
+23:50 - Gustavo Artuzo
+Acho que os desafios vão aparecer, cara, a gente vai ter que meio que discutir e resolver, né? Acho que não vai resolver tudo no comecinho, não, mas acho que a visão estando alinhada, né? E eu acho que esse esse interesse assim tipo de ninguém tem ego aqui, né? Ah, puta, fica aí pra clique e retiro e a gente também não tem ego de ah, é nosso, não é nosso, assim, a gente quer um negócio que seja bacana, que seja visto Eu quero resolver o meu problema.
+
+24:20 - Edipo Crispim
+Não sei se vocês chegaram a falar sobre isso, mas a questão de quem era, né? Era a questão de diminuir possíveis parceiros não entrarem por ser de determinado concorrente, né? Foi esse o ponto.
+
+24:44 - Gustavo Artuzo
+tem um grande competidor grande no no mercado vocês já tem entendeu é esse aqui o ponto sobre quem é que tá com com o nome lá na frente é uma coisa que é legal para gente tá o que isso é coisa interessante para gente que eu acho que vai vai ao encontro que o Eric tá falando né a gente aqui tá querendo criar iniciativas que sejam vistas como independentes no mercado né Então, a gente comprou ali o domínio Locker.com.br, né?
+
+25:15 - Unidentified Speaker
+Cara, que beleza!
+
+25:17 - Gustavo Artuzo
+Em vez de colocar a página da Click no Locker.com.br, a gente tá criando conteúdos independentes, conteúdos do negócio, conteúdos de mercado, que obviamente beneficiam a gente indiretamente, porque nos colocam como referência... Se você se inscreve ali pra aquele conteúdo, você capta um lead ali...
+
+25:35 - Ricardo Paiva
+É isso.
+
+25:36 - Gustavo Artuzo
+E aí, por exemplo, não tem ninguém que vai achar não vai querer entrar na página locker.com.br. Cara, é independente da clique. A iniciativa é mantida pela clique, não tem problema. Mas deveria ser visto como uma coisa independente, sabe? Não comercial, pelo menos. E a gente acha que quanto mais a gente não der nome pras coisas, né? Fazer parte da visão, né? E isso não é enganar ninguém, mas assim, cara, não é uma pegada comercial ou não a pegada da clique uma pegada do mercado não é daí quando assim para minimizar repulsa de de clientes e tudo mais e claro é a pergunta que o Ed falou putz e se uma outra empresa de lote quiser ser parceira daí condos e se uma empresa de aplicativo essa passada clique tá no jogo na verdade já é né acho que a clique foi a terceira empresa que foi a que a gente mais cresceu em parceria, depois da clique ainda veio a Bicateca, veio uns outros, só que a gente nem...
+
+26:49 - Ricardo Paiva
+não tem nada com a gente. O que a gente não quer, por exemplo, é a Bicateca deixar de fazer negócio porque a gente acha que essa é a página da clique ou a Wynker deixa fazer negócio com a gente que acha que a página da icondos sabe o que é restringir nada então essa é um pouco a visão de como fazer as coisas ficarem tipo é assim transparente né a gente pode criar um github neutro também entendeu totalmente neutro né a gente e assim usuário usuário pessoa né vou entrar lá com usuário e quando nem dá né a hora tem que ser um usuário pessoal mesmo e contribuir né cara isso pode falar se ela só eu posso aceitar os porre que é só a vontade de fazer a governança do jeito que acharam que é melhor entendeu mas a tempo de governança que o Github faz...
+
+28:00 - Edipo Crispim
+Acho que o Github não é um ponto não. O Github pode ser privado só nosso e de vocês. Não é um problema não. Estou pensando no client face mesmo.
+
+28:17 - Ricardo Paiva
+É melhor, entendeu? Deixar totalmente genérico, por mim, pode ser também. Eu falei, a ideia resolveu o problema. Eu já estava com a ideia de fazer esse teminho aí, a hora que o Gus falou que vocês já tinham começado a iniciativa. Falei, vamos tentar fazer junto, já que a ideia, pelo que eu vi, não achei absolutamente nada de diferente do que a gente precisa.
+
+28:52 - Edipo Crispim
+Isso era o ponto da minha pergunta lá atrás, né? Como é que a gente senta essa aliança, é isso mesmo? Antes do V0, o V0 de fato, de soltar a primeira versão, assim... Quer dizer, provavelmente a conversa acontece entre você e o Gans e vocês devem estar alinhados no que vocês esperam do Eu não sei quão alinhado está, por exemplo, com o Darlan, com as outras pessoas que vão ajudar a fazer do seu lado.
+
+29:34 - Ricardo Paiva
+É, cara, acho que... Assim... Pode bater um papo aí pra gente fazer um alinhamento é macro, o assim, dia-a-dia né? Vai Mas... Dizer Acho mesmo que se a... Dar certo ou não, entendeu? Se não der certo, no bad feelings, né? Tipo, a gente sai de cena, não tem problema nenhum, né? Então a gente é super transparente, eu e o Gus aqui, né? Amizade acima de tudo e sabe que corre o risco de não dar certo na minha visão acho que o risco é bem pequeno assim visto a sinergia da ideia de vocês com a minha assim é praticamente a mesma não vejo tanto problema não é o que a gente já discutiu aí se der errado tem esse risco também zero zero bad feelings aí vamos seguir jeito, até porque isso daí, cara, não é porra, não é nada que a gente vai morrer sem ficar sem, entendeu?
+
+30:43 - Edipo Crispim
+Assim, a preocupação aqui não é bad feeling não, é mesmo garantir que o produto funciona pra todo mundo, entendeu? E também não adianta a gente tá falando aqui, sair algo lá na frente que não vai ser legal pra vocês ou não vai ser legal pra gente, né?
+
+31:02 - Gustavo Artuzo
+Só só pra avisar a linhada pra pra gente ver onde que a gente tá indo começar beleza a ideia aqui é o seguinte uma coisa de organização aqui eu vou ter que sair pra buscar meus filhos na escola tô meio abandonado esse fim de semana minha esposa viajou tem que sair cinco e quarenta né? É isso pra gente ter a visão aqui. Então o que que eu que eu pensei em fazer aqui tá não sei se vocês concordam passar um pouco a ideia do sistema para gente né e aí eu não sei se você tem aquele material que a gente foi discutindo ao longo dos dias lá aquelas versões diferentes tá de como organizar o modelo eu já falei um pouquinho para o Ricardo como é que era as entidades a gente imaginava né eh temos de produto e aí a gente tem que organizar como é que a gente vai fazer sabendo agora não tem só um produto mais né tem múltiplos que os produtos da Clique, da Iconos e dos parceiros da Iconos, né? E não tem só um nível de relação mais, né? Isso é uma árvore mais de parceiro. Lá tem várias árvores, tem a árvore da Clique e a árvore da Iconos, que são árvores diferentes, né? E isso é uma complexidade. E o terceiro ponto de complexidade é agora a gente vai, talvez tenha regras de comissionamento diferentes, né? Eu falei lá pro Ricardo que a nossa comissionamento é por sobrepreço, né? Então, a gente tem o preço base, vou arredondar aqui, R$500,00 no locker, se o cara vender por R$600,00, a comissão é de R$100,00 por mês. Como divide aquela comissão nos diferentes galhos da árvore, a gente definiu uma regra pra isso, tá, Ricardo? Como é que a gente faz, tá? E aí, putz, esse é o modelo que a gente sugeriu, né? No caso, a gente definiu o preço base e o preço de venda, o preço base a gente cadastra, o preço de venda o parceiro cadastra e beleza. E isso faz automaticamente aquele cálculo e o relatório de cada parceiro, quanto que ele tá ganhando, de onde ele tá ganhando, né? Então, putz, ser um parceiro que tem, traz muita gente diferente e fala assim, ah, eu quero 10% da comissão pra mim.
+
+33:08 - Ricardo Paiva
+É, tem que ter um cadastro de produto e a regra de comissionamento de cada produto, aí a gente consegue parametrizar isso daí.
+
+33:16 - Gustavo Artuzo
+É, a gente colocou, a gente tava colocando isso meio, meio travado, a gente não tinha uma flexibilidade em regra de investimento, tá? Era sempre por eh por sobrepreço, né? E a gente dividia sobrepreço mensalmente. Vários produtos lá, né? Vários tipos de vários tipos de locker, cada um tinha o preço base e o cara cadastrava quanto que ele tinha vendido aquilo. E beleza, a partir daí o sistema fazia esse cálculo do do da comissão total e a distribuição nos diferentes níveis da da árvore. Aí fica na parceira e fala assim, a Deise é uma parceira da Clique, e a Deise pode vender diretamente, no caso a comissão é toda dela, mas ela pode indicar um outro parceiro que também vai vender. E aí a Deise fala assim, cara, para quem eu indicar, eu quero dessa na comissão.
+
+34:10 - Ricardo Paiva
+A mesma coisa, viu, Lucas? A gente tem a nossa, só que é uma tabela de preço ali, que depende do tamanho do condomínio que tem pode variar né então sim esse é um condomínio a gente começa em um 99 aí vai para 299 399 e aí tem o os adicionais ali né aí pode ser dois reais por unidade aí vai caindo conforme tamanho do condomínio e cai até para 70 centavos por unidade quando é condomínio né aí A gente atende também qualquer tipo de empreendimento, né? Quando não é condomínio, pode ser uma indústria, supermercado... Os caras querem botar em fazenda também. A gente coloca ali preço por usuário presente no controle de acesso, né? Como se fosse uma indústria. Mas acho que os caras estão considerando o que seria um modelo de local pra gente fazer.
+
+35:13 - Edipo Crispim
+uma variante do produto, um produto em cada categoria, dá pra encaixar, né?
+
+35:19 - Ricardo Paiva
+É, como a gente é... É igual, tipo, vocês, quanto maior o locker, mais caro vocês cobram, né, cara? Exato. Se o cara quiser comprar um locker de um quilômetro de comprimento aí... Vocês vão dando desconto conforme vai aumentando o tamanho do locker também, né?
+
+35:39 - Unidentified Speaker
+Exato.
+
+35:39 - Ricardo Paiva
+Acho que é bem parecido assim, né? Então tão diferente né obviamente a gente tem ali a os steps ali né e entre o step outro tem os intermediários né o cara comprar ali né só step fixo né a gente tem a step fixo a mais duas unidades ele cobra duas vezes o valor por unidade. É mais ou menos assim que a gente cobra, né? Tem uns concorrentes nossos malucão lá que bota 100 reais por cliente, foda-se o tamanho do cliente. Também o cara não tem nenhum cliente grande, né? O cara não consegue atender que a gente for muito grande, que é lá de tomar prejuízo. Tem que querer atender esse cara. A gente não, a gente quer o contrário, a gente quer os grandões, a gente quer os pica, né? Ontem eu tava lá no Alphaville, ontem antes de ontem, lá no Itaía, né? Puta, cara. Falei, discuti contigo, é um nicho legal aí, meu gosto. Esses condomínios top aí. Do Alphaville, né? É, os caras têm uma empresa de logística lá, quem é que recebe todos os encomendas num containerzinho lá e entrega nos outros condomínios entrega nos condomínios o meu entregador que pode entrar no condomínio diminuíram a cerca de 500 pessoas estranhas que estavam entrando no condomínio todo dia deixou é bem mais segura. Achei bem legal essa ideia aí.
+
+37:35 - Gustavo Artuzo
+É interessante, a gente tá fazendo com o iFood aqui e tá colocando um condomínio muito grande lá em Santos.
+
+37:44 - Ricardo Paiva
+O iFood faz isso também. Então, é você fazer o... Não é nem last mile, né? Last meter, né? Tipo, os últimos metros ali. Além de trazer agilidade, entendeu? Pô, chega lá o cara do iFood lá, não, pode deixar que daqui a hora pra frente eu te entrego. Obviamente, você cobra isso, né? E a mesma coisa, outro tipo de encomenda, né? É. Aí, tipo, o cara não tem que parar na portaria, né? Só entrega o pacotinho, já vira as costas e vai embora. É. Então, assim, todo mundo ganha, né? O morador recebe a comida mais quentinho, mais rápido. E ele pagaria por isso mesmo. E gera mais segurança também. Tem muito iFood entregando droga no Colômbia. Então, isso aí já tá... O cara que finge que é iFood.
+
+38:51 - Unidentified Speaker
+Entendeu?
+
+38:54 - Ricardo Paiva
+O cara finge que é iFood, vai lá, ó, tá aqui, ó, sua...
+
+39:03 - Ricardo Paiva
+seu sanduíche. Se encomenda, né? Sanduíche de farinha de trigo.
+
+39:09 - Ricardo Paiva
+Tem pra caramba, cara.
+
+39:12 - Unidentified Speaker
+Aí, assim...
+
+39:13 - Ricardo Paiva
+Aí o cara chega lá e faz barulho. É bandido, né, cara? Foda-se, acelera a moto lá. É foda, cara, tá... Tá tenso, assim. Delivery de droga, né, cara? Agora tá muito fácil fazer delivery de droga, né? Eu sentei muita é verdade aí cara que dá para gente explorar nesse mercado nosso aí né é coisa legal e essa integração de você SpineFood acho que vai dar uma acelerada boa para gente o ouro em esse produto novo né é Esse é muito legal, né? É, nós estamos animados.
+
+40:14 - Gustavo Artuzo
+A gente tá falando, é, tipo, de, do, do Ricardo, ele, ele, o que a gente receber do iFood de informação, que tá chegando uma encomenda naquele condomínio, né? Por exemplo, a gente avisar ele pra, pra ele liberar mais cedo o entregador, né? A gente avisa a portaria, ó, vai chegar uma encomenda aí agora, vai fugir, né?
+
+40:35 - Ricardo Paiva
+A gente não, a gente não você pode né é dar detalhes do que vai fazer vai fazer ó nesse condomínio tá chegando encomenda agiliza a liberação do entregador aí é para a unidade tal entregador chega a entregar alguma coisa na unidade tal pode entrar é e não pode entrar ele já avisa já manda o poste já para o morador já morador recebe celular o seu entregador tá saiu da portaria tem sua casa sim vai ser o entregador fechando a porta e a gente batendo o código lá no armário. Exatamente. Foi legal. Muita coisa legal ainda pra gente explorar, né? O que que eu ia falar? Eu esqueci. Esqueci de um negócio que eu ia falar com o Ed. Depois eu lembro e eu te chamo. Bom, é isso, pessoal. Vem vocês aí, né? Decide vocês aí se querem fazer esse negócio de quatro mãos aí, me fala e... E aí vamos dar uma acelerada nisso daí. Precisando resolver esse BO aqui também internamente. É.
+
+41:56 - Gustavo Artuzo
+Aqui a gente já decidiu fazer, né?
+
+42:01 - Ricardo Paiva
+então é mais como fazer né as grandes questões assim era como fazer como é que a gente vai resolver os conflitos que podem aparecer mas paciência faz parte do dia a dia ali né então é mais isso tem grandes grandes estresse não viu sim sim é a sugestão aí se quiserem tipo vocês ficam responsáveis pela governança tudo afinal a ideia de vocês e a gente vai ajudando nas issues lá, entendeu? Nas issues que a gente preferia. Se a gente tiver alguma sugestão que vocês ainda não escreveram, vocês olham lá e validam, vê se faz sentido ou não. Se validar, aprova a issue, depois aprovada a issue, a gente pega pra fazer. Boa. Boa.
+
+42:52 - Gustavo Artuzo
+você viu alguma coisa mais aí é para a gente falar ou a ideia que a gente não sei que que vocês acham que vale a pena passar pelos requisitos e tudo mais que você acha que vale a pena fazer agora eu eu acho que vai ser feito ao menos uma passada por cima do que dá uma passadona aí para não se atrasar muito aí manda aí eu dar lá mas depois também se eu sair se vocês quiserem continuar fica à vontade tá para acelerar o negócio.
+
+43:22 - Darlan Oliveira Paiva
+O que eu pensei em fazer aqui, eu posso colocar o material, porque assim, tem várias páginas que eu fui documentando, conversando com o Gustavo, documentando tudo, junto com o Claudio também. Eu pensei em colocar aqui no notebook LM, e assim, para facilitar, para ter pergunta direta, a gente já pergunta direto no notebook e ele vai respondendo com base no material. E assim, se tiver alguma dúvida ou a própria sugestão, a gente vai encaixando ali, Eu compartilho o material direto, o que vocês acham? Porque assim, por enquanto eu só tenho o texto aqui, eu só tenho o documento. Então nada visual, visual Teteo, Teteo também. Mas seria mais isso? Seria a parte mais técnica?
+
+44:09 - Ricardo Paiva
+Pra gente falar ou... É, mais a, não, mais a parte de ideias mesmo, né? De ideia? É. Então fala que já tem pronta aí e vamos embora.
+
+44:45 - Unidentified Speaker
+Ideias.
+
+44:50 - Unidentified Speaker
+Olá.
+
+44:55 - Darlan Oliveira Paiva
+Vou abrir tela aqui. Bom, se for pensar na questão de ideias, de como que a gente vai transformar isso numa coisa mais, digamos, mais global, eu acho que de repente poderia ver o que cada um gostaria de enxergar ou até mesmo ver como que funciona o sistema de casa, né? Aqui que já tem o produto dela, então como que o produto se o produto do Econdos, né? Então, pra começar a padronizar mesmo, se for meio que uma coisa, um código aberto, né? Vamos dizer assim, um código aberto entre a Clique e Retire e o Econdos, né? Você baixa o seu código ali e transforma no seu dia-a-dia. De repente é isso, alinhar o que cada um quer enxergar, como que cada um enxerga, como que cada um trata essas informações, de repente é isso.
+
+46:10 - Ricardo Paiva
+É, assim, se você... Pra mim, assim, interessa mais, assim, saber qual foi o valor que foi vendido do que o preço proposto, o preço sempre rola desconto, essas coisas. Então, assim, como é o preço final, foda-se a forma de cálculo, entendeu? Sim. Aí até pegar práticas do mercado, né?
+
+46:35 - Darlan Oliveira Paiva
+Pegar os tipos de comissionamento e o tipo de comissionamento e modular isso aí. Então, se a empresa usa o tipo de tipo de comissionamento, você já pega ele, entendeu?
+
+46:50 - Ricardo Paiva
+É, a gente vai fazer exatamente esses dois tipos pra vocês aí, ou é sobrepreço, né? A gente tem o preço mínimo ali, o cara bota ali o sobrepreço dele.
+
+47:06 - Unidentified Speaker
+Ou...
+
+47:06 - Unidentified Speaker
+Ou é...
+
+47:08 - Ricardo Paiva
+Ou é isso aí, né, gente? Só que o sobrepreço, sinceramente, eu não acredito muito não, viu, cara? Porque o cara bota o sobrepreço e acaba conhecendo o mercado por esses diferentes aí também, né? Acaba descobrindo alguma coisa assim. Também é que é quem que vai cobrar se o cara caso vocês que vão tá sempre fazendo a cobrança é isso e o nosso contrato a maioria dos dos contratos a gente tá propondo o contrato com condomínio é nosso e o parceiro entra como um testemunho um anuente esse tipo de coisa e aí e é o que eu tô fazer exatamente isso, é o contrato direto com a gente também, né? Então, eu nem queria dar muita opção de sobrepreço tem a tabela, o cara pode até sugerir lá a tabela, mas a negociação rola muito, ah, desconto, ah, se eu trouxer um volume, pelo menos no nosso caso assim, né? Porque, pô, às vezes o cara não vai botar um ou dois condomínios, o cara vai bota dez, vinte, né? Que é negociar desconto que tá botando uma cacetada. Então, ficar chumbando muito o preço acaba dificultando muito negociação, né? Então, assim, cara, tá aqui o preço referência. A gente é bem flexível com relação aos preços, né? Desde que a pessoa traga volume. A gente tem algumas taxas assim que a gente gosta de colocar também só pra tirar, né? E de gerar mais compromisso do outro lado. A taxa de plantação. Dá pra tirar a taxa de plantação? Pô, foda, cara. Mas se eu colocar 5, 10 condomínios, eu tiro aí. Tá bom, vou botar. Cara, ninguém nunca pagou uma taxa de plantação até hoje, né? Ajuda a gerar compromisso. Eu já fiz isso algumas vezes.
+
+49:19 - Gustavo Artuzo
+É, a taxa é isso mesmo.
+
+49:22 - Darlan Oliveira Paiva
+Acho que o Zendesk tá querendo fazer, cara. A gente... Com a gente aí é que a gente tá negociando a Zendesk, né? Aí tem 100, né? Tem esse monte de modos ou módulos obrigatórios, assim, pra você pagar mais.
+
+49:38 - Ricardo Paiva
+Ou seja, resumindo, preço de venda pra mim é o não é tão importante assim, né? Colocar aí assim, porque, cara, é um negócio muito flexível, né? O que importa é o preço vendido, aí o preço vendido, beleza, vai lá, posso setar na mão lá, VPN, 8N, mais ou menos agora o preço sugerido para quem tá até colocar como se fosse um link externo assim de uma tabela de preço que o cara clica e até gera uma calculadora lá que depende muito do tamanho do condomínio no caso de vocês a tamanho não varia tanto assim né e pra gente é você 100 unidades ou 101 ou 102 aí já vai variando o preço eu acho que isso aí cai bem no ponto forte desse elemento não sei se a gente consegue fazer essa conta de volta no que a gente estava pensando fazer a configuração dentro do sistema porque dentro do sistema a ideia era ter um preço base e aí cada nível diz quanto é que é a sua parte da comissão e aí se o flutuante é lá na ponta tem essa questão de a cadeia, né?
+
+51:04 - Edipo Crispim
+Então, quando você tá falando de um só comissionado, quando o comissionado é direto, quem você é meio que direto isso, né?
+
+51:12 - Ricardo Paiva
+Aham. É, assim, se a gente conseguir colocar os níveis em termos de porcentagem, isso já resolve pra mim, entendeu? Porque pra mim é o preço que interessa, é o preço que foi vendido, qual que é a porcentagem de cada nível. Boa. E o preço de venda, verdade, como eu que quero vender, então eu vou acabar editando o preço de venda.
+
+51:37 - Unidentified Speaker
+Entendi.
+
+51:37 - Ricardo Paiva
+Vai ter, vai ser próximo do preço de diferença, né? Senão vira também, samba do crioulo doido, né? Mas tem alguns casos que a gente abre muitas pernas, né? Pô, por exemplo, pega um um cara que tá lá no Escafundó do Juda, interior do Maranhão. Putz, o cara tem cinquenta condomínios e usa um software gente que ele paga 100 conto por mês o cara que é migrar para mim e pagar cinco mil reais por mês eu vou pegar e cinco mil reais ou não porque o meu preço médio é 300 não é sem a cara foda-se me dá e cinco mil agora o cara tá aqui na minha região aqui que eu domino o preço médio meu aqui na região aqui é 300 reais e o cara que é assim vai essa merda né assim a gente é bem flexível desde que em determinadas condições e principalmente questões geográficas né e quantidade de condomínio que o cara vai botar para dentro é legal saber se a diferença tem sempre como como um impulso na hora da gente desenhar essas coisas aqui do nosso lado tudo é muito gente isso aí tá vendo a nossa muito Tá aqui a tabela, se você quer comprar, quer ou não quer, beleza, tchau. É muito assim, entendeu? Rola muita negociação. Pô, e aí? Qual que é o seu tamanho? Não sei o quê. Putz, eu acabei de comprar um alicate aqui, não tem nenhum condomínio. Me dá um desconto aí que eu quero entrar no mercado. Aí é merda, né? A gente já passou dessa fase, né? Então... Conversar com a galera que tem aí uma sacolada de condomínio, de estar com tesão de fazer o negócio crescer, é isso aí.
+
+53:34 - Edipo Crispim
+Tá bom, acho que tá entendido aí. Só de saber essa diferença aí já valeu a conversa aqui. É um ponto... Mas se colocar também essa questão de a vantagem vai ser só o valor real assim né se der para colocar agora que a gente tá sabendo são os dois né e aí essa é a beleza dessa conversa cedo mas é legal tem que sair aí, né?
+
+54:16 - Ricardo Paiva
+Já subiram em alguma nuvem, alguma versão demo, teste, development de vocês aí? Não, ainda tá só no papel mesmo, só na ideia.
+
+54:28 - Darlan Oliveira Paiva
+A gente não... Exato. Começou a projetar ainda. Até fiz aqui no cloud, mas não gostei muito não aí, refazer, fazer com mais atenção, mais detalhe. Se vou para fazer uma demo no caso, né?
+
+54:48 - Ricardo Paiva
+Maravilha, senhores. Tem mais algum detalhe assim que vocês acham que é interessante de falar aí da ideia de vocês, né?
+
+55:00 - Gustavo Artuzo
+Acho que não, né?
+
+55:02 - Ricardo Paiva
+Mais uma coisa aí, cês acham? Agora não tem nada não. Beleza. Bom, se vocês quiserem compartilhar alguma coisa para a gente evoluir aí, vocês chamam. A gente faz acontecer aí para dar uma acelerada. Mas se vocês não forem, quiserem continuar o voo solo aí também, não tem problema nenhum, só avisa aí que eu vou ter que subir aqui, startar algo rápido. Eu tô se apanhando muito aqui já com isso aí também. Beleza, fechou. Fechou, galera.
+
+55:46 - Gustavo Artuzo
+Vamos pra cima, né? Vamos.
+
+55:49 - Ricardo Paiva
+Bom jogo pra nós aí, né?
+
+55:52 - Ricardo Paiva
+Vamos ver se dessa vez a gente desencanta um pouco, né? É. Tá foda, meu cara. Ainda bem que eu já desanimei do futebol há muitos anos, cara. Então... Pra mim nem dói mais. Valeu aí, bom fim de semana. Valeu gente, bom fim de semana.
+
+56:19 - Darlan Oliveira Paiva
+Tchau.
