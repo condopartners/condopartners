@@ -1,0 +1,47 @@
+name: Feature
+description: Propor uma feature de produto (exige spec depois em docs/specs/)
+title: "feat: "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema
+      description: Qual problema de usuário/negócio estamos resolvendo?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Resultado desejado
+      description: Critérios de aceite testáveis.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Escopo
+      description: Dentro / fora do escopo.
+      value: |
+        Dentro:
+        - 
+        Fora:
+        - 
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área principal
+      options:
+        - API
+        - Web
+        - Shared / plataforma
+        - Docs / processo
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Após a aprovação, os agents devem escrever `docs/specs/<slug>.md` antes da implementação.
+        Textos de UI do produto devem ser em **pt-BR**.

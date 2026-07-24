@@ -141,3 +141,19 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Bun
+bun.lockb
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Graphify output (regenerated)
+graphify-out/
+
+# Local agent scratch
+.tmp/
+.paperclip/

@@ -1,0 +1,39 @@
+name: Bug
+description: Reportar um defeito no comportamento atual
+title: "fix: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Resumo
+      description: O que está quebrado?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir
+      value: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Esperado
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Atual
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Ambiente
+      placeholder: local / CI / staging
