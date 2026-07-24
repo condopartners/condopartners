@@ -60,6 +60,8 @@ export function App() {
             <dd className="font-medium">{state.data.service}</dd>
             <dt className="text-muted-foreground">Timestamp</dt>
             <dd className="font-mono text-xs">{state.data.timestamp}</dd>
+            <dt className="text-muted-foreground">Banco de dados</dt>
+            <dd className="font-medium">{state.data.database}</dd>
           </dl>
         )}
         <div className="mt-4">

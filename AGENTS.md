@@ -31,6 +31,11 @@ CondoPartners is a multi-tenant B2B platform for hierarchical partner networks, 
 
 ```bash
 bun install          # install workspaces
+bun run db:up        # start local Postgres (Docker)
+bun run db:migrate   # apply Drizzle migrations
+bun run db:down      # stop Postgres
+bun run db:generate  # generate migrations from schema
+bun run db:studio    # Drizzle Studio
 bun run dev          # API (:3000) + web (:5173)
 bun run dev:api      # API only
 bun run dev:web      # web only
@@ -89,9 +94,9 @@ Project-local skills in [`skills/`](skills/) stitch these into CondoPartners con
 
 ## Out of scope until specified
 
-- Persistence / database
+- Domain tables / schema (DB infra is wired; tables require approved specs)
 - Auth, tenancy, RBAC
 - Partner trees, commissions, products, sales
 - Billing integrations
 
-Persistence is deferred until the first approved feature spec chooses it ([`docs/DECISIONS.md`](docs/DECISIONS.md)).
+Persistence infra is wired (Docker Postgres + Drizzle). Do not invent tables without an approved spec ([`docs/DECISIONS.md`](docs/DECISIONS.md)).

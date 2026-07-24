@@ -4,7 +4,7 @@ Multi-tenant partner network and commission platform scaffolding.
 
 Site: [condopartners.com.br](https://condopartners.com.br)
 
-This repository is ready to **run and extend**. It intentionally ships **no product features** yet — only apps wiring, shared types, agent guardrails, and CI.
+This repository is ready to **run and extend**. It intentionally ships **no product features** yet — only apps wiring, shared types, agent guardrails, local Postgres, and CI.
 
 ## Stack
 
@@ -13,18 +13,21 @@ This repository is ready to **run and extend**. It intentionally ships **no prod
 | Runtime / package manager | [Bun](https://bun.sh) workspaces |
 | API | [ElysiaJS](https://elysiajs.com) |
 | Web | React 19 + Vite + Tailwind CSS v4 + shadcn/ui |
+| Database | Postgres 17 (Docker) + [Drizzle ORM](https://orm.drizzle.team) |
 | Types across the wire | [Eden Treaty](https://elysiajs.com/eden/overview.html) |
 | Lint / format | Biome |
 | Tests | `bun:test` |
 
-Persistence is **not** included. The first approved feature spec decides the database ([`docs/DECISIONS.md`](docs/DECISIONS.md)).
+Schema is **empty** until an approved feature spec adds tables ([`docs/DECISIONS.md`](docs/DECISIONS.md)).
 
 ## Quickstart
 
 ```bash
-# Requires Bun (https://bun.sh)
+# Requires Bun (https://bun.sh) and Docker
 bun install
 cp .env.example .env
+bun run db:up
+bun run db:migrate
 bun run dev
 ```
 
@@ -42,6 +45,7 @@ bun run build
 apps/api          Elysia API (health module = canonical pattern)
 apps/web          React app (minimal shell)
 packages/shared   Shared types/constants
+docker-compose.yml  Local Postgres
 AGENTS.md         Agent operating manual (start here for agents)
 rules/            Mandatory coding rules
 skills/           Project-local agent skills
