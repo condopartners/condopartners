@@ -158,8 +158,7 @@ docker compose -f deploy/portainer/prod.stack.yml config >/dev/null
 docker compose -f deploy/portainer/dev.stack.yml config >/dev/null
 docker build -f apps/api/Dockerfile .
 docker build -f apps/web/Dockerfile --build-arg VITE_API_URL=https://api.example.com .
-# landing: requer apps/landing no branch + bun.lock atualizado (ex.: PR da landing)
-# docker build -f apps/landing/Dockerfile .
+docker build -f apps/landing/Dockerfile .
 ```
 
 ## Runtime estático (web / landing)

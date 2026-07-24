@@ -24,6 +24,13 @@ describe("deploy artifacts (SIS-39)", () => {
     }
   })
 
+  test("apps/landing tem package.json exigido pelo docker build (SIS-44)", () => {
+    const pkg = join(root, "apps", "landing", "package.json")
+    expect(existsSync(pkg), pkg).toBe(true)
+    const name = (JSON.parse(read(pkg)) as { name?: string }).name
+    expect(name).toBe("@condopartners/landing")
+  })
+
   test("stacks Portainer prod e dev têm serviços, healthchecks e isolamento", () => {
     for (const name of ["prod.stack.yml", "dev.stack.yml"]) {
       const path = join(deploy, "portainer", name)
