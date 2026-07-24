@@ -22,9 +22,10 @@ Mode: **Persuade**. Product truth stays in `docs/PRODUCT.md`. This file is the m
 | `--paper` | `#EEF1F3` | page ground (cool stone) |
 | `--mist` | `#D7DEE4` | secondary surfaces |
 | `--courtyard` | `#1F6B4F` | primary CTA / accent |
-| `--courtyard-ink` | `#E8F5EF` | CTA text on green |
+| `--courtyard-ink` | `#E8F5EF` | CTA text on green; waitlist success on dark `#waitlist` |
 | `--brass` | `#9A7340` | commission figures only |
 | `--sky` | `#A8BCC8` | hero wash |
+| (utility) `red-300` | `#FCA5A5` | waitlist alert/invalid on dark `#waitlist` (≥4.5:1 on ink; do not use `red-800` there) |
 
 ## Type
 
