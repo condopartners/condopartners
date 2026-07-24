@@ -1,6 +1,7 @@
 import { type FormEvent, useState } from "react"
 import { waitlistCopy } from "../lib/copy"
 import { isValidCorporateEmail } from "../lib/email"
+import { waitlistStatusTone } from "./waitlistStatusTone"
 
 type Status = "idle" | "success" | "error" | "invalid"
 
@@ -81,18 +82,18 @@ export function WaitlistForm({ idPrefix = "waitlist" }: { idPrefix?: string }) {
         <p
           id={`${idPrefix}-status`}
           role="status"
-          className="text-sm text-[var(--color-courtyard)]"
+          className={`text-sm ${waitlistStatusTone.success}`}
         >
           {waitlistCopy.success}
         </p>
       )}
       {status === "error" && (
-        <p id={`${idPrefix}-status`} role="alert" className="text-sm text-red-800">
+        <p id={`${idPrefix}-status`} role="alert" className={`text-sm ${waitlistStatusTone.alert}`}>
           {waitlistCopy.error}
         </p>
       )}
       {status === "invalid" && (
-        <p id={`${idPrefix}-status`} role="alert" className="text-sm text-red-800">
+        <p id={`${idPrefix}-status`} role="alert" className={`text-sm ${waitlistStatusTone.alert}`}>
           Informe um e-mail válido (ex.: {waitlistCopy.placeholder}).
         </p>
       )}
