@@ -53,6 +53,7 @@ bun run check        # lint + typecheck + test  ← definition of done
 |------|------|
 | `apps/api` | ElysiaJS API on Bun |
 | `apps/web` | React + Vite + Tailwind + shadcn/ui |
+| `apps/landing` | Public marketing landing (static / GitHub Pages) |
 | `packages/shared` | Shared types/constants |
 | `rules/` | Short imperative coding rules |
 | `skills/` | Project-local agent skills |
