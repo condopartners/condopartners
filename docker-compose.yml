@@ -4,7 +4,8 @@ services:
     container_name: condopartners-db
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      # Host 5432 is often already taken; map local Postgres to 5433.
+      - "5433:5432"
     environment:
       POSTGRES_DB: condopartners
       POSTGRES_USER: condopartners

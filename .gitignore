@@ -158,3 +158,10 @@ graphify-out/
 # Local agent scratch
 .tmp/
 .paperclip/
+
+# Local agent tooling
+.cursor/
+
+# Vendored AI skills (installed locally)
+.github/skills/
+.github/hooks/

@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/bun-sql"
 import * as schema from "./schema"
 
 const databaseUrl =
-  process.env.DATABASE_URL ?? "postgres://condopartners:condopartners@localhost:5432/condopartners"
+  process.env.DATABASE_URL ?? "postgres://condopartners:condopartners@localhost:5433/condopartners"
 
 const client = new SQL(databaseUrl)
 
