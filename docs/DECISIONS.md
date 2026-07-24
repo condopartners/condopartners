@@ -2,6 +2,12 @@
 
 Short ADR-lite log. Newest first.
 
+## 2026-07-24 — Postgres local via Docker + Drizzle ORM
+
+- **Decision:** Local Postgres 17 via `docker-compose.yml` + Drizzle ORM (`drizzle-orm/bun-sql`) in `apps/api`.
+- **Why:** Matches the foundation docs’ Postgres assumption; Bun-native driver; typed schema/migrations without inventing domain tables yet.
+- **Consequence:** Infra is wired (`bun run db:up`, `db:migrate`, `db:studio`). Schema stays **empty** until an approved feature spec adds tables. Supersedes “Persistence deferred”. Health reports `database: ok | unreachable` (soft-fail).
+
 ## 2026-07-24 — Product UI and operator templates in pt-BR
 
 - **Decision:** End-user software copy is **pt-BR**. GitHub issue/PR templates (and filled issues/PRs) are **pt-BR** for Brazilian Paperclip operators.
@@ -20,11 +26,12 @@ Short ADR-lite log. Newest first.
 - **Why:** Keep a stable English technical spine for agents while localizing operator UX.
 - **Consequence:** The foundation design pack on branch `docs/fundacao-design` remains a separate reference until merged.
 
-## 2026-07-24 — Persistence deferred
+## 2026-07-24 — Persistence deferred (superseded)
 
 - **Decision:** Scaffolding includes no database, ORM, or migrations.
-- **Why:** First approved feature spec should choose persistence deliberately.
-- **Consequence:** Health check and web shell prove wiring only. Foundation docs on `docs/fundacao-design` that assume Postgres/RLS remain design input, not current runtime.
+- **Status:** **Superseded** by “Postgres local via Docker + Drizzle ORM”.
+- **Why (historical):** First approved feature spec should choose persistence deliberately.
+- **Consequence (historical):** Health check and web shell proved wiring only.
 
 ## 2026-07-24 — Biome + bun:test; no git hooks
 

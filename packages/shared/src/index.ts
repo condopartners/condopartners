@@ -7,8 +7,11 @@ export const APP_NAME = "CondoPartners" as const
 
 export type HealthStatus = "ok" | "degraded" | "down"
 
+export type DatabaseHealth = "ok" | "unreachable"
+
 export interface HealthResponse {
   status: HealthStatus
   service: typeof APP_NAME
   timestamp: string
+  database: DatabaseHealth
 }

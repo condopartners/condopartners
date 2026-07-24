@@ -7,4 +7,4 @@
 - Prefer standard error shapes: `{ error: string; code?: string; details?: unknown }` with appropriate HTTP status.
 - Do not catch and swallow errors silently. Log safely (no PII) and return controlled responses.
 - Colocate `*.test.ts` next to the module (see `health` module).
-- Do not add auth, persistence, or background jobs without an approved spec.
+- Persistence client is wired (`apps/api/src/db/`). Do not add auth, background jobs, or **new tables/migrations** without an approved spec.

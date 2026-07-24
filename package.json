@@ -14,7 +14,12 @@
     "typecheck": "bun run --filter '*' typecheck",
     "test": "bun run --filter '*' test",
     "build": "bun run --filter '*' build",
-    "check": "bun run lint && bun run typecheck && bun run test"
+    "check": "bun run lint && bun run typecheck && bun run test",
+    "db:up": "docker-compose up -d db",
+    "db:down": "docker-compose down",
+    "db:generate": "bun run --filter '@condopartners/api' db:generate",
+    "db:migrate": "bun run --filter '@condopartners/api' db:migrate",
+    "db:studio": "bun run --filter '@condopartners/api' db:studio"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",

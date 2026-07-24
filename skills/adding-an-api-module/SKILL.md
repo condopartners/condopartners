@@ -21,6 +21,6 @@ Canonical example: [`apps/api/src/modules/health/`](../../apps/api/src/modules/h
 
 ## Do not
 
-- Add persistence, auth, or background jobs without an approved spec.
+- Add auth, background jobs, or **new tables/migrations** without an approved spec.
 - Put business logic in `src/index.ts` (bootstrap only).
 - Break the exported `App` type used by Eden Treaty.

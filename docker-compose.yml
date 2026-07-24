@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: condopartners-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: condopartners
+      POSTGRES_USER: condopartners
+      POSTGRES_PASSWORD: condopartners
+    volumes:
+      - condopartners_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U condopartners -d condopartners"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  condopartners_pgdata:
