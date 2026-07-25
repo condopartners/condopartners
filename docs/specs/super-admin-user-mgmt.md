@@ -2,7 +2,7 @@
 
 ## Status
 
-Rascunho — aguardando aprovação do board ([SIS-116](/SIS/issues/SIS-116))
+Aprovada — board aceitou o plano em [SIS-116](/SIS/issues/SIS-116) (rev `7a623228`)
 
 ## Issue
 
