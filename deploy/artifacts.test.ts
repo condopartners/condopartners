@@ -150,6 +150,26 @@ describe("deploy artifacts (SIS-39)", () => {
     expect(dockerJob).toMatch(/"push":false/)
   })
 
+  test("stacks e overlays Portainer passam WEB_ORIGIN e Better Auth ao api (SIS-117)", () => {
+    const requiredApiEnv = ["WEB_ORIGIN", "BETTER_AUTH_URL", "BETTER_AUTH_SECRET"]
+    for (const name of [
+      "prod.stack.yml",
+      "dev.stack.yml",
+      "prod.portainer.yml",
+      "dev.portainer.yml",
+    ]) {
+      const path = join(deploy, "portainer", name)
+      expect(existsSync(path), path).toBe(true)
+      const doc = parseYaml(read(path)) as {
+        services: Record<string, { environment?: Record<string, string> }>
+      }
+      const apiEnv = doc.services.api?.environment ?? {}
+      for (const key of requiredApiEnv) {
+        expect(apiEnv[key], `${name} api.environment missing ${key}`).toBe(`\${${key}}`)
+      }
+    }
+  })
+
   test("runbook, env.example e dockerignore existem sem secrets", () => {
     expect(existsSync(join(deploy, "README.md"))).toBe(true)
     expect(existsSync(join(deploy, ".env.example"))).toBe(true)
@@ -164,6 +184,9 @@ describe("deploy artifacts (SIS-39)", () => {
       "API_PORT",
       "API_HOST",
       "VITE_API_URL",
+      "WEB_ORIGIN",
+      "BETTER_AUTH_URL",
+      "BETTER_AUTH_SECRET",
       "CERTBOT_EMAIL",
     ]) {
       expect(envExample.includes(key), `missing ${key}`).toBe(true)

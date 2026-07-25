@@ -1,6 +1,7 @@
-# CondoPartners — stack de produção (Portainer CE "Add stack")
-# Contexto de build: relativo a este arquivo → raiz do monorepo (../..)
-# Escolha: build-no-stack (ver deploy/README.md). Alternativa: trocar `build:` por `image:`.
+# CondoPartners — stack dev image-based (Portainer CE)
+# Isolado de prod: sufixo -dev em rede/volumes/portas.
+# Use este arquivo no Portainer. Não usa `build:`. Binds absolutos via DEPLOY_ROOT.
+# Ver deploy/README.md § image-based.
 
 services:
   postgres:
@@ -11,19 +12,17 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - condopartners_pgdata:/var/lib/postgresql/data
+      - condopartners_pgdata_dev:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 10
     networks:
-      - condopartners
+      - condopartners-dev
 
   api:
-    build:
-      context: ../..
-      dockerfile: apps/api/Dockerfile
+    image: ${API_IMAGE:-condopartners-dev-api:latest}
     restart: unless-stopped
     environment:
       API_HOST: ${API_HOST:-0.0.0.0}
@@ -48,14 +47,10 @@ services:
       retries: 10
       start_period: 20s
     networks:
-      - condopartners
+      - condopartners-dev
 
   web:
-    build:
-      context: ../..
-      dockerfile: apps/web/Dockerfile
-      args:
-        VITE_API_URL: ${VITE_API_URL}
+    image: ${WEB_IMAGE:-condopartners-dev-web:latest}
     restart: unless-stopped
     depends_on:
       - api
@@ -65,12 +60,10 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - condopartners
+      - condopartners-dev
 
   landing:
-    build:
-      context: ../..
-      dockerfile: apps/landing/Dockerfile
+    image: ${LANDING_IMAGE:-condopartners-dev-landing:latest}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
@@ -78,32 +71,32 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - condopartners
+      - condopartners-dev
 
   nginx:
     image: nginx:1.27-alpine
     restart: unless-stopped
     ports:
-      - "${NGINX_HTTP_PORT:-80}:80"
-      - "${NGINX_HTTPS_PORT:-443}:443"
+      - "${NGINX_HTTP_PORT:-8080}:80"
+      - "${NGINX_HTTPS_PORT:-8443}:443"
     volumes:
-      - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ../nginx/conf.d:/etc/nginx/conf.d:ro
-      - ../nginx/snippets:/etc/nginx/snippets:ro
-      - condopartners_certs:/etc/letsencrypt:ro
-      - condopartners_certbot_www:/var/www/certbot:ro
+      - ${DEPLOY_ROOT}/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${DEPLOY_ROOT}/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ${DEPLOY_ROOT}/nginx/snippets:/etc/nginx/snippets:ro
+      - condopartners_certs_dev:/etc/letsencrypt:ro
+      - condopartners_certbot_www_dev:/var/www/certbot:ro
     depends_on:
       - api
       - web
       - landing
     networks:
-      - condopartners
+      - condopartners-dev
 
 volumes:
-  condopartners_pgdata:
-  condopartners_certs:
-  condopartners_certbot_www:
+  condopartners_pgdata_dev:
+  condopartners_certs_dev:
+  condopartners_certbot_www_dev:
 
 networks:
-  condopartners:
-    name: condopartners
+  condopartners-dev:
+    name: condopartners-dev

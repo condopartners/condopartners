@@ -36,9 +36,23 @@ com Git.
 2. Preencha `POSTGRES_PASSWORD` / `DATABASE_URL` com o mesmo segredo.
 3. Ajuste `VITE_API_URL` por ambiente (`https://api.condopartners.com.br` ou
    `https://api.dev.condopartners.com.br`).
-4. `CERTBOT_EMAIL` para emissão Let's Encrypt (hooks abaixo).
+4. Defina auth/CORS da API (obrigatório fora do localhost):
+   - prod: `WEB_ORIGIN=https://app.condopartners.com.br`,
+     `BETTER_AUTH_URL=https://api.condopartners.com.br`
+   - dev: `WEB_ORIGIN=https://app.dev.condopartners.com.br`,
+     `BETTER_AUTH_URL=https://api.dev.condopartners.com.br`
+   - `BETTER_AUTH_SECRET` = string aleatória ≥32 chars (só Portainer / `deploy/.env`)
+5. Em overlays image-based (`*.portainer.yml`): `DEPLOY_ROOT` = path absoluto
+   da pasta `deploy/` no host Docker.
+6. `CERTBOT_EMAIL` para emissão Let's Encrypt (hooks abaixo).
 
 `deploy/.env` não entra no git (`.gitignore` cobre `.env`).
+
+## Overlay image-based (`*.portainer.yml`)
+
+Além dos `*.stack.yml` (build-no-stack), existem overlays **sem `build:`** em
+`deploy/portainer/*.portainer.yml` para Portainer CE com imagens já
+buildadas no host. Nginx usa binds absolutos via `${DEPLOY_ROOT}/nginx/…`.
 
 ## Import no Portainer CE
 
