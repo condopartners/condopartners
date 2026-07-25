@@ -4,6 +4,10 @@
  * its Postgres service; locally `bun run db:up` maps Postgres on 5432.
  */
 
+// Força ambiente de teste mesmo quando a máquina exporta NODE_ENV=production
+// (Better Auth liga rate limiting em produção e derrubaria a suite com 429).
+process.env.NODE_ENV = "test"
+
 process.env.BETTER_AUTH_SECRET ??= "test-secret-at-least-32-characters-long!!"
 process.env.BETTER_AUTH_URL ??= "http://localhost:3000"
 process.env.WEB_ORIGIN ??= "http://localhost:5173"

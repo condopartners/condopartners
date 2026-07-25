@@ -1,9 +1,22 @@
+import { useEffect } from "react"
+import { AdminUsersPage } from "@/components/admin/admin-users-page"
 import { AuthPanel } from "@/components/auth/auth-panel"
 import { AppShell } from "@/components/layout/app-shell"
 import { signOut, useSession } from "@/lib/auth-client"
 
 export function App() {
   const { data: session, isPending } = useSession()
+
+  const isAdminRoute = window.location.pathname.startsWith("/admin")
+  const isAdmin = session?.user.role === "admin"
+
+  // Gate de UI (spec super-admin): /admin só para role admin; demais voltam ao início.
+  const shouldRedirect = !isPending && session != null && isAdminRoute && !isAdmin
+  useEffect(() => {
+    if (shouldRedirect) {
+      window.location.replace("/")
+    }
+  }, [shouldRedirect])
 
   if (isPending) {
     return (
@@ -17,8 +30,25 @@ export function App() {
     return <AuthPanel />
   }
 
+  if (shouldRedirect) {
+    return null
+  }
+
+  if (isAdminRoute) {
+    return (
+      <AppShell
+        email={session.user.email}
+        onSignOut={() => void signOut()}
+        title="Admin"
+        isAdmin={isAdmin}
+      >
+        <AdminUsersPage />
+      </AppShell>
+    )
+  }
+
   return (
-    <AppShell email={session.user.email} onSignOut={() => void signOut()}>
+    <AppShell email={session.user.email} onSignOut={() => void signOut()} isAdmin={isAdmin}>
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
           Bem-vindo ao CondoPartners
