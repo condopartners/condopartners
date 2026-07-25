@@ -19,6 +19,7 @@
   "dependencies": {
     "@condopartners/shared": "workspace:*",
     "@elysiajs/cors": "^1.3.3",
+    "better-auth": "^1.6.25",
     "drizzle-orm": "^0.44.5",
     "elysia": "^1.3.21"
   },

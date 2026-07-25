@@ -1,7 +1,8 @@
 /**
  * Drizzle schema.
  * Tables and migrations require an approved issue + spec in docs/specs/.
- * Do not invent domain tables in scaffolding PRs.
+ * Auth tables (user/session/account/verification) come from Better Auth —
+ * see docs/specs/auth-better-auth.md.
  */
 
-export {}
+export * from "./auth-schema"
