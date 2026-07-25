@@ -93,7 +93,7 @@ O app **não tem router** (`apps/web/src/App.tsx` alterna auth/shell por sessão
 |--------|----------|--------|
 | Usuário | e-mail (link para o detalhe, 600) + nome em 13px muted embaixo | `translate="no"` no e-mail; `min-w-0` + `truncate`; nome ausente = `—` |
 | Papel | `Super-admin` = etiqueta com fundo `#eef2f7`; `Usuário` = etiqueta neutra | sem cor de destaque para papel comum |
-| Situação | etiqueta com ponto de 6px: `Ativa` (ponto `--cp-success`) / `Ativação pendente` (ponto `#9aa8b6`) + texto | **condicional**: só renderizar se a API expuser `emailVerified`; a informação não é só cor (tem texto) |
+| Situação | etiqueta com ponto de 6px: `Ativa` (ponto `--cp-success`) / `Ativação pendente` (ponto `#9aa8b6`) + texto | **obrigatória** — API expõe `emailVerified` (contrato CTO/DEV); a informação não é só cor (tem texto) |
 | Criada em | `Intl.DateTimeFormat("pt-BR", { dateStyle: "short" })`, `tabular-nums`, muted | nunca formato hardcoded |
 
 - Linha: `py-2.5`, hover `#f7f9fc`, divisória 1px `#e6ebf2`. Densidade alta é desejada (7–8/10).
@@ -130,7 +130,7 @@ Página no mesmo `main` (não drawer, não modal): sobrevive a reload, não reco
 **Seção “Dados da conta”** (`h3`) — sub: *Alterações valem para o próximo acesso do usuário.*
 
 - Grid de 2 colunas: `Nome`, `E-mail` (hint: *Trocar o e-mail muda o login do usuário.*).
-- Se a versão pinada de `better-auth` não expor troca de e-mail: campo `readOnly` com `aria-describedby` → *Alteração de e-mail indisponível nesta versão.* (não esconder o campo).
+- E-mail é **editável** (`better-auth@1.6.25` `adminUpdateUser` + `user: ["set-email"]` — contrato CTO/DEV). Não usar `readOnly`.
 - `Salvar alterações`: **desabilitado até haver mudança**; durante o submit vira `Salvando…` com spinner; sucesso = `role="status"` inline **Alterações salvas.**
 
 **Seção “Credencial e acesso”** (`h3`) — sub: *Toda ação aqui é registrada na auditoria com quem executou e quando.*
@@ -203,7 +203,7 @@ Base = tabela da spec. Onde refinei, está marcado — a spec autoriza refino de
 | Busca (placeholder) | `Buscar por e-mail ou nome…` | novo |
 | Colunas | `Usuário` · `Papel` · `Situação` · `Criada em` | novo |
 | Papéis | `Super-admin` · `Usuário` | igual (rótulo de UI da spec) |
-| Situação | `Ativa` · `Ativação pendente` | novo (condicional) |
+| Situação | `Ativa` · `Ativação pendente` | novo (obrigatório — `emailVerified` confirmado) |
 | Paginação | `Mostrando 1–20 de 24` · `Anterior` · `Próxima` | novo |
 | Campo e-mail | `E-mail` | igual |
 | Campo nome | `Nome` | igual |
@@ -329,13 +329,19 @@ Se o wiring da [SIS-132](/SIS/issues/SIS-132) já usa outros nomes, **mantenha o
 
 ---
 
-## 11. Perguntas abertas (DEV/CTO — não bloqueiam o handoff)
+## 11. Contrato técnico travado (CTO/DEV — 2026-07-25)
 
-1. **Rota por hash** (`#/admin`, `#/admin/usuarios/{id}`) confirmada como padrão, sem router? Se o DEV preferir `?view=`, o desenho não muda — só o formato do link.
-2. `listUsers` devolve **`emailVerified`**? Sem ele, **omitir** a coluna Situação (não inventar dado).
-3. Existe forma do web saber se o **SMTP está configurado** (flag em `/health` ou config pública)? Com a flag, `Enviar link de reset` fica desabilitado com motivo visível; sem ela, mantém habilitado e mostra o erro da §5.
-4. A versão pinada de `better-auth` permite **trocar e-mail** via admin? Se não, campo `readOnly` com a nota da §3.
-5. `listUsers` devolve **total** de registros? Sem total, trocar o rodapé por “Mostrando 1–20” + `Próxima` habilitada só quando vier página cheia.
+Respostas do DEV na [SIS-133](/SIS/issues/SIS-133), confirmadas pelo CTO. **Não há pergunta aberta.**
+
+| # | Decisão | Implementação |
+|---|---------|---------------|
+| 1 | **Rota por hash, sem router** | Lista `#/admin?q=&pagina=`; detalhe `#/admin/usuarios/{id}`. Alinhado a `rules/40-frontend.md`. |
+| 2 | **`emailVerified` disponível** | Coluna **Situação** entra sempre (`Ativa` / `Ativação pendente`). Não omitir. |
+| 3 | **SMTP: sem flag web dedicada (hoje)** | Fallback deste handoff: botão **Enviar link de reset** habilitado; erro explícito pt-BR no submit (§5). Se o polish da [SIS-132](/SIS/issues/SIS-132) expuser `smtpConfigured` barato, desabilitar com motivo visível; senão manter fallback. |
+| 4 | **Troca de e-mail suportada** | Campo **editável** (não `readOnly`). |
+| 5 | **`total` disponível** | Rodapé “Mostrando X–Y de N” (§2). |
+
+**Próximo passo Design:** auditoria de UI (pipeline Auditoria + Sistema) quando a PR de implementação da [SIS-132](/SIS/issues/SIS-132) estiver aberta — não antes.
 
 ---
 
