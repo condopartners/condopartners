@@ -55,7 +55,7 @@ Critérios de aceite (subconjunto de auth de SIS-65 — itens 1–3, 5, 9):
 
 | Var | Onde | Exemplo local |
 |-----|------|----------------|
-| `DATABASE_URL` | API (já existe) | `postgres://condopartners:condopartners@localhost:5432/condopartners` |
+| `DATABASE_URL` | API (já existe) | `postgres://condopartners:condopartners@localhost:5433/condopartners` |
 | `BETTER_AUTH_SECRET` | API | string aleatória ≥32 chars (só `.env`) |
 | `BETTER_AUTH_URL` | API | `http://localhost:3000` |
 | `WEB_ORIGIN` | API | `http://localhost:5173` |
