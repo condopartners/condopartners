@@ -25,14 +25,19 @@ export function AppShell({ email, onSignOut, children, title = "Início" }: AppS
     }
 
     document.addEventListener("keydown", onKeyDown)
-    return () => document.removeEventListener("keydown", onKeyDown)
+    const previous = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.removeEventListener("keydown", onKeyDown)
+      document.body.style.overflow = previous
+    }
   }, [menuOpen])
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)]">
       <a
         href={`#${mainId}`}
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-[var(--radius)] focus:bg-card focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:shadow focus:ring-2 focus:ring-ring"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-[var(--radius)] focus:bg-card focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:shadow focus:ring-2 focus:ring-ring"
       >
         Ir para o conteúdo
       </a>
@@ -53,10 +58,7 @@ export function AppShell({ email, onSignOut, children, title = "Início" }: AppS
           onOpenMenu={() => setMenuOpen(true)}
         />
 
-        <main
-          id={mainId}
-          className="flex-1 px-4 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-6 lg:px-8"
-        >
+        <main id={mainId} className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-[1120px]">{children}</div>
         </main>
       </div>
@@ -71,9 +73,8 @@ export function AppShell({ email, onSignOut, children, title = "Início" }: AppS
           />
           <aside
             className={cn(
-              "absolute inset-y-0 left-0 flex w-[min(18rem,85vw)] flex-col border-r border-border bg-card shadow-[0_1px_2px_rgb(11_31_51_/_0.06)]",
+              "cp-drawer absolute inset-y-0 left-0 flex w-[min(18rem,85vw)] flex-col border-r border-border bg-card shadow-[0_1px_2px_rgb(11_31_51_/_0.06)]",
               "overscroll-contain",
-              "transition-transform duration-200 ease-out motion-reduce:transition-none",
             )}
             role="dialog"
             aria-modal="true"
@@ -81,6 +82,9 @@ export function AppShell({ email, onSignOut, children, title = "Início" }: AppS
           >
             <p id={drawerTitleId} className="sr-only">
               Menu de navegação
+            </p>
+            <p className="truncate border-b border-border px-5 py-3 text-sm text-muted-foreground tabular-nums">
+              {email}
             </p>
             <AppSidebar onNavigate={() => setMenuOpen(false)} />
           </aside>

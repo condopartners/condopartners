@@ -18,7 +18,7 @@ export function AppHeader({
   showMenuButton = false,
 }: AppHeaderProps) {
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-card px-4 pt-[env(safe-area-inset-top)] sm:px-6">
+    <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-card px-4 sm:px-6">
       {showMenuButton ? (
         <Button
           type="button"
