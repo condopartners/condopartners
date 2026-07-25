@@ -1,10 +1,10 @@
-# Default owners — replace @YOUR_GITHUB_TEAM with the real engineering review team.
-* @YOUR_GITHUB_TEAM
+# Default owners — engineering review team.
+* @condopartners/devs
 
-/AGENTS.md @YOUR_GITHUB_TEAM
-/rules/ @YOUR_GITHUB_TEAM
-/skills/ @YOUR_GITHUB_TEAM
-/.github/ @YOUR_GITHUB_TEAM
-/docs/DECISIONS.md @YOUR_GITHUB_TEAM
-/docs/PRODUCT.md @YOUR_GITHUB_TEAM
-/docs/specs/ @YOUR_GITHUB_TEAM
+/AGENTS.md @condopartners/devs
+/rules/ @condopartners/devs
+/skills/ @condopartners/devs
+/.github/ @condopartners/devs
+/docs/DECISIONS.md @condopartners/devs
+/docs/PRODUCT.md @condopartners/devs
+/docs/specs/ @condopartners/devs
