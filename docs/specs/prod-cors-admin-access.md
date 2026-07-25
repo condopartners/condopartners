@@ -6,7 +6,7 @@ Aprovada (CTO — plano [SIS-113](/SIS/issues/SIS-113))
 
 ## Issue
 
-- Paperclip: [SIS-117](/SIS/issues/SIS-117) (DEV) · parent [SIS-113](/SIS/issues/SIS-113)
+- Paperclip: [SIS-119](/SIS/issues/SIS-119) (DEV; supersede [SIS-117](/SIS/issues/SIS-117)) · parent [SIS-113](/SIS/issues/SIS-113)
 - QA: [SIS-118](/SIS/issues/SIS-118)
 
 ## Resumo
