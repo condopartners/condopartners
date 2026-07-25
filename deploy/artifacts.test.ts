@@ -128,6 +128,28 @@ describe("deploy artifacts (SIS-39)", () => {
     expect(concatenated).toMatch(/return\s+301\s+https/)
   })
 
+  test("CI exercita docker build das 3 imagens com cache (SIS-48)", () => {
+    const workflowPath = join(root, ".github", "workflows", "ci.yml")
+    expect(existsSync(workflowPath), workflowPath).toBe(true)
+    const workflow = read(workflowPath)
+    const doc = parseYaml(workflow) as {
+      jobs?: Record<string, unknown>
+    }
+
+    expect(doc.jobs?.docker, "job `docker` missing in ci.yml").toBeDefined()
+    const dockerJob = JSON.stringify(doc.jobs?.docker)
+
+    expect(dockerJob).toMatch(/docker\/setup-buildx-action@/)
+    expect(dockerJob).toMatch(/docker\/build-push-action@/)
+    expect(dockerJob).toContain("apps/api/Dockerfile")
+    expect(dockerJob).toContain("apps/web/Dockerfile")
+    expect(dockerJob).toContain("apps/landing/Dockerfile")
+    expect(dockerJob).toContain("VITE_API_URL=https://api.example.com")
+    expect(dockerJob).toMatch(/type=gha/)
+    expect(dockerJob).not.toMatch(/password|secret|token|api[_-]?key/i)
+    expect(dockerJob).toMatch(/"push":false/)
+  })
+
   test("runbook, env.example e dockerignore existem sem secrets", () => {
     expect(existsSync(join(deploy, "README.md"))).toBe(true)
     expect(existsSync(join(deploy, ".env.example"))).toBe(true)
