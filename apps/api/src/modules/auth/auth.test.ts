@@ -104,7 +104,7 @@ describe("auth email/senha + verificação", () => {
     await signUp(email)
     await flushMail()
     const url =
-      sent[0]?.text.match(/https?:\/\/\S+/)?.[0] ?? sent[0]?.html.match(/href="([^"]+)"/)?.[1]
+      sent[0]?.text.match(/https?:\/\/\S+/)?.[0] ?? sent[0]?.html?.match(/href="([^"]+)"/)?.[1]
     expect(url).toBeTruthy()
 
     const verify = await app.handle(
@@ -161,7 +161,7 @@ describe("auth email/senha + verificação", () => {
     await signUp(email)
     await flushMail()
     const url =
-      sent[0]?.text.match(/https?:\/\/\S+/)?.[0] ?? sent[0]?.html.match(/href="([^"]+)"/)?.[1]
+      sent[0]?.text.match(/https?:\/\/\S+/)?.[0] ?? sent[0]?.html?.match(/href="([^"]+)"/)?.[1]
     const verify = await app.handle(
       new Request(url!, { method: "GET", headers: { origin }, redirect: "manual" }),
     )
@@ -218,7 +218,7 @@ describe("auth email/senha + verificação", () => {
     await signUp(email)
     await flushMail()
     const url =
-      sent[0]?.text.match(/https?:\/\/\S+/)?.[0] ?? sent[0]?.html.match(/href="([^"]+)"/)?.[1]
+      sent[0]?.text.match(/https?:\/\/\S+/)?.[0] ?? sent[0]?.html?.match(/href="([^"]+)"/)?.[1]
     await app.handle(new Request(url!, { method: "GET", headers: { origin }, redirect: "manual" }))
 
     const response = await app.handle(
