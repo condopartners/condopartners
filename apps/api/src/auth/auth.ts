@@ -4,7 +4,12 @@ import { admin } from "better-auth/plugins"
 import { db } from "../db"
 import * as schema from "../db/schema"
 import { resolveProdEnv } from "../env"
-import { sendMail } from "../lib/mailer"
+import {
+  assertSmtpEnvForProduction,
+  buildActivationEmail,
+  isMailerConfigured,
+  sendMail,
+} from "../lib/mailer"
 
 const webOrigin = resolveProdEnv("WEB_ORIGIN", "http://localhost:5173")
 
@@ -21,6 +26,8 @@ function createAuth() {
     throw new Error("BETTER_AUTH_SECRET is required")
   }
 
+  assertSmtpEnvForProduction()
+
   return betterAuth({
     database: drizzleAdapter(db, { provider: "pg", schema }),
     secret,
@@ -28,12 +35,31 @@ function createAuth() {
     trustedOrigins: [webOrigin],
     emailAndPassword: {
       enabled: true,
-      requireEmailVerification: false,
+      requireEmailVerification: true,
       sendResetPassword: async ({ user, url }) => {
         await sendMail({
           to: user.email,
           subject: "Redefina sua senha no CondoPartners",
           text: `Olá${user.name ? `, ${user.name}` : ""}!\n\nClique no link para redefinir sua senha:\n${url}\n\nSe você não pediu esta redefinição, ignore esta mensagem.`,
+        })
+      },
+    },
+    emailVerification: {
+      sendOnSignUp: true,
+      sendOnSignIn: true,
+      autoSignInAfterVerification: true,
+      expiresIn: 3600,
+      sendVerificationEmail: async ({ user, url }) => {
+        if (!isMailerConfigured()) return
+        const content = buildActivationEmail({ name: user.name, url })
+        void sendMail({
+          to: user.email,
+          ...content,
+        }).catch((err) => {
+          console.error("[mailer] failed to send verification email", {
+            to: user.email,
+            error: err instanceof Error ? err.message : String(err),
+          })
         })
       },
     },
