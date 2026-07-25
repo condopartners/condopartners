@@ -35,6 +35,7 @@ bun run dev
 - API: http://localhost:3000 — try `curl http://localhost:3000/health`
 - Web: http://localhost:5173 — shell page calls `/health` via Eden
 - Landing: `bun run dev:landing` → http://localhost:5174
+- Landing (GitHub Pages): https://condopartners.github.io/condopartners/ (workflow: `.github/workflows/pages.yml`)
 
 ```bash
 bun run check   # lint + typecheck + test (definition of done)

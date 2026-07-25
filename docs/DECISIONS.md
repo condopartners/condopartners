@@ -2,6 +2,12 @@
 
 Short ADR-lite log. Newest first.
 
+## 2026-07-24 — Public GitHub repo for GitHub Pages
+
+- **Decision:** `condopartners/condopartners` is **public** so GitHub Pages can host the marketing landing on the free org plan.
+- **Why:** Private repos cannot enable Pages on the free plan; SIS-16 / landing spec require a live Pages URL.
+- **Consequence:** Never commit secrets. Landing deploys from `gh-pages` (bootstrap) and via `.github/workflows/pages.yml` (Actions) after merge — URL `https://condopartners.github.io/condopartners/`.
+
 ## 2026-07-24 — Postgres local via Docker + Drizzle ORM
 
 - **Decision:** Local Postgres 17 via `docker-compose.yml` + Drizzle ORM (`drizzle-orm/bun-sql`) in `apps/api`.
