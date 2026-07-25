@@ -53,9 +53,15 @@ stack dev). Override com `API_IMAGE` / `WEB_IMAGE` / `LANDING_IMAGE`.
 2. Preencha `POSTGRES_PASSWORD` / `DATABASE_URL` com o mesmo segredo.
 3. Ajuste `VITE_API_URL` por ambiente (`https://api.condopartners.com.br` ou
    `https://api-dev.condopartners.com.br`) — só necessário no **build** da web.
-4. Defina `DEPLOY_ROOT` = path absoluto da pasta `deploy/` no host Docker
+4. Defina auth/CORS da API (obrigatório fora do localhost):
+   - prod: `WEB_ORIGIN=https://app.condopartners.com.br`,
+     `BETTER_AUTH_URL=https://api.condopartners.com.br`
+   - dev: `WEB_ORIGIN=https://app-dev.condopartners.com.br`,
+     `BETTER_AUTH_URL=https://api-dev.condopartners.com.br`
+   - `BETTER_AUTH_SECRET` = string aleatória ≥32 chars (só Portainer / `deploy/.env`)
+5. Defina `DEPLOY_ROOT` = path absoluto da pasta `deploy/` no host Docker
    (ex.: `/home/ubuntu/projetos/condopartners/deploy`).
-5. `CERTBOT_EMAIL` para emissão Let's Encrypt (hooks abaixo).
+6. `CERTBOT_EMAIL` para emissão Let's Encrypt (hooks abaixo).
 
 `deploy/.env*` não entra no git (`.gitignore` cobre `.env`).
 
