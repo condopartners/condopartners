@@ -99,6 +99,13 @@ export const adminModule = new Elysia({ name: "admin", prefix: "/api/admin" })
       }
     }
   })
+  .get("/access", () => ({ isAdmin: true as const }), {
+    response: {
+      200: t.Object({ isAdmin: t.Literal(true) }),
+      401: errorSchema,
+      403: errorSchema,
+    },
+  })
   .get(
     "/users",
     async ({ query, request }) => {

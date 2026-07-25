@@ -1,24 +1,55 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { AdminUsersPage } from "@/components/admin/admin-users-page"
 import { AuthPanel } from "@/components/auth/auth-panel"
 import { AppShell } from "@/components/layout/app-shell"
+import { api } from "@/lib/api"
 import { signOut, useSession } from "@/lib/auth-client"
 
 export function App() {
   const { data: session, isPending } = useSession()
+  const [adminAccess, setAdminAccess] = useState<{ userId: string; allowed: boolean } | null>(null)
 
   const isAdminRoute = window.location.pathname.startsWith("/admin")
-  const isAdmin = session?.user.role === "admin"
+  const sessionUserId = session?.user.id
+  const serverAdminAccess =
+    adminAccess && adminAccess.userId === sessionUserId ? adminAccess.allowed : undefined
+  const isAdmin = serverAdminAccess === true
+  const isAdminPending = sessionUserId != null && serverAdminAccess === undefined
 
-  // Gate de UI (spec super-admin): /admin só para role admin; demais voltam ao início.
-  const shouldRedirect = !isPending && session != null && isAdminRoute && !isAdmin
+  useEffect(() => {
+    if (!sessionUserId) return
+
+    let cancelled = false
+    void api.api.admin.access
+      .get()
+      .then(({ data, error }) => {
+        if (!cancelled) {
+          setAdminAccess({
+            userId: sessionUserId,
+            allowed: error == null && data?.isAdmin === true,
+          })
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setAdminAccess({ userId: sessionUserId, allowed: false })
+        }
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [sessionUserId])
+
+  // O servidor decide o acesso para honrar role e BETTER_AUTH_ADMIN_USER_IDS.
+  const shouldRedirect =
+    !isPending && !isAdminPending && session != null && isAdminRoute && !isAdmin
   useEffect(() => {
     if (shouldRedirect) {
       window.location.replace("/")
     }
   }, [shouldRedirect])
 
-  if (isPending) {
+  if (isPending || (isAdminRoute && isAdminPending)) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-background p-6">
         <p className="text-muted-foreground">Carregando…</p>
