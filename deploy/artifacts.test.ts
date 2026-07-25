@@ -31,6 +31,27 @@ describe("deploy artifacts (SIS-39)", () => {
     expect(name).toBe("@condopartners/landing")
   })
 
+  test("todos os Dockerfiles copiam package.json de apps/* e packages/* antes do frozen install (SIS-46)", () => {
+    const appWorkspaces = ["api", "web", "landing"]
+    const packageWorkspaces = ["shared"]
+    for (const app of appWorkspaces) {
+      const body = read(join(root, "apps", app, "Dockerfile"))
+      const depsStage = body.slice(0, body.indexOf("--frozen-lockfile"))
+      for (const ws of appWorkspaces) {
+        expect(
+          depsStage.includes(`COPY apps/${ws}/package.json`),
+          `${app}/Dockerfile deps stage must COPY apps/${ws}/package.json`,
+        ).toBe(true)
+      }
+      for (const ws of packageWorkspaces) {
+        expect(
+          depsStage.includes(`COPY packages/${ws}/package.json`),
+          `${app}/Dockerfile deps stage must COPY packages/${ws}/package.json`,
+        ).toBe(true)
+      }
+    }
+  })
+
   test("stacks Portainer prod e dev têm serviços, healthchecks e isolamento", () => {
     for (const name of ["prod.stack.yml", "dev.stack.yml"]) {
       const path = join(deploy, "portainer", name)
