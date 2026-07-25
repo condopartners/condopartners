@@ -13,6 +13,7 @@ This repository is ready to **run and extend**. It intentionally ships **no prod
 | Runtime / package manager | [Bun](https://bun.sh) workspaces |
 | API | [ElysiaJS](https://elysiajs.com) |
 | Web | React 19 + Vite + Tailwind CSS v4 + shadcn/ui |
+| Landing | Vite + React + anime.js (static / GitHub Pages) |
 | Database | Postgres 17 (Docker) + [Drizzle ORM](https://orm.drizzle.team) |
 | Types across the wire | [Eden Treaty](https://elysiajs.com/eden/overview.html) |
 | Lint / format | Biome |
@@ -33,6 +34,7 @@ bun run dev
 
 - API: http://localhost:3000 — try `curl http://localhost:3000/health`
 - Web: http://localhost:5173 — shell page calls `/health` via Eden
+- Landing: `bun run dev:landing` → http://localhost:5174
 
 ```bash
 bun run check   # lint + typecheck + test (definition of done)
@@ -44,6 +46,7 @@ bun run build
 ```
 apps/api          Elysia API (health module = canonical pattern)
 apps/web          React app (minimal shell)
+apps/landing      Public marketing landing (waitlist)
 packages/shared   Shared types/constants
 docker-compose.yml  Local Postgres
 AGENTS.md         Agent operating manual (start here for agents)

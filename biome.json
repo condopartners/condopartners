@@ -7,7 +7,15 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/dist", "!**/node_modules", "!**/.vite"]
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/node_modules",
+      "!**/.vite",
+      "!**/.cursor",
+      "!**/.github/skills",
+      "!**/.github/hooks"
+    ]
   },
   "formatter": {
     "enabled": true,
