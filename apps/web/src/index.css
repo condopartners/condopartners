@@ -14,20 +14,32 @@
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
+  --font-sans: "Public Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.985 0.002 247);
-  --foreground: oklch(0.21 0.02 255);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.02 255);
-  --primary: oklch(0.45 0.12 255);
-  --primary-foreground: oklch(0.98 0.01 255);
-  --muted: oklch(0.95 0.01 255);
-  --muted-foreground: oklch(0.5 0.02 255);
-  --border: oklch(0.9 0.01 255);
-  --ring: oklch(0.45 0.12 255);
+  --cp-ink: #0b1f33;
+  --cp-paper: #f3f5f8;
+  --cp-surface: #ffffff;
+  --cp-primary: #1b4f8a;
+  --cp-primary-fg: #f8fafc;
+  --cp-accent: #0f766e;
+  --cp-muted: #5b6b7c;
+  --cp-border: #d5dce6;
+  --cp-danger: #b42318;
+  --cp-success: #1f7a4c;
+
+  --radius: 0.5rem;
+  --background: var(--cp-paper);
+  --foreground: var(--cp-ink);
+  --card: var(--cp-surface);
+  --card-foreground: var(--cp-ink);
+  --primary: var(--cp-primary);
+  --primary-foreground: var(--cp-primary-fg);
+  --muted: #e8edf3;
+  --muted-foreground: var(--cp-muted);
+  --border: var(--cp-border);
+  --ring: var(--cp-primary);
 }
 
 * {
@@ -39,5 +51,30 @@ body {
   min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes cp-drawer-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.cp-drawer {
+  animation: cp-drawer-in 220ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-drawer {
+    animation: none;
+  }
 }
