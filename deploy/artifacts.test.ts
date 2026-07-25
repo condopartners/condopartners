@@ -97,6 +97,48 @@ describe("deploy artifacts (SIS-39)", () => {
     expect(prod).not.toEqual(dev)
   })
 
+  test("overlays Portainer image-based sem build e sem binds relativos (SIS-99)", () => {
+    for (const name of ["prod.portainer.yml", "dev.portainer.yml"]) {
+      const path = join(deploy, "portainer", name)
+      expect(existsSync(path), path).toBe(true)
+      const raw = read(path)
+      const doc = parseYaml(raw) as {
+        services: Record<string, Record<string, unknown>>
+      }
+
+      const required = ["api", "web", "landing", "postgres", "nginx"]
+      for (const svc of required) {
+        expect(doc.services[svc], `${name} missing ${svc}`).toBeDefined()
+        expect(doc.services[svc].restart).toBe("unless-stopped")
+        // image-based: no build context (Portainer CE Git/string sem monorepo)
+        expect(doc.services[svc].build, `${name} ${svc} must not use build:`).toBeUndefined()
+        expect(typeof doc.services[svc].image).toBe("string")
+      }
+
+      const postgres = doc.services.postgres
+      expect(JSON.stringify(postgres.healthcheck)).toContain("pg_isready")
+      const ports = postgres.ports as unknown[] | undefined
+      expect(ports == null || ports.length === 0).toBe(true)
+
+      const api = doc.services.api
+      expect(JSON.stringify(api.healthcheck)).toContain("/health")
+
+      // binds relativos (`../nginx`) quebram sob /data/compose no Portainer Git
+      const volumeLines = raw
+        .split("\n")
+        .map((l) => l.trim())
+        .filter((l) => l.startsWith("- ") && l.includes(":/"))
+      expect(volumeLines.some((l) => l.includes("../"))).toBe(false)
+      expect(raw).toMatch(/\$\{DEPLOY_ROOT/)
+      expect(raw).toMatch(/POSTGRES_PASSWORD:\s*\$\{/)
+    }
+
+    const prod = read(join(deploy, "portainer", "prod.portainer.yml"))
+    const dev = read(join(deploy, "portainer", "dev.portainer.yml"))
+    expect(dev).toMatch(/-dev/)
+    expect(prod).not.toEqual(dev)
+  })
+
   test("nginx cobre os 5 hosts com proxy headers e TLS preparado", () => {
     const nginxDir = join(deploy, "nginx")
     expect(existsSync(nginxDir)).toBe(true)
@@ -165,6 +207,7 @@ describe("deploy artifacts (SIS-39)", () => {
       "API_HOST",
       "VITE_API_URL",
       "CERTBOT_EMAIL",
+      "DEPLOY_ROOT",
     ]) {
       expect(envExample.includes(key), `missing ${key}`).toBe(true)
     }
@@ -180,5 +223,9 @@ describe("deploy artifacts (SIS-39)", () => {
     expect(readme.toLowerCase()).toMatch(/portainer/)
     expect(readme.toLowerCase()).toMatch(/landing/)
     expect(readme.toLowerCase()).toMatch(/tls|certbot|let'?s encrypt/)
+    // SIS-99: runbook deve explicar image-based (Portainer) vs build-no-stack
+    expect(readme).toMatch(/\.portainer\.yml/)
+    expect(readme.toLowerCase()).toMatch(/image-based|imagens pré-buildadas|imagens pre-buildadas/)
+    expect(readme).toMatch(/DEPLOY_ROOT/)
   })
 })
