@@ -249,6 +249,19 @@ describe("deploy artifacts (SIS-39)", () => {
     }
   })
 
+  test("stacks prod passam NODE_ENV=production ao api (SIS-123)", () => {
+    for (const name of ["prod.stack.yml", "prod.portainer.yml"]) {
+      const path = join(deploy, "portainer", name)
+      const doc = parseYaml(read(path)) as {
+        services: Record<string, { environment?: Record<string, string> }>
+      }
+      expect(
+        doc.services.api?.environment?.NODE_ENV,
+        `${name} api.environment missing NODE_ENV=production`,
+      ).toBe("production")
+    }
+  })
+
   test("runbook, env.example e dockerignore existem sem secrets", () => {
     expect(existsSync(join(deploy, "README.md"))).toBe(true)
     expect(existsSync(join(deploy, ".env.example"))).toBe(true)

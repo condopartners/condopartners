@@ -1,9 +1,10 @@
 import { cors } from "@elysiajs/cors"
 import { Elysia } from "elysia"
+import { resolveProdEnv } from "./env"
 import { authModule } from "./modules/auth"
 import { healthModule } from "./modules/health"
 
-const webOrigin = process.env.WEB_ORIGIN ?? "http://localhost:5173"
+const webOrigin = resolveProdEnv("WEB_ORIGIN", "http://localhost:5173")
 
 export const app = new Elysia()
   .use(

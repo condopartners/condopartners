@@ -59,6 +59,8 @@ stack dev). Override com `API_IMAGE` / `WEB_IMAGE` / `LANDING_IMAGE`.
    - dev: `WEB_ORIGIN=https://app-dev.condopartners.com.br`,
      `BETTER_AUTH_URL=https://api-dev.condopartners.com.br`
    - `BETTER_AUTH_SECRET` = string aleatória ≥32 chars (só Portainer / `deploy/.env`)
+   - stacks prod fixam `NODE_ENV=production` no serviço `api` (fail-fast de
+     `WEB_ORIGIN` / `BETTER_AUTH_URL` se faltarem)
 5. Defina `DEPLOY_ROOT` = path absoluto da pasta `deploy/` no host Docker
    (ex.: `/home/ubuntu/projetos/condopartners/deploy`).
 6. `CERTBOT_EMAIL` para emissão Let's Encrypt (hooks abaixo).
