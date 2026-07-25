@@ -3,23 +3,40 @@
 Artefatos para subir CondoPartners em host com **Portainer CE**, conforme
 [`docs/specs/infra-docker-nginx-portainer.md`](../docs/specs/infra-docker-nginx-portainer.md).
 
-## Escolha: build-no-stack vs imagens pré-buildadas
+## Escolha: image-based (Portainer) vs build-no-stack
 
-**Decisão deste PR: build-no-stack.**
+| Caminho | Arquivos | Quando usar |
+|---------|----------|-------------|
+| **image-based** (recomendado no Portainer CE) | `deploy/portainer/*.portainer.yml` | Import no Portainer (Git / Web editor / string). Sem `build:`; binds nginx **absolutos** via `DEPLOY_ROOT`. |
+| **build-no-stack** | `deploy/portainer/*.stack.yml` | Build local no host com contexto do monorepo (`docker compose -f … build`). |
 
-Os stacks em `deploy/portainer/*.stack.yml` usam `build.context` / `dockerfile`
-apontando para a raiz do monorepo (`context: ../..` relativo ao arquivo do
-stack). No Portainer CE, importe o stack a partir do **repositório Git** (método
-que disponibiliza o contexto de build) ou faça build local e ajuste.
+### Por que o overlay image-based existe (SIS-99)
 
-Quando houver registry/CI de imagens, troque cada bloco `build:` por:
+No Portainer CE, o método **Git** resolve binds relativos (`../nginx/…`) sob
+`/data/compose/…` para paths inválidos. O método **string** + `build:` também
+falha sem o monorepo montado. Os overlays `*.portainer.yml` evitam os dois:
 
-```yaml
-image: ghcr.io/condopartners/<api|web|landing>:<tag>
+- `image:` com tags locais (ou registry) — build fora do Portainer
+- volumes nginx com `${DEPLOY_ROOT}/nginx/…` (absoluto no host Docker)
+
+### Build das imagens (antes do Portainer)
+
+No checkout do monorepo no host:
+
+```bash
+# prod
+docker compose -p condopartners-prod \
+  --env-file deploy/.env.prod \
+  -f deploy/portainer/prod.stack.yml build
+
+# dev
+docker compose -p condopartners-dev \
+  --env-file deploy/.env.dev \
+  -f deploy/portainer/dev.stack.yml build
 ```
 
-e remova `build:`. Até lá, build-no-stack evita registry e atende o “Add stack”
-com Git.
+Defaults do overlay: `condopartners-prod-api|web|landing:latest` (e `-dev-` no
+stack dev). Override com `API_IMAGE` / `WEB_IMAGE` / `LANDING_IMAGE`.
 
 ## Pré-requisitos
 
@@ -31,33 +48,47 @@ com Git.
 
 ## Variáveis de ambiente
 
-1. Copie `deploy/.env.example` → `deploy/.env` (local) **ou** cole as mesmas
-   chaves no editor de env do Portainer ao criar o stack.
+1. Copie `deploy/.env.example` → `deploy/.env.prod` / `deploy/.env.dev` (local)
+   **ou** cole as mesmas chaves no editor de env do Portainer ao criar o stack.
 2. Preencha `POSTGRES_PASSWORD` / `DATABASE_URL` com o mesmo segredo.
 3. Ajuste `VITE_API_URL` por ambiente (`https://api.condopartners.com.br` ou
-   `https://api.dev.condopartners.com.br`).
-4. `CERTBOT_EMAIL` para emissão Let's Encrypt (hooks abaixo).
+   `https://api.dev.condopartners.com.br`) — só necessário no **build** da web.
+4. Defina `DEPLOY_ROOT` = path absoluto da pasta `deploy/` no host Docker
+   (ex.: `/home/ubuntu/projetos/condopartners/deploy`).
+5. `CERTBOT_EMAIL` para emissão Let's Encrypt (hooks abaixo).
 
-`deploy/.env` não entra no git (`.gitignore` cobre `.env`).
+`deploy/.env*` não entra no git (`.gitignore` cobre `.env`).
 
-## Import no Portainer CE
+## Import no Portainer CE (image-based)
+
+Pré-req: imagens buildadas no host (seção acima) e `DEPLOY_ROOT` correto.
 
 ### Prod
 
 1. Stacks → **Add stack** → nome `condopartners-prod`.
-2. Build method: **Repository** (recomendado para `build:`) apontando para este
-   repo/branch; compose path:
-   `deploy/portainer/prod.stack.yml`.
-3. Em **Environment variables**, cole o conteúdo baseado em `.env.example`
-   (valores reais).
+2. Build method: **Web editor** (cole o conteúdo de
+   `deploy/portainer/prod.portainer.yml`) **ou** Repository com compose path
+   `deploy/portainer/prod.portainer.yml`.
+3. Em **Environment variables**, cole env baseado em `.env.example` (valores
+   reais), incluindo `DEPLOY_ROOT` e, se preciso, `API_IMAGE`/`WEB_IMAGE`/`LANDING_IMAGE`.
 4. Deploy the stack.
+
+> Se os containers **já** estão no ar via `docker compose` no host com o mesmo
+> project name, importe com cuidado (mesmo nome de stack/projeto) e **não** faça
+> `down` cego — o Portainer pode reconciliar; valide health antes de remover o
+> projeto CLI.
 
 ### Dev
 
-Igual, com `deploy/portainer/dev.stack.yml`, nome `condopartners-dev`, e env de
-dev (`VITE_API_URL` de dev; portas host padrão `8080`/`8443`).
+Igual, com `deploy/portainer/dev.portainer.yml`, nome `condopartners-dev`, e env
+de dev (portas host padrão `8080`/`8443`).
 
 Rede/volumes de dev usam sufixo `-dev` — isolados de prod.
+
+### build-no-stack (só host / CI local)
+
+`deploy/portainer/*.stack.yml` continua válido para `docker compose … build/up`
+no checkout do monorepo. **Não** é o caminho preferido no Portainer CE Git.
 
 ## Ordem de subida / healthchecks
 
@@ -156,6 +187,8 @@ use hostname de teste ou TTL baixo na cutover.
 bun test deploy
 docker compose -f deploy/portainer/prod.stack.yml config >/dev/null
 docker compose -f deploy/portainer/dev.stack.yml config >/dev/null
+DEPLOY_ROOT="$(pwd)/deploy" docker compose -f deploy/portainer/prod.portainer.yml config >/dev/null
+DEPLOY_ROOT="$(pwd)/deploy" docker compose -f deploy/portainer/dev.portainer.yml config >/dev/null
 docker build -f apps/api/Dockerfile .
 docker build -f apps/web/Dockerfile --build-arg VITE_API_URL=https://api.example.com .
 docker build -f apps/landing/Dockerfile .
