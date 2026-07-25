@@ -1,6 +1,5 @@
-import { APP_NAME } from "@condopartners/shared"
 import { AuthPanel } from "@/components/auth/auth-panel"
-import { Button } from "@/components/ui/button"
+import { AppShell } from "@/components/layout/app-shell"
 import { signOut, useSession } from "@/lib/auth-client"
 
 export function App() {
@@ -8,38 +7,27 @@ export function App() {
 
   if (isPending) {
     return (
-      <main className="flex min-h-screen items-center justify-center p-6">
+      <main className="flex min-h-screen items-center justify-center bg-background p-6">
         <p className="text-muted-foreground">Carregando…</p>
       </main>
     )
   }
 
   if (!session) {
-    return (
-      <main className="flex min-h-screen items-center justify-center p-6">
-        <AuthPanel />
-      </main>
-    )
+    return <AuthPanel />
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 p-6">
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b pb-4">
-        <div>
-          <p className="text-sm text-muted-foreground">{APP_NAME}</p>
-          <p className="font-medium">Olá, {session.user.email}</p>
-        </div>
-        <Button type="button" variant="outline" onClick={() => void signOut()}>
-          Sair
-        </Button>
-      </header>
-
-      <section className="rounded-lg border bg-card p-6 shadow-sm">
-        <h1 className="text-xl font-semibold tracking-tight">Bem-vindo ao CondoPartners</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Fundação de autenticação ativa. O shell de produto chega em uma fatia futura.
+    <AppShell email={session.user.email} onSignOut={() => void signOut()}>
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+          Bem-vindo ao CondoPartners
+        </h1>
+        <p className="mt-2 text-base text-muted-foreground">
+          Esta é a área autenticada. Em breve: rede de partners e comissões.
         </p>
-      </section>
-    </main>
+        <p className="mt-4 text-sm text-muted-foreground tabular-nums">Olá, {session.user.email}</p>
+      </div>
+    </AppShell>
   )
 }
