@@ -9,6 +9,25 @@ jobs:
   check:
     name: lint · typecheck · test · build
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: condopartners
+          POSTGRES_USER: condopartners
+          POSTGRES_PASSWORD: condopartners
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U condopartners -d condopartners"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://condopartners:condopartners@localhost:5432/condopartners
+      BETTER_AUTH_SECRET: ci-only-secret-at-least-32-characters-long
+      BETTER_AUTH_URL: http://localhost:3000
+      WEB_ORIGIN: http://localhost:5173
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,6 +39,9 @@ jobs:
 
       - name: Install
         run: bun install --frozen-lockfile
+
+      - name: Migrate database
+        run: bun run db:migrate
 
       - name: Check
         run: bun run check
