@@ -1,74 +1,44 @@
-import type { HealthResponse } from "@condopartners/shared"
 import { APP_NAME } from "@condopartners/shared"
-import { useCallback, useEffect, useState } from "react"
+import { AuthPanel } from "@/components/auth/auth-panel"
 import { Button } from "@/components/ui/button"
-import { api } from "@/lib/api"
-
-type LoadState =
-  | { kind: "loading" }
-  | { kind: "ok"; data: HealthResponse }
-  | { kind: "error"; message: string }
+import { signOut, useSession } from "@/lib/auth-client"
 
 export function App() {
-  const [state, setState] = useState<LoadState>({ kind: "loading" })
+  const { data: session, isPending } = useSession()
 
-  const loadHealth = useCallback(async () => {
-    setState({ kind: "loading" })
-    try {
-      const { data, error } = await api.health.get()
-      if (error || !data) {
-        setState({ kind: "error", message: "Falha ao verificar a saúde da API" })
-        return
-      }
-      setState({ kind: "ok", data })
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Erro desconhecido"
-      setState({ kind: "error", message })
-    }
-  }, [])
+  if (isPending) {
+    return (
+      <main className="flex min-h-screen items-center justify-center p-6">
+        <p className="text-muted-foreground">Carregando…</p>
+      </main>
+    )
+  }
 
-  useEffect(() => {
-    void loadHealth()
-  }, [loadHealth])
+  if (!session) {
+    return (
+      <main className="flex min-h-screen items-center justify-center p-6">
+        <AuthPanel />
+      </main>
+    )
+  }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center gap-6 p-8">
-      <header className="space-y-2">
-        <p className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
-          Scaffolding
-        </p>
-        <h1 className="text-3xl font-semibold tracking-tight">{APP_NAME}</h1>
-        <p className="text-muted-foreground">
-          Verificação do monorepo. Ainda sem features de produto — esta página só prova que o web
-          consegue chamar a API via Eden Treaty.
-        </p>
+    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 p-6">
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b pb-4">
+        <div>
+          <p className="text-sm text-muted-foreground">{APP_NAME}</p>
+          <p className="font-medium">Olá, {session.user.email}</p>
+        </div>
+        <Button type="button" variant="outline" onClick={() => void signOut()}>
+          Sair
+        </Button>
       </header>
 
-      <section className="rounded-lg border bg-card p-5 shadow-sm">
-        <h2 className="mb-3 text-sm font-medium text-muted-foreground">API /health</h2>
-        {state.kind === "loading" && <p>Verificando…</p>}
-        {state.kind === "error" && (
-          <p className="text-sm text-red-700" role="alert">
-            {state.message}
-          </p>
-        )}
-        {state.kind === "ok" && (
-          <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
-            <dt className="text-muted-foreground">Status</dt>
-            <dd className="font-medium">{state.data.status}</dd>
-            <dt className="text-muted-foreground">Serviço</dt>
-            <dd className="font-medium">{state.data.service}</dd>
-            <dt className="text-muted-foreground">Timestamp</dt>
-            <dd className="font-mono text-xs">{state.data.timestamp}</dd>
-            <dt className="text-muted-foreground">Banco de dados</dt>
-            <dd className="font-medium">{state.data.database}</dd>
-          </dl>
-        )}
-        <div className="mt-4">
-          <Button type="button" onClick={() => void loadHealth()}>
-            Verificar de novo
-          </Button>
-        </div>
+      <section className="rounded-lg border bg-card p-6 shadow-sm">
+        <h1 className="text-xl font-semibold tracking-tight">Bem-vindo ao CondoPartners</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Fundação de autenticação ativa. O shell de produto chega em uma fatia futura.
+        </p>
       </section>
     </main>
   )
