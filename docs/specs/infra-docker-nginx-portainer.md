@@ -42,8 +42,12 @@ deploy sem secrets. Nenhuma tabela de domínio é criada.
 | `condopartners.com.br` (+ `www`) | landing | prod |
 | `app.condopartners.com.br` | web | prod |
 | `api.condopartners.com.br` | api | prod |
-| `app.dev.condopartners.com.br` | web (dev) | dev |
-| `api.dev.condopartners.com.br` | api (dev) | dev |
+| `app-dev.condopartners.com.br` | web (dev) | dev |
+| `api-dev.condopartners.com.br` | api (dev) | dev |
+
+> **Hosts dev (SIS-97 / SIS-114):** abandonamos `app.dev` / `api.dev` (Universal
+> SSL Cloudflare não cobre `*.dev.*`). Canônicos: `app-dev` / `api-dev` (um
+> nível sob o apex). Edge host: `deploy/nginx/edge/condopartners-edge.conf`.
 
 > **Nota (alinhar no PR/runbook):** a spec da landing hoje aponta para GitHub
 > Pages. Aqui o board pediu container no domínio próprio. O runbook deve deixar

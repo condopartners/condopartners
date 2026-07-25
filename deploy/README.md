@@ -52,7 +52,7 @@ stack dev). Override com `API_IMAGE` / `WEB_IMAGE` / `LANDING_IMAGE`.
    **ou** cole as mesmas chaves no editor de env do Portainer ao criar o stack.
 2. Preencha `POSTGRES_PASSWORD` / `DATABASE_URL` com o mesmo segredo.
 3. Ajuste `VITE_API_URL` por ambiente (`https://api.condopartners.com.br` ou
-   `https://api.dev.condopartners.com.br`) — só necessário no **build** da web.
+   `https://api-dev.condopartners.com.br`) — só necessário no **build** da web.
 4. Defina `DEPLOY_ROOT` = path absoluto da pasta `deploy/` no host Docker
    (ex.: `/home/ubuntu/projetos/condopartners/deploy`).
 5. `CERTBOT_EMAIL` para emissão Let's Encrypt (hooks abaixo).
@@ -145,12 +145,12 @@ deste repo (spec).
 
 ```bash
 # certs dummy só para `nginx -t` (não commitados)
-sudo mkdir -p /tmp/cp-certs/live/{condopartners.com.br,www.condopartners.com.br,app.condopartners.com.br,api.condopartners.com.br,app.dev.condopartners.com.br,api.dev.condopartners.com.br}
+sudo mkdir -p /tmp/cp-certs/live/{condopartners.com.br,www.condopartners.com.br,app.condopartners.com.br,api.condopartners.com.br,app-dev.condopartners.com.br,api-dev.condopartners.com.br}
 # www compartilha o cert do apex no path acima se quiser; paths usados nos
 # server blocks ssl_certificate são os listados em conf.d/vhosts.conf
 
 for d in condopartners.com.br app.condopartners.com.br api.condopartners.com.br \
-         app.dev.condopartners.com.br api.dev.condopartners.com.br; do
+         app-dev.condopartners.com.br api-dev.condopartners.com.br; do
   openssl req -x509 -nodes -newkey rsa:2048 -days 1 \
     -keyout "/tmp/cp-certs/live/$d/privkey.pem" \
     -out "/tmp/cp-certs/live/$d/fullchain.pem" \
@@ -163,6 +163,41 @@ docker run --rm \
   -v "$(pwd)/deploy/nginx/snippets:/etc/nginx/snippets:ro" \
   -v /tmp/cp-certs:/etc/letsencrypt:ro \
   nginx:1.27-alpine nginx -t
+```
+
+## Edge host (VPS) — `condopartners-edge`
+
+O host termina TLS público e encaminha para o nginx da stack (prod `:9443`,
+dev `:8443`). Config versionada em
+`deploy/nginx/edge/condopartners-edge.conf`.
+
+Hosts canônicos de **dev**: `app-dev.condopartners.com.br` /
+`api-dev.condopartners.com.br` (não usar `*.dev.*` — Universal SSL não cobre).
+
+**Apply / reload:**
+
+```bash
+sudo cp deploy/nginx/edge/condopartners-edge.conf \
+  /etc/nginx/sites-available/condopartners-edge
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+Se a stack monta `deploy/nginx/conf.d` via bind, após atualizar `vhosts.conf`
+(e criar symlinks `live/app-dev.*` → certs existentes se necessário):
+
+```bash
+docker exec condopartners-dev-nginx-1 nginx -t
+docker exec condopartners-dev-nginx-1 nginx -s reload
+# prod monta o mesmo conf.d — recarregar também:
+docker exec condopartners-prod-nginx-1 nginx -t
+docker exec condopartners-prod-nginx-1 nginx -s reload
+```
+
+Smoke:
+
+```bash
+curl -si https://api-dev.condopartners.com.br/health | head
+curl -si https://app-dev.condopartners.com.br/ | head
 ```
 
 ## Nota da landing (GitHub Pages → container)

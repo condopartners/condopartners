@@ -154,12 +154,16 @@ describe("deploy artifacts (SIS-39)", () => {
       "www.condopartners.com.br",
       "app.condopartners.com.br",
       "api.condopartners.com.br",
-      "app.dev.condopartners.com.br",
-      "api.dev.condopartners.com.br",
+      "app-dev.condopartners.com.br",
+      "api-dev.condopartners.com.br",
     ]
     for (const host of hosts) {
       expect(concatenated.includes(host), `missing host ${host}`).toBe(true)
     }
+
+    // Legacy multi-level *.dev hosts abandoned (Universal SSL / SIS-114)
+    expect(concatenated).not.toMatch(/app\.dev\.condopartners\.com\.br/)
+    expect(concatenated).not.toMatch(/api\.dev\.condopartners\.com\.br/)
 
     for (const header of ["X-Real-IP", "X-Forwarded-For", "X-Forwarded-Proto", "Host"]) {
       expect(concatenated).toContain(header)
@@ -168,6 +172,39 @@ describe("deploy artifacts (SIS-39)", () => {
     expect(concatenated).toMatch(/listen\s+443/)
     expect(concatenated).toMatch(/ssl_certificate/)
     expect(concatenated).toMatch(/return\s+301\s+https/)
+  })
+
+  test("edge host vendorado roteia app-dev/api-dev para cp_dev (SIS-114)", () => {
+    const edgePath = join(deploy, "nginx", "edge", "condopartners-edge.conf")
+    expect(existsSync(edgePath), edgePath).toBe(true)
+    const edge = read(edgePath)
+
+    expect(edge).toMatch(/upstream\s+cp_prod/)
+    expect(edge).toMatch(/upstream\s+cp_dev/)
+    expect(edge).toMatch(/map\s+\$host\s+\$cp_upstream/)
+    expect(edge).toMatch(/app-dev\.condopartners\.com\.br\s+cp_dev/)
+    expect(edge).toMatch(/api-dev\.condopartners\.com\.br\s+cp_dev/)
+    expect(edge).toContain("server_name")
+    expect(edge).toContain("app-dev.condopartners.com.br")
+    expect(edge).toContain("api-dev.condopartners.com.br")
+    expect(edge).not.toMatch(/app\.dev\.condopartners\.com\.br/)
+    expect(edge).not.toMatch(/api\.dev\.condopartners\.com\.br/)
+  })
+
+  test("env.example e README usam FQDNs canônicos app-dev/api-dev", () => {
+    const envExample = read(join(deploy, ".env.example"))
+    expect(envExample).toContain("DOMAIN_WEB_DEV=app-dev.condopartners.com.br")
+    expect(envExample).toContain("DOMAIN_API_DEV=api-dev.condopartners.com.br")
+    expect(envExample).toContain("https://api-dev.condopartners.com.br")
+    expect(envExample).not.toMatch(/api\.dev\.condopartners/)
+    expect(envExample).not.toMatch(/app\.dev\.condopartners/)
+
+    const readme = read(join(deploy, "README.md"))
+    expect(readme).toContain("app-dev.condopartners.com.br")
+    expect(readme).toContain("api-dev.condopartners.com.br")
+    expect(readme).toMatch(/edge|condopartners-edge/i)
+    expect(readme).not.toMatch(/app\.dev\.condopartners\.com\.br/)
+    expect(readme).not.toMatch(/api\.dev\.condopartners\.com\.br/)
   })
 
   test("CI exercita docker build das 3 imagens com cache (SIS-48)", () => {
