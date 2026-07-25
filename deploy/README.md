@@ -42,6 +42,8 @@ com Git.
    - dev: `WEB_ORIGIN=https://app.dev.condopartners.com.br`,
      `BETTER_AUTH_URL=https://api.dev.condopartners.com.br`
    - `BETTER_AUTH_SECRET` = string aleatória ≥32 chars (só Portainer / `deploy/.env`)
+   - stacks prod fixam `NODE_ENV=production` no serviço `api` (fail-fast de
+     `WEB_ORIGIN` / `BETTER_AUTH_URL` se faltarem)
 5. Em overlays image-based (`*.portainer.yml`): `DEPLOY_ROOT` = path absoluto
    da pasta `deploy/` no host Docker.
 6. `CERTBOT_EMAIL` para emissão Let's Encrypt (hooks abaixo).
