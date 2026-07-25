@@ -104,6 +104,7 @@ afterEach(() => {
 
 describe("gate de autorização admin", () => {
   const actions: Array<{ method: string; path: (id: string) => string; body?: unknown }> = [
+    { method: "GET", path: () => "/api/admin/access" },
     { method: "GET", path: () => "/api/admin/users" },
     {
       method: "POST",
@@ -150,6 +151,26 @@ describe("gate de autorização admin", () => {
     const stillValid = await signIn(target.email, password)
     expect(stillValid.status).toBeLessThan(400)
     expect(await lastAuditEvent(target.id)).toBeNull()
+  })
+
+  it("expõe acesso admin para usuário listado em BETTER_AUTH_ADMIN_USER_IDS", async () => {
+    const operator = await createUserFixture()
+    const previousAdminUserIds = process.env.BETTER_AUTH_ADMIN_USER_IDS
+
+    try {
+      process.env.BETTER_AUTH_ADMIN_USER_IDS = `outro-id, ${operator.id}`
+
+      const response = await adminRequest(operator.cookie, "/api/admin/access")
+
+      expect(response.status).toBe(200)
+      expect(await response.json()).toEqual({ isAdmin: true })
+    } finally {
+      if (previousAdminUserIds === undefined) {
+        delete process.env.BETTER_AUTH_ADMIN_USER_IDS
+      } else {
+        process.env.BETTER_AUTH_ADMIN_USER_IDS = previousAdminUserIds
+      }
+    }
   })
 })
 

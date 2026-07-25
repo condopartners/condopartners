@@ -16,5 +16,16 @@ describe("AppShell", () => {
     expect(html).toContain("Sair")
     expect(html).toContain('aria-label="Abrir menu"')
     expect(html).toContain("Bem-vindo ao CondoPartners")
+    expect(html).not.toContain('href="/admin"')
+  })
+
+  test("exibe navegação Admin quando o servidor autoriza a sessão", () => {
+    const html = renderToStaticMarkup(
+      <AppShell email="ops@empresa.com" onSignOut={() => undefined} isAdmin>
+        <h1>Usuários</h1>
+      </AppShell>,
+    )
+
+    expect(html).toContain('href="/admin"')
   })
 })
