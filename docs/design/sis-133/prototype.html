@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIS-133 · Referência visual — Super-admin (usuários)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cp-ink: #0b1f33;
+        --cp-paper: #f3f5f8;
+        --cp-surface: #ffffff;
+        --cp-primary: #1b4f8a;
+        --cp-primary-fg: #f8fafc;
+        --cp-accent: #0f766e;
+        --cp-muted: #5b6b7c;
+        --cp-border: #d5dce6;
+        --cp-danger: #b42318;
+        --cp-success: #1f7a4c;
+        --muted-bg: #e8edf3;
+        --radius: 0.5rem;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #dfe5ec;
+        color: var(--cp-ink);
+        font-family: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .page {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 32px 24px 64px;
+      }
+
+      .page > h1 {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 0 0 4px;
+      }
+
+      .page > p.lede {
+        margin: 0 0 32px;
+        color: var(--cp-muted);
+        font-size: 14px;
+      }
+
+      .frame-label {
+        margin: 32px 0 8px;
+        font-size: 13px
+      ;
+        font-weight: 600;
+        color: #33455a;
+      }
+
+      .frame-label span {
+        font-weight: 400;
+        color: var(--cp-muted);
+      }
+
+      .frame {
+        background: var(--cp-paper);
+        border: 1px solid #c6cfdb;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .frame.desktop {
+        width: 1280px;
+        max-width: 100%;
+      }
+
+      .frame.mobile {
+        width: 390px;
+      }
+
+      .mobile-row {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      /* ---------- shell ---------- */
+      .shell {
+        display: flex;
+        min-height: 620px;
+      }
+
+      .sidebar {
+        width: 240px;
+        flex: 0 0 240px;
+        background: var(--cp-surface);
+        border-right: 1px solid var(--cp-border);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .brand {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        border-bottom: 1px solid var(--cp-border);
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .nav {
+        padding: 12px;
+        display: grid;
+        gap: 2px;
+      }
+
+      .nav a {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 8px 12px;
+        border-radius: var(--radius);
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--cp-ink);
+        text-decoration: none;
+        transition: background-color 150ms ease;
+      }
+
+      .nav a:hover {
+        background: var(--muted-bg);
+      }
+
+      .nav a[aria-current="page"] {
+        background: rgba(232, 237, 243, 0.75);
+      }
+
+      .nav a[aria-current="page"]::before {
+        content: "";
+        position: absolute;
+        inset: 8px auto 8px 0;
+        width: 3px;
+        border-radius: 999px;
+        background: var(--cp-accent);
+      }
+
+      .nav svg {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 16px;
+        color: var(--cp-muted);
+      }
+
+      .nav a[aria-current="page"] svg {
+        color: var(--cp-accent);
+      }
+
+      .col {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .topbar {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 24px;
+        background: var(--cp-surface);
+        border-bottom: 1px solid var(--cp-border);
+      }
+
+      .topbar h1 {
+        flex: 1 1 auto;
+        min-width: 0;
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .topbar .who {
+        font-size: 14px;
+        color: var(--cp-muted);
+        font-variant-numeric: tabular-nums;
+        max-width: 16rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      main.content {
+        flex: 1 1 auto;
+        padding: 24px 32px 40px;
+      }
+
+      main.content > .inner {
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+
+      /* ---------- primitives ---------- */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 36px;
+        padding: 0 16px;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        background: var(--cp-primary);
+        color: var(--cp-primary-fg);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+        transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+      }
+
+      .btn:hover {
+        background: #17436f;
+      }
+
+      .btn.outline {
+        background: var(--cp-surface);
+        border-color: var(--cp-border);
+        color: var(--cp-ink);
+      }
+
+      .btn.outline:hover {
+        background: var(--muted-bg);
+      }
+
+      .btn.ghost {
+        background: transparent;
+        color: var(--cp-ink);
+      }
+
+      .btn.ghost:hover {
+        background: var(--muted-bg);
+      }
+
+      .btn.danger {
+        background: var(--cp-surface);
+        border-color: #e2b3ae;
+        color: var(--cp-danger);
+      }
+
+      .btn.danger:hover {
+        background: #fdf3f2;
+        border-color: var(--cp-danger);
+      }
+
+      .btn.danger-solid {
+        background: var(--cp-danger);
+        border-color: var(--cp-danger);
+        color: #fff;
+      }
+
+      .btn.danger-solid:hover {
+        background: #97200f;
+      }
+
+      .btn.sm {
+        height: 32px;
+        padding: 0 12px;
+        font-size: 13px;
+      }
+
+      .btn[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn svg {
+        width: 15px;
+        height: 15px;
+      }
+
+      .spinner {
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        border: 2px solid rgba(248, 250, 252, 0.45);
+        border-top-color: var(--cp-primary-fg);
+        animation: spin 700ms linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .spinner {
+          animation-duration: 2s;
+        }
+      }
+
+      label.field {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 6px;
+      }
+
+      .input {
+        display: block;
+        width: 100%;
+        height: 40px;
+        padding: 0 12px;
+        border: 1px solid var(--cp-border);
+        border-radius: var(--radius);
+        background: var(--cp-surface);
+        font: inherit;
+        font-size: 14px;
+        color: var(--cp-ink);
+      }
+
+      .input::placeholder {
+        color: #7c8a99;
+      }
+
+      .input:focus-visible {
+        outline: 2px solid var(--cp-primary);
+        outline-offset: 1px;
+        border-color: var(--cp-primary);
+      }
+
+      .hint {
+        margin: 6px 0 0;
+        font-size: 13px;
+        color: var(--cp-muted);
+      }
+
+      .surface {
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border);
+        border-radius: var(--radius);
+        box-shadow: 0 1px 2px rgb(11 31 51 / 0.06);
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .search {
+        position: relative;
+        flex: 0 1 320px;
+      }
+
+      .search svg {
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        width: 16px;
+        height: 16px;
+        color: var(--cp-muted);
+      }
+
+      .search .input {
+        padding-left: 34px;
+      }
+
+      .count {
+        font-size: 13px;
+        color: var(--cp-muted);
+        font-variant-numeric: tabular-nums;
+        padding-bottom: 10px;
+      }
+
+      .grow {
+        flex: 1 1 auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead th {
+        text-align: left;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--cp-muted);
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--cp-border);
+        white-space: nowrap;
+      }
+
+      tbody td {
+        padding: 10px 16px;
+        border-bottom: 1px solid #e6ebf2;
+        font-size: 14px;
+        vertical-align: middle;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+
+      tbody tr:hover {
+        background: #f7f9fc;
+      }
+
+      .user-cell a {
+        font-weight: 600;
+        color: var(--cp-ink);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+
+      .user-cell a:hover {
+        color: var(--cp-primary);
+        border-bottom-color: var(--cp-primary);
+      }
+
+      .user-cell .name {
+        display: block;
+        font-size: 13px;
+        color: var(--cp-muted);
+      }
+
+      .num {
+        font-variant-numeric: tabular-nums;
+        color: var(--cp-muted);
+        white-space: nowrap;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 22px;
+        padding: 0 8px;
+        border: 1px solid var(--cp-border);
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #33455a;
+        white-space: nowrap;
+      }
+
+      .badge.role-admin {
+        border-color: #b9c6d6;
+        color: var(--cp-ink);
+        background: #eef2f7;
+      }
+
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--cp-success);
+      }
+
+      .dot.pending {
+        background: #9aa8b6;
+      }
+
+      .pager {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-top: 1px solid var(--cp-border);
+        font-size: 13px;
+        color: var(--cp-muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .skeleton {
+        height: 12px;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #e9eef4, #dfe6ee, #e9eef4);
+      }
+
+      .empty {
+        padding: 48px 24px;
+        text-align: center;
+      }
+
+      .empty h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .empty p {
+        margin: 0 auto 16px;
+        max-width: 42ch;
+        font-size: 14px;
+        color: var(--cp-muted);
+      }
+
+      .msg {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 10px 12px;
+        border: 1px solid var(--cp-border);
+        border-radius: var(--radius);
+        font-size: 14px;
+        background: var(--cp-surface);
+      }
+
+      .msg svg {
+        width: 16px;
+        height: 16px;
+        margin-top: 3px;
+        flex: 0 0 16px;
+      }
+
+      .msg.error {
+        border-color: #e2b3ae;
+        background: #fdf3f2;
+        color: #7d1a12;
+      }
+
+      .msg.error svg {
+        color: var(--cp-danger);
+      }
+
+      .msg.ok {
+        border-color: #b6d8c5;
+        background: #f2f9f5;
+        color: #14603a;
+      }
+
+      .msg.ok svg {
+        color: var(--cp-success);
+      }
+
+      .msg strong {
+        font-weight: 600;
+      }
+
+      /* ---------- detail ---------- */
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+        color: var(--cp-muted);
+        text-decoration: none;
+        margin-bottom: 12px;
+      }
+
+      .back:hover {
+        color: var(--cp-ink);
+      }
+
+      .back svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .detail-head h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        overflow-wrap: anywhere;
+      }
+
+      .detail-head .meta {
+        margin: 4px 0 0;
+        font-size: 13px;
+        color: var(--cp-muted);
+      }
+
+      .id-row {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--cp-muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .id-row code {
+        font-family: inherit;
+        background: var(--muted-bg);
+        border-radius: 4px;
+        padding: 2px 6px;
+      }
+
+      section.block {
+        margin-top: 20px;
+      }
+
+      section.block > h3 {
+        margin: 0 0 2px;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      section.block > p.sub {
+        margin: 0 0 10px;
+        font-size: 13px;
+        color: var(--cp-muted);
+      }
+
+      .block-body {
+        padding: 16px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .form-grid.three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .form-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .action {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        padding: 14px 16px;
+        border-bottom: 1px solid #e6ebf2;
+      }
+
+      .action:last-child {
+        border-bottom: 0;
+      }
+
+      .action.destructive {
+        border-top: 1px solid var(--cp-border);
+      }
+
+      .action.destructive h4 {
+        color: var(--cp-danger);
+      }
+
+      .action .txt {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .action h4 {
+        margin: 0 0 2px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .action p {
+        margin: 0;
+        font-size: 13px;
+        color: var(--cp-muted);
+        max-width: 62ch;
+      }
+
+      .action .aside {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+      }
+
+      .inline-confirm {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 10px 16px;
+        border-bottom: 1px solid #e6ebf2;
+        background: var(--cp-paper);
+        font-size: 13px;
+      }
+
+      .inline-confirm p {
+        margin: 0;
+        flex: 1 1 240px;
+        font-weight: 500;
+      }
+
+      .set-password {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+        align-items: flex-end;
+      }
+
+      .set-password .fieldwrap {
+        flex: 0 1 260px;
+      }
+
+      /* ---------- dialog ---------- */
+      .dialog-scrim {
+        position: relative;
+      }
+
+      .dialog-scrim::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgb(11 31 51 / 0.45);
+      }
+
+      .dialog {
+        position: absolute;
+        z-index: 2;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(440px, calc(100% - 48px));
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border);
+        border-radius: 10px;
+        box-shadow: 0 12px 32px rgb(11 31 51 / 0.24);
+        padding: 20px;
+      }
+
+      .dialog h2 {
+        margin: 0 0 8px;
+        font-size: 17px;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+      }
+
+      .dialog p {
+        margin: 0 0 10px;
+        font-size: 14px;
+        color: #33455a;
+      }
+
+      .dialog .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      /* ---------- mobile ---------- */
+      .m-topbar {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 12px;
+        background: var(--cp-surface);
+        border-bottom: 1px solid var(--cp-border);
+      }
+
+      .m-topbar .wordmark {
+        flex: 1 1 auto;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .icon-btn {
+        width: 44px;
+        height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        background: transparent;
+        border-radius: var(--radius);
+        cursor: pointer;
+        color: var(--cp-ink);
+      }
+
+      .icon-btn:hover {
+        background: var(--muted-bg);
+      }
+
+      .icon-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .m-main {
+        padding: 16px 12px 24px;
+      }
+
+      .m-main h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .card-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .card-list a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 60px;
+        padding: 10px 12px;
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border);
+        border-radius: var(--radius);
+        text-decoration: none;
+        color: var(--cp-ink);
+      }
+
+      .card-list .who {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .card-list .who b {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .card-list .who span {
+        font-size: 13px;
+        color: var(--cp-muted);
+      }
+
+      .card-list svg.chev {
+        width: 16px;
+        height: 16px;
+        color: var(--cp-muted);
+        flex: 0 0 16px;
+      }
+
+      .m-action {
+        padding: 12px;
+        border-bottom: 1px solid #e6ebf2;
+      }
+
+      .m-action:last-child {
+        border-bottom: 0;
+      }
+
+      .m-action h4 {
+        margin: 0 0 2px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .m-action p {
+        margin: 0 0 10px;
+        font-size: 13px;
+        color: var(--cp-muted);
+      }
+
+      .m-action .btn {
+        width: 100%;
+        height: 44px;
+      }
+
+      .stack-16 > * + * {
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>SIS-133 · Referência visual — Super-admin (usuários)</h1>
+      <p class="lede">
+        Artefato estático de handoff. Não é código de produção: serve como referência de
+        composição, densidade, hierarquia e estados para a implementação em
+        <code>apps/web</code>. Tokens iguais aos de <code>apps/web/src/index.css</code> (SIS-66).
+      </p>
+
+      <!-- ============ 1. LISTA ============ -->
+      <p class="frame-label">Frame 1 — Lista de usuários · desktop 1280 <span>(estado padrão)</span></p>
+      <div class="frame desktop" id="frame-lista">
+        <div class="shell">
+          <aside class="sidebar">
+            <div class="brand">CondoPartners</div>
+            <nav class="nav" aria-label="Principal">
+              <a href="#/">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+                Início
+              </a>
+              <a href="#/admin" aria-current="page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13A4 4 0 0 1 16 11"/></svg>
+                Admin
+              </a>
+            </nav>
+          </aside>
+          <div class="col">
+            <header class="topbar">
+              <h1>Usuários</h1>
+              <p class="who" translate="no">ops@condopartners.com.br</p>
+              <button class="btn ghost" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+                Sair
+              </button>
+            </header>
+            <main class="content">
+              <div class="inner">
+                <div class="toolbar">
+                  <div class="search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <label class="field" for="busca" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">Buscar usuários</label>
+                    <input class="input" id="busca" type="search" placeholder="Buscar por e-mail ou nome…" spellcheck="false" autocomplete="off" />
+                  </div>
+                  <div class="grow"></div>
+                  <button class="btn" type="button" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    Criar conta
+                  </button>
+                </div>
+
+                <div class="surface">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Usuário</th>
+                        <th scope="col">Papel</th>
+                        <th scope="col">Situação</th>
+                        <th scope="col">Criada em</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="user-cell">
+                          <a href="#/admin/usuarios/u_9f31" translate="no">ops@condopartners.com.br</a>
+                          <span class="name">Ana Ribeiro</span>
+                        </td>
+                        <td><span class="badge role-admin">Super-admin</span></td>
+                        <td><span class="badge"><span class="dot" aria-hidden="true"></span>Ativa</span></td>
+                        <td class="num">02/06/2026</td>
+                      </tr>
+                      <tr>
+                        <td class="user-cell">
+                          <a href="#/admin/usuarios/u_7b02" translate="no">maria.silva@cliqueretire.com.br</a>
+                          <span class="name">Maria Silva</span>
+                        </td>
+                        <td><span class="badge">Usuário</span></td>
+                        <td><span class="badge"><span class="dot" aria-hidden="true"></span>Ativa</span></td>
+                        <td class="num">12/07/2026</td>
+                      </tr>
+                      <tr>
+                        <td class="user-cell">
+                          <a href="#/admin/usuarios/u_5c88" translate="no">joao.pereira@econdos.com.br</a>
+                          <span class="name">João Pereira</span>
+                        </td>
+                        <td><span class="badge">Usuário</span></td>
+                        <td><span class="badge"><span class="dot pending" aria-hidden="true"></span>Ativação pendente</span></td>
+                        <td class="num">18/07/2026</td>
+                      </tr>
+                      <tr>
+                        <td class="user-cell">
+                          <a href="#/admin/usuarios/u_3d17" translate="no">financeiro@residencialaurora.com.br</a>
+                          <span class="name">Time financeiro</span>
+                        </td>
+                        <td><span class="badge">Usuário</span></td>
+                        <td><span class="badge"><span class="dot" aria-hidden="true"></span>Ativa</span></td>
+                        <td class="num">21/07/2026</td>
+                      </tr>
+                      <tr>
+                        <td class="user-cell">
+                          <a href="#/admin/usuarios/u_1a45" translate="no">suporte@condopartners.com.br</a>
+                          <span class="name">—</span>
+                        </td>
+                        <td><span class="badge">Usuário</span></td>
+                        <td><span class="badge"><span class="dot pending" aria-hidden="true"></span>Ativação pendente</span></td>
+                        <td class="num">24/07/2026</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="pager">
+                    <span>Mostrando 1–20 de 24</span>
+                    <div class="grow"></div>
+                    <button class="btn outline sm" type="button" disabled>Anterior</button>
+                    <button class="btn outline sm" type="button">Próxima</button>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 2. DETALHE ============ -->
+      <p class="frame-label">Frame 2 — Detalhe do usuário · desktop 1280 <span>(dados + credencial e acesso; confirmação em duas etapas aberta em “Encerrar sessões”)</span></p>
+      <div class="frame desktop" id="frame-detalhe">
+        <div class="shell">
+          <aside class="sidebar">
+            <div class="brand">CondoPartners</div>
+            <nav class="nav" aria-label="Principal">
+              <a href="#/">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+                Início
+              </a>
+              <a href="#/admin" aria-current="page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13A4 4 0 0 1 16 11"/></svg>
+                Admin
+              </a>
+            </nav>
+          </aside>
+          <div class="col">
+            <header class="topbar">
+              <h1>Usuários</h1>
+              <p class="who" translate="no">ops@condopartners.com.br</p>
+              <button class="btn ghost" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+                Sair
+              </button>
+            </header>
+            <main class="content">
+              <div class="inner">
+                <a class="back" href="#/admin">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                  Usuários
+                </a>
+                <div class="detail-head">
+                  <h2 translate="no">maria.silva@cliqueretire.com.br</h2>
+                  <p class="meta">Maria Silva · Usuário · Criada em 12/07/2026</p>
+                  <p class="id-row">
+                    ID <code translate="no">u_7b02f4c1a9</code>
+                    <button class="btn ghost sm" type="button">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+                      Copiar
+                    </button>
+                  </p>
+                </div>
+
+                <section class="block">
+                  <h3>Dados da conta</h3>
+                  <p class="sub">Alterações valem para o próximo acesso do usuário.</p>
+                  <div class="surface block-body">
+                    <div class="form-grid">
+                      <div>
+                        <label class="field" for="nome">Nome</label>
+                        <input class="input" id="nome" type="text" value="Maria Silva" autocomplete="off" />
+                      </div>
+                      <div>
+                        <label class="field" for="email">E-mail</label>
+                        <input class="input" id="email" type="email" value="maria.silva@cliqueretire.com.br" spellcheck="false" autocomplete="off" />
+                        <p class="hint">Trocar o e-mail muda o login do usuário.</p>
+                      </div>
+                    </div>
+                    <div class="form-actions">
+                      <button class="btn" type="button" disabled>Salvar alterações</button>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="block">
+                  <h3>Credencial e acesso</h3>
+                  <p class="sub">Toda ação aqui é registrada na auditoria com quem executou e quando.</p>
+                  <div class="surface">
+                    <div class="action">
+                      <div class="txt">
+                        <h4>Definir senha</h4>
+                        <p>Define uma nova senha agora. As sessões abertas continuam ativas.</p>
+                        <div class="set-password">
+                          <div class="fieldwrap">
+                            <label class="field" for="nova-senha">Nova senha</label>
+                            <input class="input" id="nova-senha" type="password" autocomplete="new-password" />
+                          </div>
+                          <button class="btn outline" type="button">Definir senha</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="action">
+                      <div class="txt">
+                        <h4>Enviar link de reset</h4>
+                        <p>Manda um e-mail para o usuário criar a própria senha. Exige SMTP configurado.</p>
+                      </div>
+                      <div class="aside">
+                        <button class="btn outline" type="button">Enviar link de reset</button>
+                      </div>
+                    </div>
+
+                    <div class="action" style="border-bottom:0">
+                      <div class="txt">
+                        <h4>Encerrar sessões</h4>
+                        <p>Desconecta o usuário de todos os dispositivos. A senha atual continua valendo.</p>
+                      </div>
+                    </div>
+                    <div class="inline-confirm" role="group" aria-label="Confirmar encerramento de sessões">
+                      <p>Encerrar as sessões abertas agora?</p>
+                      <button class="btn sm" type="button">Encerrar sessões</button>
+                      <button class="btn ghost sm" type="button">Cancelar</button>
+                    </div>
+
+                    <div class="action destructive">
+                      <div class="txt">
+                        <h4>Invalidar senha</h4>
+                        <p>
+                          Encerra as sessões e invalida a senha atual. O usuário só volta a acessar
+                          com um novo link de reset.
+                        </p>
+                      </div>
+                      <div class="aside">
+                        <button class="btn danger" type="button">Invalidar senha</button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 3. DIALOG ============ -->
+      <p class="frame-label">Frame 3 — Confirmação destrutiva · <span>dialog modal de “Invalidar senha” (com SMTP indisponível)</span></p>
+      <div class="frame desktop dialog-scrim" id="frame-dialog" style="min-height:420px">
+        <div class="shell" style="min-height:420px">
+          <aside class="sidebar">
+            <div class="brand">CondoPartners</div>
+            <nav class="nav" aria-label="Principal">
+              <a href="#/">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+                Início
+              </a>
+              <a href="#/admin" aria-current="page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13A4 4 0 0 1 16 11"/></svg>
+                Admin
+              </a>
+            </nav>
+          </aside>
+          <div class="col">
+            <header class="topbar">
+              <h1>Usuários</h1>
+              <p class="who" translate="no">ops@condopartners.com.br</p>
+              <button class="btn ghost" type="button">Sair</button>
+            </header>
+            <main class="content">
+              <div class="inner">
+                <div class="detail-head">
+                  <h2 translate="no">maria.silva@cliqueretire.com.br</h2>
+                  <p class="meta">Maria Silva · Usuário · Criada em 12/07/2026</p>
+                </div>
+                <section class="block">
+                  <h3>Credencial e acesso</h3>
+                  <div class="surface">
+                    <div class="action destructive">
+                      <div class="txt">
+                        <h4>Invalidar senha</h4>
+                        <p>Encerra as sessões e invalida a senha atual.</p>
+                      </div>
+                      <div class="aside"><button class="btn danger" type="button">Invalidar senha</button></div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </main>
+          </div>
+        </div>
+        <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dlg-t" aria-describedby="dlg-d">
+          <h2 id="dlg-t">Invalidar a senha de <span translate="no">maria.silva@cliqueretire.com.br</span>?</h2>
+          <div id="dlg-d">
+            <p>
+              As sessões abertas são encerradas e a senha atual deixa de funcionar. O usuário só
+              volta a acessar com um novo link de reset.
+            </p>
+            <div class="msg" style="margin-bottom:4px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+              <span>SMTP não está configurado: o link de reset <strong>não</strong> será enviado agora. Envie depois em “Enviar link de reset”.</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn ghost" type="button">Cancelar</button>
+            <button class="btn danger-solid" type="button">Invalidar senha</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 4. ESTADOS ============ -->
+      <p class="frame-label">Frame 4 — Estados da lista e do formulário <span>(carregando, vazio por busca, primeira vez, erro, criar conta, sucesso, sem permissão)</span></p>
+      <div class="frame desktop" id="frame-estados" style="padding:24px">
+        <div class="stack-16" style="max-width:1120px;margin:0 auto">
+          <div>
+            <p class="frame-label" style="margin-top:0">4.1 Carregando (skeleton, sem spinner central)</p>
+            <div class="surface">
+              <table>
+                <thead>
+                  <tr><th scope="col">Usuário</th><th scope="col">Papel</th><th scope="col">Situação</th><th scope="col">Criada em</th></tr>
+                </thead>
+                <tbody aria-busy="true">
+                  <tr><td><div class="skeleton" style="width:58%"></div><div class="skeleton" style="width:32%;margin-top:6px;height:10px"></div></td><td><div class="skeleton" style="width:64px"></div></td><td><div class="skeleton" style="width:80px"></div></td><td><div class="skeleton" style="width:72px"></div></td></tr>
+                  <tr><td><div class="skeleton" style="width:44%"></div><div class="skeleton" style="width:24%;margin-top:6px;height:10px"></div></td><td><div class="skeleton" style="width:64px"></div></td><td><div class="skeleton" style="width:80px"></div></td><td><div class="skeleton" style="width:72px"></div></td></tr>
+                  <tr><td><div class="skeleton" style="width:52%"></div><div class="skeleton" style="width:28%;margin-top:6px;height:10px"></div></td><td><div class="skeleton" style="width:64px"></div></td><td><div class="skeleton" style="width:80px"></div></td><td><div class="skeleton" style="width:72px"></div></td></tr>
+                </tbody>
+              </table>
+              <p class="pager">
+                <span>Carregando usuários…</span>
+                <span style="font-style:italic">(texto só para leitor de tela na implementação)</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div>
+              <p class="frame-label" style="margin-top:0">4.2 Busca sem resultado</p>
+              <div class="surface empty">
+                <h3>Nenhum usuário encontrado</h3>
+                <p>Nada corresponde a “aurora”. Tente parte do e-mail ou limpe a busca.</p>
+                <button class="btn outline" type="button">Limpar busca</button>
+              </div>
+            </div>
+            <div>
+              <p class="frame-label" style="margin-top:0">4.3 Primeira vez (nenhuma conta)</p>
+              <div class="surface empty">
+                <h3>Nenhuma conta criada ainda</h3>
+                <p>Crie a primeira conta de acesso para começar a operar a plataforma.</p>
+                <button class="btn" type="button">Criar conta</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="frame-label" style="margin-top:0">4.4 Erro ao carregar a lista (role="alert")</p>
+            <div class="msg error" role="alert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+              <span class="grow">Não foi possível carregar os usuários. Verifique a conexão e tente de novo.</span>
+              <button class="btn outline sm" type="button">Tentar de novo</button>
+            </div>
+          </div>
+
+          <div>
+            <p class="frame-label" style="margin-top:0">4.5 Criar conta (painel inline, não modal) + envio em andamento</p>
+            <div class="surface block-body">
+              <h3 style="margin:0 0 12px;font-size:15px;font-weight:600">Criar conta</h3>
+              <div class="form-grid three">
+                <div>
+                  <label class="field" for="c-email">E-mail</label>
+                  <input class="input" id="c-email" type="email" placeholder="maria@empresa.com.br…" spellcheck="false" autocomplete="off" />
+                </div>
+                <div>
+                  <label class="field" for="c-nome">Nome</label>
+                  <input class="input" id="c-nome" type="text" placeholder="Maria Silva…" autocomplete="off" />
+                </div>
+                <div>
+                  <label class="field" for="c-senha">Senha provisória</label>
+                  <input class="input" id="c-senha" type="password" autocomplete="new-password" />
+                  <p class="hint">Mínimo 8 caracteres. Combine a troca com o usuário por um canal seguro.</p>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn" type="button">
+                  <span class="spinner" aria-hidden="true"></span>
+                  Criando conta…
+                </button>
+                <button class="btn ghost" type="button">Cancelar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div>
+              <p class="frame-label" style="margin-top:0">4.6 Sucesso da ação (role="status", inline no bloco)</p>
+              <div class="msg ok" role="status">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg>
+                <span>Senha invalidada e sessões encerradas. Link de reset enviado para <span translate="no">maria.silva@cliqueretire.com.br</span>.</span>
+              </div>
+              <div class="msg error" role="alert" style="margin-top:12px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+                <span>Não foi possível enviar o e-mail. Verifique a configuração de SMTP.</span>
+              </div>
+            </div>
+            <div>
+              <p class="frame-label" style="margin-top:0">4.7 Sem permissão (usuário comum em #/admin)</p>
+              <div class="surface empty">
+                <h3>Área restrita</h3>
+                <p>Esta área é só para super-admins da plataforma. Se precisa de acesso, fale com quem administra a conta.</p>
+                <a class="btn outline" href="#/">Voltar ao início</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 5. MOBILE ============ -->
+      <p class="frame-label">Frame 5 — Mobile 390 <span>(lista em cards · detalhe com ações empilhadas)</span></p>
+      <div class="mobile-row">
+        <div class="frame mobile" id="frame-mobile-lista">
+          <div class="m-topbar">
+            <button class="icon-btn" type="button" aria-label="Abrir menu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+            </button>
+            <span class="wordmark">CondoPartners</span>
+            <button class="btn ghost" type="button" style="height:44px">Sair</button>
+          </div>
+          <div class="m-main">
+            <h2>Usuários</h2>
+            <div class="search" style="flex:1 1 auto;margin-bottom:12px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input class="input" type="search" placeholder="Buscar por e-mail ou nome…" spellcheck="false" autocomplete="off" aria-label="Buscar usuários" />
+            </div>
+            <button class="btn" type="button" style="width:100%;height:44px;margin-bottom:12px">Criar conta</button>
+            <p class="count" style="padding:0 0 8px">24 contas</p>
+            <div class="card-list">
+              <a href="#/admin/usuarios/u_9f31">
+                <span class="who">
+                  <b translate="no">ops@condopartners.com.br</b>
+                  <span>Ana Ribeiro · Super-admin</span>
+                </span>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </a>
+              <a href="#/admin/usuarios/u_7b02">
+                <span class="who">
+                  <b translate="no">maria.silva@cliqueretire.com.br</b>
+                  <span>Maria Silva · Ativa</span>
+                </span>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </a>
+              <a href="#/admin/usuarios/u_5c88">
+                <span class="who">
+                  <b translate="no">joao.pereira@econdos.com.br</b>
+                  <span>João Pereira · Ativação pendente</span>
+                </span>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </a>
+              <a href="#/admin/usuarios/u_3d17">
+                <span class="who">
+                  <b translate="no">financeiro@residencialaurora.com.br</b>
+                  <span>Time financeiro · Ativa</span>
+                </span>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="frame mobile" id="frame-mobile-detalhe">
+          <div class="m-topbar">
+            <button class="icon-btn" type="button" aria-label="Abrir menu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+            </button>
+            <span class="wordmark">CondoPartners</span>
+            <button class="btn ghost" type="button" style="height:44px">Sair</button>
+          </div>
+          <div class="m-main">
+            <a class="back" href="#/admin">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+              Usuários
+            </a>
+            <h2 style="font-size:17px;overflow-wrap:anywhere" translate="no">maria.silva@cliqueretire.com.br</h2>
+            <p class="meta" style="margin:2px 0 16px;font-size:13px;color:var(--cp-muted)">Maria Silva · Usuário · Criada em 12/07/2026</p>
+
+            <h3 style="margin:0 0 8px;font-size:15px;font-weight:600">Credencial e acesso</h3>
+            <div class="surface">
+              <div class="m-action">
+                <h4>Definir senha</h4>
+                <p>Define uma nova senha agora. As sessões continuam ativas.</p>
+                <button class="btn outline" type="button">Definir senha</button>
+              </div>
+              <div class="m-action">
+                <h4>Enviar link de reset</h4>
+                <p>Manda um e-mail para o usuário criar a própria senha.</p>
+                <button class="btn outline" type="button">Enviar link de reset</button>
+              </div>
+              <div class="m-action">
+                <h4>Encerrar sessões</h4>
+                <p>Desconecta o usuário de todos os dispositivos.</p>
+                <button class="btn outline" type="button">Encerrar sessões</button>
+              </div>
+              <div class="m-action" style="background:#fcfdfe">
+                <h4>Invalidar senha</h4>
+                <p>Encerra as sessões e invalida a senha atual. O usuário precisa de um novo link de reset.</p>
+                <button class="btn danger" type="button">Invalidar senha</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
