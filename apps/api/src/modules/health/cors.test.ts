@@ -30,8 +30,6 @@ describe("CORS (WEB_ORIGIN)", () => {
       }),
     )
 
-    expect(response.headers.get("access-control-allow-origin")).not.toBe(
-      "https://evil.example.com",
-    )
+    expect(response.headers.get("access-control-allow-origin")).not.toBe("https://evil.example.com")
   })
 })
