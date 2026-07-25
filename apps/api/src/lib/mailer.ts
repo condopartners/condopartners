@@ -78,11 +78,21 @@ export async function sendMail(input: SendMailInput): Promise<void> {
   await transportSend(input)
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;")
+}
+
 export function buildActivationEmail(input: {
   name?: string | null
   url: string
 }): Pick<SendMailInput, "subject" | "text" | "html"> {
   const greeting = input.name ? `Olá, ${input.name}!` : "Olá!"
+  const htmlGreeting = input.name ? `Olá, ${escapeHtml(input.name)}!` : "Olá!"
   const subject = "Ative sua conta no CondoPartners"
   const text = [
     greeting,
@@ -95,7 +105,7 @@ export function buildActivationEmail(input: {
     "Se você não criou esta conta, ignore esta mensagem.",
   ].join("\n")
   const html = [
-    `<p>${greeting}</p>`,
+    `<p>${htmlGreeting}</p>`,
     `<p>Clique no link para ativar sua conta:</p>`,
     `<p><a href="${input.url}">Ativar conta</a></p>`,
     `<p>O link expira em 1 hora.</p>`,
