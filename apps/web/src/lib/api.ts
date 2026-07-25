@@ -3,4 +3,7 @@ import { treaty } from "@elysiajs/eden"
 
 const apiBaseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:3000"
 
-export const api = treaty<App>(apiBaseUrl)
+export const api = treaty<App>(apiBaseUrl, {
+  // Cookies de sessão do Better Auth acompanham as chamadas tipadas.
+  fetch: { credentials: "include" },
+})

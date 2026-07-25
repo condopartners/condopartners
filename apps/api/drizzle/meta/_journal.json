@@ -8,6 +8,13 @@
       "when": 1784953817395,
       "tag": "0000_dapper_captain_marvel",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784994588970,
+      "tag": "0001_next_hellfire_club",
+      "breakpoints": true
     }
   ]
 }
