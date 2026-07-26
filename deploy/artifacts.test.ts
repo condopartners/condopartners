@@ -207,6 +207,14 @@ describe("deploy artifacts (SIS-39)", () => {
     expect(readme).not.toMatch(/api\.dev\.condopartners\.com\.br/)
   })
 
+  test("spec CORS documenta hosts canônicos app-dev/api-dev (SIS-102)", () => {
+    const corsSpec = read(join(root, "docs/specs/prod-cors-admin-access.md"))
+    expect(corsSpec).toContain("https://app-dev.condopartners.com.br")
+    expect(corsSpec).toContain("https://api-dev.condopartners.com.br")
+    expect(corsSpec).not.toMatch(/https:\/\/app\.dev\.condopartners/)
+    expect(corsSpec).not.toMatch(/https:\/\/api\.dev\.condopartners/)
+  })
+
   test("CI exercita docker build das 3 imagens com cache (SIS-48)", () => {
     const workflowPath = join(root, ".github", "workflows", "ci.yml")
     expect(existsSync(workflowPath), workflowPath).toBe(true)

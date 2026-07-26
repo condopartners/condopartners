@@ -1,9 +1,12 @@
-import { afterEach, describe, expect, it } from "bun:test"
+import { afterEach, describe, expect, it, setDefaultTimeout } from "bun:test"
 import { desc, eq } from "drizzle-orm"
 import { app } from "../../app"
 import { db } from "../../db"
 import { adminAuditEvent, user } from "../../db/schema"
 import { setMailer } from "../../lib/mailer"
+
+// Fixtures com verificação de e-mail fazem sign-up + sign-in; 5s default fica apertado.
+setDefaultTimeout(20_000)
 
 const password = "senha-super-segura-123"
 // Better Auth valida o header Origin em requisições com cookie (proteção CSRF).
@@ -24,16 +27,23 @@ function extractSessionCookie(response: Response): string {
   return value
 }
 
+function sessionCookieOrNull(response: Response): string | null {
+  const cookies = response.headers.getSetCookie()
+  const sessionCookie = cookies.find((c) => c.startsWith("better-auth.session_token="))
+  return sessionCookie?.split(";")[0] ?? null
+}
+
 async function signUp(email: string) {
   const response = await app.handle(
     new Request(`${base}/api/auth/sign-up/email`, {
       method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email, password, name: "Usuário Teste" }),
+      headers: { "content-type": "application/json", origin },
+      body: JSON.stringify({ email, password, name: "Usuário Teste", callbackURL: origin }),
     }),
   )
   expect(response.status).toBeLessThan(400)
-  return extractSessionCookie(response)
+  // requireEmailVerification: sign-up não emite sessão
+  expect(sessionCookieOrNull(response)).toBeNull()
 }
 
 async function signIn(email: string, pass: string) {
@@ -60,17 +70,26 @@ async function userIdByEmail(email: string): Promise<string> {
   return id
 }
 
-/** Fixture: cria usuário via sign-up e promove a admin direto no banco (bootstrap ops). */
+/** Fixture: sign-up → marca verificado → sign-in (auth SMTP exige verificação). */
+async function createVerifiedSession(email: string): Promise<string> {
+  await signUp(email)
+  await db.update(user).set({ emailVerified: true }).where(eq(user.email, email))
+  const response = await signIn(email, password)
+  expect(response.status).toBeLessThan(400)
+  return extractSessionCookie(response)
+}
+
+/** Fixture: cria usuário verificado e promove a admin direto no banco (bootstrap ops). */
 async function createAdminFixture() {
   const email = uniqueEmail()
-  const cookie = await signUp(email)
+  const cookie = await createVerifiedSession(email)
   await db.update(user).set({ role: "admin" }).where(eq(user.email, email))
   return { email, cookie, id: await userIdByEmail(email) }
 }
 
 async function createUserFixture() {
   const email = uniqueEmail()
-  const cookie = await signUp(email)
+  const cookie = await createVerifiedSession(email)
   return { email, cookie, id: await userIdByEmail(email) }
 }
 
@@ -206,11 +225,16 @@ describe("criar conta", () => {
       body: JSON.stringify({ email, name: "Nova Conta", password: tempPassword }),
     })
     expect(response.status).toBe(200)
-    const body = (await response.json()) as { user: { id: string; role?: string } }
+    const body = (await response.json()) as {
+      user: { id: string; role?: string; emailVerified?: boolean }
+    }
     expect(body.user.role ?? "user").toBe("user")
+    // conta provisionada por admin já entra verificada (sem self-sign-up / SMTP)
+    expect(body.user.emailVerified).toBe(true)
 
     const login = await signIn(email, tempPassword)
     expect(login.status).toBeLessThan(400)
+    expect(extractSessionCookie(login)).toBeTruthy()
 
     const audit = await lastAuditEvent(body.user.id)
     expect(audit?.action).toBe("user.create")

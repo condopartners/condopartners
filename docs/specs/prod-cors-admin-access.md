@@ -45,8 +45,8 @@ fazendo fallback de CORS para `http://localhost:5173` e `500` em sign-in
 
 | Var | Prod | Dev |
 |-----|------|-----|
-| `WEB_ORIGIN` | `https://app.condopartners.com.br` | `https://app.dev.condopartners.com.br` |
-| `BETTER_AUTH_URL` | `https://api.condopartners.com.br` | `https://api.dev.condopartners.com.br` |
+| `WEB_ORIGIN` | `https://app.condopartners.com.br` | `https://app-dev.condopartners.com.br` |
+| `BETTER_AUTH_URL` | `https://api.condopartners.com.br` | `https://api-dev.condopartners.com.br` |
 | `BETTER_AUTH_SECRET` | aleatório ≥32 (só Portainer) | idem |
 
 ## Refs
