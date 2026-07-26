@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { renderToStaticMarkup } from "react-dom/server"
 import { LoginForm } from "./login-form"
 import { SignUpForm } from "./sign-up-form"
+import { VerifyEmailNotice } from "./verify-email-notice"
 
 describe("auth forms", () => {
   test("LoginForm: labels pt-BR, autocomplete e CTA Entrar", () => {
@@ -61,6 +62,25 @@ describe("auth forms", () => {
     expect(html).toContain("Não foi possível autenticar. Verifique os dados e tente de novo.")
   })
 
+  test("LoginForm: conta não ativada mostra CTA de reenvio", () => {
+    const html = renderToStaticMarkup(
+      <LoginForm
+        email="a@b.com"
+        password=""
+        error="Conta ainda não ativada. Verifique seu e-mail ou reenvie o link."
+        submitting={false}
+        showResend
+        onEmailChange={() => undefined}
+        onPasswordChange={() => undefined}
+        onSubmit={() => undefined}
+        onSwitchToSignUp={() => undefined}
+        onResendVerification={() => undefined}
+      />,
+    )
+    expect(html).toContain("Conta ainda não ativada")
+    expect(html).toContain("Reenviar e-mail de ativação")
+  })
+
   test("SignUpForm: Nome + Criando conta… + new-password", () => {
     const idle = renderToStaticMarkup(
       <SignUpForm
@@ -97,5 +117,22 @@ describe("auth forms", () => {
       />,
     )
     expect(busy).toContain("Criando conta…")
+  })
+
+  test("VerifyEmailNotice: copy pós-cadastro e CTA reenvio", () => {
+    const html = renderToStaticMarkup(
+      <VerifyEmailNotice
+        email="maria@empresa.com"
+        message={null}
+        error={null}
+        submitting={false}
+        onResend={() => undefined}
+        onBackToSignIn={() => undefined}
+      />,
+    )
+    expect(html).toContain("Verifique seu e-mail")
+    expect(html).toContain("maria@empresa.com")
+    expect(html).toContain("Reenviar e-mail de ativação")
+    expect(html).toContain("Ativar conta")
   })
 })

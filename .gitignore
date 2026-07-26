@@ -158,3 +158,4 @@ graphify-out/
 # Local agent scratch
 .tmp/
 .paperclip/
+.worktrees/

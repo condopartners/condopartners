@@ -5,4 +5,5 @@
  * see docs/specs/auth-better-auth.md.
  */
 
+export * from "./admin-schema"
 export * from "./auth-schema"

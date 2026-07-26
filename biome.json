@@ -15,7 +15,8 @@
       "!**/.cursor",
       "!**/.github/skills",
       "!**/.github/hooks",
-      "!**/docs/design"
+      "!**/docs/design",
+      "!**/.worktrees"
     ]
   },
   "formatter": {

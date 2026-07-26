@@ -10,10 +10,13 @@ export type LoginFormProps = {
   password: string
   error: string | null
   submitting: boolean
+  showResend?: boolean
+  resending?: boolean
   onEmailChange: (value: string) => void
   onPasswordChange: (value: string) => void
   onSubmit: (event: FormEvent<HTMLFormElement>) => void
   onSwitchToSignUp: () => void
+  onResendVerification?: () => void
 }
 
 export function LoginForm({
@@ -21,10 +24,13 @@ export function LoginForm({
   password,
   error,
   submitting,
+  showResend = false,
+  resending = false,
   onEmailChange,
   onPasswordChange,
   onSubmit,
   onSwitchToSignUp,
+  onResendVerification,
 }: LoginFormProps) {
   const emailId = useId()
   const passwordId = useId()
@@ -91,10 +97,29 @@ export function LoginForm({
         variant="ghost"
         className="mt-3 h-11 w-full touch-manipulation"
         onClick={onSwitchToSignUp}
-        disabled={submitting}
+        disabled={submitting || resending}
       >
         Criar conta
       </Button>
+
+      {showResend && onResendVerification ? (
+        <Button
+          type="button"
+          variant="outline"
+          className="mt-2 h-11 w-full touch-manipulation"
+          onClick={onResendVerification}
+          disabled={submitting || resending || !email}
+        >
+          {resending ? (
+            <>
+              <Loader2 className="size-4 animate-spin" aria-hidden />
+              Reenviando…
+            </>
+          ) : (
+            "Reenviar e-mail de ativação"
+          )}
+        </Button>
+      ) : null}
     </section>
   )
 }

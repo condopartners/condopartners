@@ -1,6 +1,7 @@
 import { cors } from "@elysiajs/cors"
 import { Elysia } from "elysia"
 import { resolveProdEnv } from "./env"
+import { adminModule } from "./modules/admin"
 import { authModule } from "./modules/auth"
 import { healthModule } from "./modules/health"
 
@@ -16,6 +17,7 @@ export const app = new Elysia()
     }),
   )
   .use(authModule)
+  .use(adminModule)
   .use(healthModule)
 
 export type App = typeof app

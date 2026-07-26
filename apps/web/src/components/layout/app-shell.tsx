@@ -8,9 +8,16 @@ type AppShellProps = {
   onSignOut: () => void
   children: ReactNode
   title?: string
+  isAdmin?: boolean
 }
 
-export function AppShell({ email, onSignOut, children, title = "Início" }: AppShellProps) {
+export function AppShell({
+  email,
+  onSignOut,
+  children,
+  title = "Início",
+  isAdmin = false,
+}: AppShellProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const drawerTitleId = useId()
   const mainId = "conteudo-principal"
@@ -46,7 +53,7 @@ export function AppShell({ email, onSignOut, children, title = "Início" }: AppS
         className="hidden w-60 shrink-0 border-r border-border bg-card lg:flex lg:flex-col"
         aria-label="Navegação"
       >
-        <AppSidebar />
+        <AppSidebar isAdmin={isAdmin} />
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -86,7 +93,7 @@ export function AppShell({ email, onSignOut, children, title = "Início" }: AppS
             <p className="truncate border-b border-border px-5 py-3 text-sm text-muted-foreground tabular-nums">
               {email}
             </p>
-            <AppSidebar onNavigate={() => setMenuOpen(false)} />
+            <AppSidebar isAdmin={isAdmin} onNavigate={() => setMenuOpen(false)} />
           </aside>
         </div>
       ) : null}
