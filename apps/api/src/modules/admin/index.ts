@@ -153,8 +153,15 @@ export const adminModule = new Elysia({ name: "admin", prefix: "/api/admin" })
   .post(
     "/users",
     async ({ body, request, adminActor }) => {
+      // Conta provisionada por admin com senha temporária: já verificada (sem fluxo self-sign-up).
       const created = await getAuth().api.createUser({
-        body: { email: body.email, name: body.name, password: body.password, role: "user" },
+        body: {
+          email: body.email,
+          name: body.name,
+          password: body.password,
+          role: "user",
+          data: { emailVerified: true },
+        },
         headers: request.headers,
       })
       await recordAuditEvent({
