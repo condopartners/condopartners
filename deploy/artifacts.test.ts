@@ -249,6 +249,37 @@ describe("deploy artifacts (SIS-39)", () => {
     }
   })
 
+  test("stacks e overlays Portainer passam SMTP_* ao api (SIS-151 / fail-fast prod)", () => {
+    const requiredSmtpEnv = [
+      "SMTP_HOST",
+      "SMTP_PORT",
+      "SMTP_FROM",
+      "SMTP_USER",
+      "SMTP_PASS",
+      "SMTP_SECURE",
+    ]
+    for (const name of [
+      "prod.stack.yml",
+      "dev.stack.yml",
+      "prod.portainer.yml",
+      "dev.portainer.yml",
+    ]) {
+      const path = join(deploy, "portainer", name)
+      const doc = parseYaml(read(path)) as {
+        services: Record<string, { environment?: Record<string, string> }>
+      }
+      const apiEnv = doc.services.api?.environment ?? {}
+      for (const key of requiredSmtpEnv) {
+        expect(apiEnv[key], `${name} api.environment missing ${key}`).toBe(`\${${key}}`)
+      }
+    }
+
+    const envExample = read(join(deploy, ".env.example"))
+    for (const key of requiredSmtpEnv) {
+      expect(envExample.includes(key), `deploy/.env.example missing ${key}`).toBe(true)
+    }
+  })
+
   test("stacks prod passam NODE_ENV=production ao api (SIS-123)", () => {
     for (const name of ["prod.stack.yml", "prod.portainer.yml"]) {
       const path = join(deploy, "portainer", name)
