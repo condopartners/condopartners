@@ -39,7 +39,8 @@ function extractMaxAge(setCookie: string): number | null {
 function decodeJwtPayload(token: string): { iat?: number; exp?: number } {
   const payload = token.split(".")[1]
   if (!payload) return {}
-  const padded = payload.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((payload.length + 3) % 4)
+  const padded =
+    payload.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((payload.length + 3) % 4)
   return JSON.parse(Buffer.from(padded, "base64").toString("utf8")) as {
     iat?: number
     exp?: number
@@ -69,9 +70,9 @@ async function flushMail() {
 async function verifyFromSentMail(sent: SendMailInput[]) {
   const url =
     sent[0]?.text.match(/https?:\/\/\S+/)?.[0] ?? sent[0]?.html?.match(/href="([^"]+)"/)?.[1]
-  expect(url).toBeTruthy()
+  if (!url) throw new Error("expected verification URL in sent mail")
   const verify = await app.handle(
-    new Request(url!, { method: "GET", headers: { origin }, redirect: "manual" }),
+    new Request(url, { method: "GET", headers: { origin }, redirect: "manual" }),
   )
   expect(verify.status).toBeGreaterThanOrEqual(300)
   expect(verify.status).toBeLessThan(400)
@@ -330,11 +331,11 @@ describe("auth email/senha + verificação", () => {
     expect(sent[0]?.html).toMatch(/30 dias/i)
 
     const token = sent[0]?.text.match(/[?&]token=([^&\s]+)/)?.[1]
-    expect(token).toBeTruthy()
-    const payload = decodeJwtPayload(token!)
-    expect(payload.iat).toBeDefined()
-    expect(payload.exp).toBeDefined()
-    expect(payload.exp! - payload.iat!).toBe(ACTIVATION_TTL_SEC)
+    if (!token) throw new Error("expected activation JWT in sent mail")
+    const payload = decodeJwtPayload(token)
+    expect(typeof payload.iat).toBe("number")
+    expect(typeof payload.exp).toBe("number")
+    expect((payload.exp ?? 0) - (payload.iat ?? 0)).toBe(ACTIVATION_TTL_SEC)
   })
 })
 
@@ -389,9 +390,9 @@ describe("auth reset de senha + lembrar-me (SIS-191)", () => {
       .from(verification)
       .where(like(verification.identifier, "reset-password:%"))
     const latest = rows.sort((a, b) => b.expiresAt.getTime() - a.expiresAt.getTime())[0]
-    expect(latest).toBeTruthy()
+    if (!latest) throw new Error("expected reset-password verification row")
 
-    const ttlMs = latest!.expiresAt.getTime() - before
+    const ttlMs = latest.expiresAt.getTime() - before
     const maxSkewMs = after - before + 5_000
     expect(ttlMs).toBeGreaterThanOrEqual(RESET_TTL_SEC * 1000 - maxSkewMs)
     expect(ttlMs).toBeLessThanOrEqual(RESET_TTL_SEC * 1000 + maxSkewMs)
@@ -407,7 +408,7 @@ describe("auth reset de senha + lembrar-me (SIS-191)", () => {
     await requestPasswordReset(email)
     await flushMail()
     const token = sent[0]?.text.match(/\/reset-password\/([^?\s]+)/)?.[1]
-    expect(token).toBeTruthy()
+    if (!token) throw new Error("expected reset token in sent mail")
 
     const reset = await app.handle(
       new Request("http://localhost:3000/api/auth/reset-password", {
@@ -448,7 +449,7 @@ describe("auth reset de senha + lembrar-me (SIS-191)", () => {
     await requestPasswordReset(email)
     await flushMail()
     const token = sent[0]?.text.match(/\/reset-password\/([^?\s]+)/)?.[1]
-    expect(token).toBeTruthy()
+    if (!token) throw new Error("expected reset token in sent mail")
 
     await db
       .update(verification)
@@ -489,8 +490,8 @@ describe("auth reset de senha + lembrar-me (SIS-191)", () => {
     )
     expect(signIn.status).toBeLessThan(400)
     const header = extractSessionCookieHeader(signIn)
-    expect(header).toBeTruthy()
-    expect(extractMaxAge(header!)).toBe(SESSION_TTL_SEC)
+    if (!header) throw new Error("expected session_token Set-Cookie")
+    expect(extractMaxAge(header)).toBe(SESSION_TTL_SEC)
   })
 
   it("sign-in rememberMe false → cookie de sessão sem Max-Age persistente", async () => {
@@ -508,7 +509,7 @@ describe("auth reset de senha + lembrar-me (SIS-191)", () => {
     )
     expect(signIn.status).toBeLessThan(400)
     const header = extractSessionCookieHeader(signIn)
-    expect(header).toBeTruthy()
-    expect(extractMaxAge(header!)).toBeNull()
+    if (!header) throw new Error("expected session_token Set-Cookie")
+    expect(extractMaxAge(header)).toBeNull()
   })
 })
