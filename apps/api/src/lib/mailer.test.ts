@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from "bun:test"
 import {
   assertSmtpEnvForProduction,
   buildActivationEmail,
+  buildResetPasswordEmail,
   resetMailerForTests,
   sendMail,
   setSendMailForTests,
@@ -81,5 +82,36 @@ describe("buildActivationEmail", () => {
 
     expect(html).toContain(`<a href="${url}">Ativar conta</a>`)
     expect(text).toContain(url)
+  })
+
+  it("informa TTL de 30 dias no texto e HTML", () => {
+    const { html, text } = buildActivationEmail({
+      name: "Ana",
+      url: "https://api.example.com/verify?token=abc",
+    })
+    expect(text).toMatch(/30 dias/i)
+    expect(html).toMatch(/30 dias/i)
+    expect(text).not.toMatch(/1 hora/i)
+  })
+})
+
+describe("buildResetPasswordEmail", () => {
+  it("informa TTL de 24 horas e CTA Redefinir senha", () => {
+    const url = "https://api.example.com/reset-password/tok"
+    const { subject, html, text } = buildResetPasswordEmail({ name: "Ana", url })
+    expect(subject).toBe("Redefina sua senha no CondoPartners")
+    expect(html).toContain(`<a href="${url}">Redefinir senha</a>`)
+    expect(text).toContain(url)
+    expect(text).toMatch(/24 horas/i)
+    expect(html).toMatch(/24 horas/i)
+  })
+
+  it("escapa HTML no nome do usuário", () => {
+    const { html } = buildResetPasswordEmail({
+      name: '<a href="https://evil.example">Suporte</a>',
+      url: "https://api.example.com/reset",
+    })
+    expect(html).not.toContain('<a href="https://evil.example">')
+    expect(html).toContain("&lt;a href=&quot;https://evil.example&quot;&gt;Suporte&lt;/a&gt;")
   })
 })

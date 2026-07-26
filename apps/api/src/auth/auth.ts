@@ -7,6 +7,7 @@ import { resolveProdEnv } from "../env"
 import {
   assertSmtpEnvForProduction,
   buildActivationEmail,
+  buildResetPasswordEmail,
   isMailerConfigured,
   sendMail,
 } from "../lib/mailer"
@@ -36,11 +37,18 @@ function createAuth() {
     emailAndPassword: {
       enabled: true,
       requireEmailVerification: true,
+      resetPasswordTokenExpiresIn: 60 * 60 * 24, // 24h
       sendResetPassword: async ({ user, url }) => {
-        await sendMail({
+        if (!isMailerConfigured()) return
+        const content = buildResetPasswordEmail({ name: user.name, url })
+        void sendMail({
           to: user.email,
-          subject: "Redefina sua senha no CondoPartners",
-          text: `Olá${user.name ? `, ${user.name}` : ""}!\n\nClique no link para redefinir sua senha:\n${url}\n\nSe você não pediu esta redefinição, ignore esta mensagem.`,
+          ...content,
+        }).catch((err) => {
+          console.error("[mailer] failed to send reset password email", {
+            to: user.email,
+            error: err instanceof Error ? err.message : String(err),
+          })
         })
       },
     },
@@ -48,7 +56,7 @@ function createAuth() {
       sendOnSignUp: true,
       sendOnSignIn: true,
       autoSignInAfterVerification: true,
-      expiresIn: 3600,
+      expiresIn: 60 * 60 * 24 * 30, // 30 dias
       sendVerificationEmail: async ({ user, url }) => {
         if (!isMailerConfigured()) return
         const content = buildActivationEmail({ name: user.name, url })
@@ -62,6 +70,10 @@ function createAuth() {
           })
         })
       },
+    },
+    session: {
+      expiresIn: 60 * 60 * 24 * 30, // 30 dias quando rememberMe=true
+      updateAge: 60 * 60 * 24,
     },
     plugins: [
       admin({
