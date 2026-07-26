@@ -1,9 +1,12 @@
-import { afterEach, describe, expect, it } from "bun:test"
+import { afterEach, describe, expect, it, setDefaultTimeout } from "bun:test"
 import { desc, eq } from "drizzle-orm"
 import { app } from "../../app"
 import { db } from "../../db"
 import { adminAuditEvent, user } from "../../db/schema"
 import { setMailer } from "../../lib/mailer"
+
+// Fixtures com verificação de e-mail fazem sign-up + sign-in; 5s default fica apertado.
+setDefaultTimeout(20_000)
 
 const password = "senha-super-segura-123"
 // Better Auth valida o header Origin em requisições com cookie (proteção CSRF).
