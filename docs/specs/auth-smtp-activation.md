@@ -180,18 +180,21 @@ implementação o comando/procedimento.
 
 ## UI
 
-Wiring mínimo (copy pt-BR). Polimento visual alinhado ao shell existente; sem
-novo handoff de Design obrigatório (e-mail é texto/HTML cru).
+Wiring mínimo (copy pt-BR). **Fonte de polish/copy de UI:**
+`docs/design/sis-190/HANDOFF.md` ([SIS-190](/SIS/issues/SIS-190)).
+Códigos de erro Better Auth e TTL permanecem desta spec; strings de tela
+seguem o handoff.
 
 | Contexto | Copy |
 |----------|------|
 | Pós-cadastro (título) | Conta criada |
-| Pós-cadastro (corpo) | Enviamos um e-mail de ativação para {email}. Abra a mensagem e clique em Ativar conta para começar. |
-| Pós-cadastro (fallback título) | Verifique seu e-mail *(aceito se handoff Design preferir; deve deixar explícito envio do e-mail)* |
+| Pós-cadastro (banner) | Conta criada. Verifique seu e-mail para ativar o acesso. |
+| Pós-cadastro (corpo) | Enviamos um link de ativação para {email}. Abra a mensagem e clique em Ativar conta. O link vale por 30 dias. |
 | CTA reenvio | Reenviar e-mail de ativação |
 | Reenvio ok | E-mail reenviado. Confira a caixa de entrada e o spam. |
 | Login bloqueado | Conta ainda não ativada. Verifique seu e-mail ou reenvie o link. |
 | Link expirado | Este link expirou. Solicite um novo e-mail de ativação. |
+| Hint senha | Use pelo menos 8 caracteres. |
 | Senha curta | A senha deve ter pelo menos {n} caracteres. |
 | Senha longa | A senha é longa demais. Use no máximo {n} caracteres. |
 | E-mail inválido | Informe um e-mail válido. |
@@ -201,9 +204,6 @@ novo handoff de Design obrigatório (e-mail é texto/HTML cru).
 | CTA no e-mail | Ativar conta |
 | TTL no e-mail | O link expira em 30 dias. |
 | Rodapé e-mail | Se você não criou esta conta, ignore esta mensagem. |
-
-Copy final de polish pode ser supersedida pelo handoff [SIS-190](/SIS/issues/SIS-190);
-códigos de erro e TTL permanecem desta spec.
 
 ## Riscos
 

@@ -148,21 +148,29 @@ Sem migration nova. Reset usa tabela `verification` com identifier
 
 ## UI
 
-Wiring no shell auth existente. Polish/copy final: [SIS-190](/SIS/issues/SIS-190).
+Wiring no shell auth existente. **Polish/copy final:**
+`docs/design/sis-190/HANDOFF.md` ([SIS-190](/SIS/issues/SIS-190)) — estados,
+wires e hierarquia tipográfica. Tabela abaixo = strings canônicas pós-handoff.
 
-| Contexto | Copy base |
-|----------|-----------|
+| Contexto | Copy |
+|----------|------|
 | Link no login | Esqueci minha senha |
 | Título pedido | Redefinir senha |
-| Corpo pedido | Informe seu e-mail. Se houver conta, enviaremos um link. |
+| Corpo pedido | Informe o e-mail da conta. Se existir, enviaremos um link válido por 24 horas. |
 | CTA pedido | Enviar link |
-| Confirmação pedido | Se existir conta com este e-mail, enviamos um link para redefinir a senha. |
+| Loading pedido | Enviando… |
+| Confirmação pedido (título) | Verifique seu e-mail |
+| Confirmação pedido (banner) | Se houver conta com esse e-mail, enviamos um link para redefinir a senha. |
+| Confirmação pedido (corpo) | O link expira em 24 horas. Confira também a pasta de spam. |
 | Título nova senha | Escolha uma nova senha |
+| Hint senha | Use pelo menos 8 caracteres. |
 | CTA nova senha | Salvar nova senha |
-| Sucesso reset | Senha atualizada. Entre com a nova senha. |
+| Loading nova senha | Salvando… |
+| Sucesso reset (banner no Entrar) | Senha atualizada. Entre com a nova senha. |
 | Token expirado | Este link expirou. Solicite um novo e-mail para redefinir a senha. |
 | Token inválido | Este link é inválido. Solicite um novo e-mail para redefinir a senha. |
 | Checkbox login | Manter conectado |
+| Hint checkbox (opção A) | Mantém a sessão por até 30 dias neste dispositivo. Sem marcar, a sessão termina ao fechar o navegador. |
 | Assunto e-mail | Redefina sua senha no CondoPartners |
 | CTA e-mail | Redefinir senha |
 | TTL e-mail | O link expira em 24 horas. |
