@@ -1,0 +1,173 @@
+name: CD
+
+# Publish images to GHCR and redeploy Portainer stacks.
+# main → prod · branch dev → stack DEV.
+# Secrets: DEPLOY_SSH_HOST, DEPLOY_SSH_USER, DEPLOY_SSH_KEY
+# Variable: DEPLOY_REPO_ROOT (absolute path to monorepo on the host)
+# See docs/specs/cd-continuous-deploy.md — never commit secrets.
+
+on:
+  push:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: cd-${{ github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  publish:
+    name: publish · ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - name: api
+            file: apps/api/Dockerfile
+          - name: web
+            file: apps/web/Dockerfile
+          - name: landing
+            file: apps/landing/Dockerfile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/condopartners-${{ matrix.name }}
+          tags: |
+            type=raw,value=sha-${{ github.sha }}
+            type=raw,value=prod,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=dev,enable=${{ github.ref == 'refs/heads/dev' }}
+
+      - name: Resolve VITE_API_URL
+        id: vite
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "url=https://api.condopartners.com.br" >> "$GITHUB_OUTPUT"
+          else
+            echo "url=https://api-dev.condopartners.com.br" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.file }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            GIT_SHA=${{ github.sha }}
+            VITE_API_URL=${{ steps.vite.outputs.url }}
+          cache-from: type=gha,scope=cd-${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=cd-${{ matrix.name }}
+
+  deploy:
+    name: deploy · ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
+    needs: publish
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
+      DEPLOY_SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
+      DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      DEPLOY_REPO_ROOT: ${{ vars.DEPLOY_REPO_ROOT }}
+    steps:
+      - name: Require deploy secrets and host path
+        run: |
+          missing=0
+          for key in DEPLOY_SSH_HOST DEPLOY_SSH_USER DEPLOY_SSH_KEY DEPLOY_REPO_ROOT; do
+            if [ -z "${!key}" ]; then
+              echo "::error::$key is not set (Actions secrets/vars). See docs/specs/cd-continuous-deploy.md"
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Resolve stack
+        id: stack
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "name=prod" >> "$GITHUB_OUTPUT"
+            echo "compose=deploy/portainer/prod.portainer.yml" >> "$GITHUB_OUTPUT"
+            echo "project=condopartners-prod" >> "$GITHUB_OUTPUT"
+            echo "env_file=deploy/.env.prod" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=dev" >> "$GITHUB_OUTPUT"
+            echo "compose=deploy/portainer/dev.portainer.yml" >> "$GITHUB_OUTPUT"
+            echo "project=condopartners-dev" >> "$GITHUB_OUTPUT"
+            echo "env_file=deploy/.env.dev" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Add host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$DEPLOY_SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Redeploy on host
+        env:
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE_OWNER: ${{ github.repository_owner }}
+          GIT_SHA: ${{ github.sha }}
+          COMPOSE_FILE: ${{ steps.stack.outputs.compose }}
+          PROJECT: ${{ steps.stack.outputs.project }}
+          ENV_FILE: ${{ steps.stack.outputs.env_file }}
+        run: |
+          set -euo pipefail
+          PREFIX="${REGISTRY}/${IMAGE_OWNER}/condopartners"
+          API_IMAGE="${PREFIX}-api:sha-${GIT_SHA}"
+          WEB_IMAGE="${PREFIX}-web:sha-${GIT_SHA}"
+          LANDING_IMAGE="${PREFIX}-landing:sha-${GIT_SHA}"
+
+          ssh -o BatchMode=yes "${DEPLOY_SSH_USER}@${DEPLOY_SSH_HOST}" \
+            DEPLOY_REPO_ROOT="$DEPLOY_REPO_ROOT" \
+            GHCR_USER="$GHCR_USER" \
+            GHCR_TOKEN="$GHCR_TOKEN" \
+            API_IMAGE="$API_IMAGE" \
+            WEB_IMAGE="$WEB_IMAGE" \
+            LANDING_IMAGE="$LANDING_IMAGE" \
+            COMPOSE_FILE="$COMPOSE_FILE" \
+            PROJECT="$PROJECT" \
+            ENV_FILE="$ENV_FILE" \
+            GIT_SHA="$GIT_SHA" \
+            bash -s <<'REMOTE'
+          set -euo pipefail
+          cd "$DEPLOY_REPO_ROOT"
+          test -f "$ENV_FILE"
+          test -f "$COMPOSE_FILE"
+
+          echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+
+          docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" -p "$PROJECT" pull api web landing
+          API_IMAGE="$API_IMAGE" WEB_IMAGE="$WEB_IMAGE" LANDING_IMAGE="$LANDING_IMAGE" \
+            docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" -p "$PROJECT" up -d api web landing
+
+          echo "Redeployed $PROJECT at sha-$GIT_SHA"
+          REMOTE

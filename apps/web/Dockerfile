@@ -30,6 +30,8 @@ ENV VITE_API_URL=$VITE_API_URL
 RUN bun run --filter '@condopartners/web' build
 
 FROM nginx:1.27-alpine AS runtime
+ARG GIT_SHA=
+LABEL org.opencontainers.image.revision=$GIT_SHA
 COPY apps/web/nginx-default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/apps/web/dist /usr/share/nginx/html
 EXPOSE 80

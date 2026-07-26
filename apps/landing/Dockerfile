@@ -28,6 +28,8 @@ ENV VITE_BASE_PATH=$VITE_BASE_PATH
 RUN bun run --filter '@condopartners/landing' build
 
 FROM nginx:1.27-alpine AS runtime
+ARG GIT_SHA=
+LABEL org.opencontainers.image.revision=$GIT_SHA
 COPY apps/landing/nginx-default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/apps/landing/dist /usr/share/nginx/html
 EXPOSE 80

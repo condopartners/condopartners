@@ -19,6 +19,11 @@ async function checkDatabase(): Promise<DatabaseHealth> {
   }
 }
 
+function resolveGitSha(): string | null {
+  const value = process.env.GIT_SHA?.trim()
+  return value ? value : null
+}
+
 export const healthModule = new Elysia({ prefix: "/health" }).get(
   "/",
   async (): Promise<HealthResponse> => {
@@ -28,6 +33,7 @@ export const healthModule = new Elysia({ prefix: "/health" }).get(
       service: APP_NAME,
       timestamp: new Date().toISOString(),
       database,
+      gitSha: resolveGitSha(),
     }
   },
   {
@@ -36,6 +42,7 @@ export const healthModule = new Elysia({ prefix: "/health" }).get(
       service: t.Literal(APP_NAME),
       timestamp: t.String(),
       database: t.Union([t.Literal("ok"), t.Literal("unreachable")]),
+      gitSha: t.Union([t.String(), t.Null()]),
     }),
   },
 )

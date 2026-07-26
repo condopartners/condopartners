@@ -1,7 +1,66 @@
 # Deploy — Portainer CE (prod + dev)
 
 Artefatos para subir CondoPartners em host com **Portainer CE**, conforme
-[`docs/specs/infra-docker-nginx-portainer.md`](../docs/specs/infra-docker-nginx-portainer.md).
+[`docs/specs/infra-docker-nginx-portainer.md`](../docs/specs/infra-docker-nginx-portainer.md)
+e CD contínuo em
+[`docs/specs/cd-continuous-deploy.md`](../docs/specs/cd-continuous-deploy.md).
+
+## CD contínuo (GHCR → host)
+
+Workflow [`.github/workflows/cd.yml`](../.github/workflows/cd.yml):
+
+| Branch | Ambiente | Overlay |
+|--------|----------|---------|
+| `main` | prod | `deploy/portainer/prod.portainer.yml` |
+| `dev` | DEV (`app-dev` / `api-dev`) | `deploy/portainer/dev.portainer.yml` |
+
+1. **Publish:** build das 3 imagens com `GIT_SHA=<commit>` → push em
+   `ghcr.io/condopartners/condopartners-{api,web,landing}` com tag
+   `sha-<fullsha>` **e** tag móvel `prod` ou `dev`.
+2. **Deploy:** SSH no host → `docker login ghcr.io` →
+   `API_IMAGE` / `WEB_IMAGE` / `LANDING_IMAGE` pinadas no SHA →
+   `docker compose … pull && up -d`.
+3. **Evidência:** `GET /health` na API retorna `gitSha` igual ao commit
+   publicado (`null` só em builds locais sem `GIT_SHA`).
+
+### Secrets / vars (GitHub Actions — nunca no git)
+
+| Nome | Onde | Uso |
+|------|------|-----|
+| `DEPLOY_SSH_HOST` | secret | host SSH |
+| `DEPLOY_SSH_USER` | secret | usuário SSH |
+| `DEPLOY_SSH_KEY` | secret | chave privada SSH |
+| `DEPLOY_REPO_ROOT` | variable | path absoluto do monorepo no host |
+
+`GITHUB_TOKEN` do workflow já tem `packages: write` para publicar no GHCR.
+
+### Branch `dev`
+
+Se ainda não existir:
+
+```bash
+git fetch origin main
+git checkout -B dev origin/main
+git push -u origin dev
+```
+
+Pushes em `dev` disparam CD do stack DEV; merges em `main` disparam prod.
+
+### Redeploy manual (mesmo pin por SHA)
+
+```bash
+export API_IMAGE=ghcr.io/condopartners/condopartners-api:sha-<fullsha>
+export WEB_IMAGE=ghcr.io/condopartners/condopartners-web:sha-<fullsha>
+export LANDING_IMAGE=ghcr.io/condopartners/condopartners-landing:sha-<fullsha>
+
+# prod
+docker compose -p condopartners-prod --env-file deploy/.env.prod \
+  -f deploy/portainer/prod.portainer.yml pull api web landing
+docker compose -p condopartners-prod --env-file deploy/.env.prod \
+  -f deploy/portainer/prod.portainer.yml up -d api web landing
+
+# dev — troque project/env/compose para condopartners-dev / .env.dev / dev.portainer.yml
+```
 
 ## Escolha: image-based (Portainer) vs build-no-stack
 
@@ -35,8 +94,9 @@ docker compose -p condopartners-dev \
   -f deploy/portainer/dev.stack.yml build
 ```
 
-Defaults do overlay: `condopartners-prod-api|web|landing:latest` (e `-dev-` no
-stack dev). Override com `API_IMAGE` / `WEB_IMAGE` / `LANDING_IMAGE`.
+Preferência CD: `API_IMAGE` / `WEB_IMAGE` / `LANDING_IMAGE` = GHCR
+`sha-<fullsha>` (seção CD acima). Fallback local sem registry:
+`condopartners-prod-api|web|landing:latest` (e `-dev-` no stack dev).
 
 ## Pré-requisitos
 
