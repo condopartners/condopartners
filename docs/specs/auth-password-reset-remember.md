@@ -2,7 +2,7 @@
 
 ## Status
 
-Rascunho — aguardando confirmação do board ([SIS-189](/SIS/issues/SIS-189))
+Aprovada — plano [SIS-189](/SIS/issues/SIS-189) rev. 2 aceito (opção A: remember-me nativo Better Auth)
 
 ## Issue
 

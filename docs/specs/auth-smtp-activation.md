@@ -2,8 +2,8 @@
 
 ## Status
 
-Aprovada (fatia SMTP/ativação entregue). **Delta [SIS-189](/SIS/issues/SIS-189) em rascunho** —
-TTL ativação 30d + erros/sucesso de cadastro — aguardando confirmação do board.
+Aprovada (fatia SMTP/ativação entregue). **Delta [SIS-189](/SIS/issues/SIS-189) aprovado** —
+TTL ativação 30d + erros/sucesso de cadastro (plano rev. 2 aceito pelo board).
 
 ## Issue
 
