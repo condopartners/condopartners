@@ -14,7 +14,8 @@
       "!**/.vite",
       "!**/.cursor",
       "!**/.github/skills",
-      "!**/.github/hooks"
+      "!**/.github/hooks",
+      "!**/docs/design"
     ]
   },
   "formatter": {
