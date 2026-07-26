@@ -21,10 +21,22 @@ export function VerifyEmailNotice({
   return (
     <section className="rounded-[var(--radius)] border border-border bg-card p-6 shadow-[0_1px_2px_rgb(11_31_51_/_0.06)]">
       <h1 className="mb-3 text-2xl font-semibold tracking-tight text-foreground lg:text-3xl">
-        Verifique seu e-mail
+        Conta criada
       </h1>
+
+      <p
+        className="mb-4 rounded-[var(--radius)] border border-[var(--cp-success)]/30 bg-[var(--cp-success)]/5 px-3 py-2 text-sm text-[var(--cp-success)]"
+        role="status"
+        aria-live="polite"
+      >
+        Conta criada. Verifique seu e-mail para ativar o acesso.
+      </p>
+
       <p className="mb-6 text-sm text-muted-foreground">
-        Enviamos um link de ativação para {email}. Abra a mensagem e clique em Ativar conta.
+        Enviamos um link de ativação para{" "}
+        <span className="break-all font-medium text-foreground">{email}</span>. Abra a mensagem e
+        clique em <span className="font-medium text-foreground">Ativar conta</span>. O link vale por{" "}
+        <span className="font-medium text-foreground">30 dias</span>.
       </p>
 
       {error ? (
