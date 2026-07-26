@@ -39,7 +39,8 @@ não altera contratos de API de auth.
   - Checklist visual vs handoff §7–8 no corpo do PR.
 - Fora:
   - Mudanças de API/schema Better Auth (já na fundação).
-  - OAuth, verificação obrigatória de e-mail, reset por e-mail.
+  - OAuth. Verificação obrigatória de e-mail: `auth-smtp-activation.md`.
+    Reset + lembrar-me: `auth-password-reset-remember.md` ([SIS-189](/SIS/issues/SIS-189)).
   - RBAC, roles, convites, multi-tenant.
   - Nav de domínio inventada (Partners, Comissões…).
   - Push notifications, landing marketing.
