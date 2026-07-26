@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "bun:test"
 import { eq } from "drizzle-orm"
 import { app } from "../../app"
 import { db } from "../../db"
-import { user } from "../../db/auth-schema"
+import { user, verification } from "../../db/auth-schema"
 import { resetMailerForTests, type SendMailInput, setSendMailForTests } from "../../lib/mailer"
 
 const password = "senha-super-segura-123"
@@ -73,6 +73,37 @@ describe("auth email/senha + verificação", () => {
 
     const rows = await db.select().from(user).where(eq(user.email, email))
     expect(rows[0]?.emailVerified).toBe(false)
+  })
+
+  // Better Auth 1.6: ativação de e-mail é JWT (HS256 com BETTER_AUTH_SECRET),
+  // não linha na tabela `verification` (essa tabela serve reset-password / OAuth state / OTP).
+  // SIS-174 — QA viu `verification` vazia pós-SMTP; comportamento esperado.
+  it("sign-up de ativação não grava verification; token JWT no e-mail ativa a conta", async () => {
+    const email = uniqueEmail()
+    const beforeCount = (await db.select().from(verification)).length
+
+    await signUp(email)
+    await flushMail()
+
+    const afterSignUpCount = (await db.select().from(verification)).length
+    expect(afterSignUpCount).toBe(beforeCount)
+
+    const token = sent[0]?.text.match(/[?&]token=([^&\s]+)/)?.[1]
+    expect(token).toBeTruthy()
+    // JWT compact: header.payload.signature
+    expect(token!.split(".")).toHaveLength(3)
+
+    const url =
+      sent[0]?.text.match(/https?:\/\/\S+/)?.[0] ?? sent[0]?.html?.match(/href="([^"]+)"/)?.[1]
+    const verify = await app.handle(
+      new Request(url!, { method: "GET", headers: { origin }, redirect: "manual" }),
+    )
+    expect(verify.status).toBeGreaterThanOrEqual(300)
+    expect(verify.status).toBeLessThan(400)
+
+    const rows = await db.select().from(user).where(eq(user.email, email))
+    expect(rows[0]?.emailVerified).toBe(true)
+    expect((await db.select().from(verification)).length).toBe(beforeCount)
   })
 
   it("sign-in sem verificar falha sem sessão e reenvia e-mail", async () => {

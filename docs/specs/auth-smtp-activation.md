@@ -134,8 +134,22 @@ estruturado se o envio falhar.
 | `POST` | `/api/auth/sign-up/email` | cria user + dispara verificação |
 | `POST` | `/api/auth/sign-in/email` | bloqueado se não verificado + reenvio |
 | `POST` | `/api/auth/send-verification-email` | reenvio manual |
-| `GET` | `/api/auth/verify-email` | consome token (URL do e-mail) |
+| `GET` | `/api/auth/verify-email` | valida JWT da URL e marca `emailVerified` |
 | existentes | sign-out / get-session | inalterados |
+
+### Onde o token de ativação vive (Better Auth 1.6)
+
+**Não** na tabela `verification`. O fluxo nativo de e-mail de ativação gera um
+**JWT HS256** assinado com `BETTER_AUTH_SECRET` (`createEmailVerificationToken`),
+embute o token na URL enviada por SMTP e, em `GET /api/auth/verify-email`,
+valida o JWT com `jwtVerify` — sem lookup/insert em `verification`.
+
+A tabela `verification` permanece no schema da fundação para **outros** fluxos
+Better Auth (ex.: reset de senha `reset-password:*`, OAuth state, plugins OTP /
+2FA). Após sign-up com SMTP ok, `verification` vazia **é o comportamento esperado**
+(confirmado em [SIS-174](/SIS/issues/SIS-174)); evidência de ativação = linha em
+`user` (`email_verified`) + MessageID Postmark / link no e-mail, não row count
+em `verification`.
 
 Schema Drizzle: **sem migration nova** — tables `user.email_verified` e
 `verification` já existem na fundação.
@@ -186,9 +200,10 @@ novo handoff de Design obrigatório (e-mail é texto/HTML cru).
 
 1. Unit/integração API (`apps/api/src/modules/auth/` ou `lib/mailer`):
    - mailer lê env e chama transport (mock).
-   - sign-up → `sendMail` chamado 1× com `to` = e-mail do user e URL com token.
+   - sign-up → `sendMail` chamado 1× com `to` = e-mail do user e URL com token JWT.
+   - sign-up de ativação **não** incrementa linhas em `verification`.
    - sign-in sem verificar → sem cookie de sessão + tentativa de reenvio.
-   - verify-email com token válido → `emailVerified === true`.
+   - verify-email com token JWT válido → `emailVerified === true`.
    - token expirado → erro esperado.
 2. Smoke web: cadastro → tela “verifique seu e-mail” → (em lab) abrir URL do
    mock/Mailpit → shell autenticado; login bloqueado antes da ativação; reenvio.
