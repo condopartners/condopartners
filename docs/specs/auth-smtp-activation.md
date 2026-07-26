@@ -2,12 +2,15 @@
 
 ## Status
 
-Rascunho — aguardando aprovação do board ([SIS-115](/SIS/issues/SIS-115))
+Aprovada (fatia SMTP/ativação entregue). **Delta [SIS-189](/SIS/issues/SIS-189) aprovado** —
+TTL ativação 30d + erros/sucesso de cadastro (plano rev. 2 aceito pelo board).
 
 ## Issue
 
 - Paperclip: [SIS-115](/SIS/issues/SIS-115) (spec) · pedido origem [SIS-112](/SIS/issues/SIS-112)
+- Delta UX/TTL: [SIS-189](/SIS/issues/SIS-189) · parent [SIS-188](/SIS/issues/SIS-188)
 - Pré-requisito: fundação Better Auth — `docs/specs/auth-better-auth.md` ([SIS-65](/SIS/issues/SIS-65) / [SIS-67](/SIS/issues/SIS-67))
+- Spec irmã (reset + lembrar-me): `docs/specs/auth-password-reset-remember.md`
 
 ## Resumo
 
@@ -37,21 +40,27 @@ nodemailer; testes mockam o transport.
   - Módulo mailer fino (`apps/api/src/lib/mailer.ts` ou equivalente) lendo env SMTP.
   - Better Auth: `emailAndPassword.requireEmailVerification: true`.
   - Better Auth: `emailVerification` com `sendVerificationEmail`, `sendOnSignUp: true`,
-    `sendOnSignIn: true`, `autoSignInAfterVerification: true`, `expiresIn: 3600` (1h).
-  - Template pt-BR texto + HTML mínimo (sem Design system e-mail nesta fatia).
-  - UI web mínima: estado pós-cadastro “verifique seu e-mail”; mensagem em login
-    quando conta não verificada; CTA **Reenviar e-mail de ativação**
-    (`authClient.sendVerificationEmail`).
+    `sendOnSignIn: true`, `autoSignInAfterVerification: true`,
+    `expiresIn: 2_592_000` (**30 dias**; era 3600 / 1h — delta [SIS-189](/SIS/issues/SIS-189)).
+  - Template pt-BR texto + HTML mínimo (sem Design system e-mail nesta fatia); copy do
+    rodapé/TTL alinhada a **30 dias**.
+  - UI web mínima: estado pós-cadastro de **sucesso** (conta criada + e-mail de ativação
+    enviado); mensagem em login quando conta não verificada; CTA **Reenviar e-mail de
+    ativação** (`authClient.sendVerificationEmail`).
+  - UI cadastro: mapear códigos Better Auth para erros **específicos** em pt-BR
+    (senha curta/longa, e-mail inválido, e-mail já usado) — não só erro genérico.
   - Callback pós-verificação: `WEB_ORIGIN` (ex. `/` ou rota já existente do shell).
   - `.env.example` com vars SMTP sem secrets.
   - Testes API (bun:test) com mailer mockado: sign-up dispara envio; login sem
-    verificar falha; token/URL de verificação marca `emailVerified`; reenvio.
+    verificar falha; token/URL de verificação marca `emailVerified`; reenvio;
+    JWT de ativação respeita TTL de 30 dias (expirado falha).
   - Documentar risco de deliverability / spam e checklist operacional (SPF/DKIM/DMARC
     no DNS do domínio remetente — responsabilidade de ops, não código).
 
 - Fora:
-  - Reset de senha por e-mail (follow-up futuro; mesmo mailer poderá reutilizar).
-  - Templates HTML polidos / brand e-mail (handoff Design opcional depois).
+  - Reset de senha por e-mail e checkbox “lembrar-me” — ver
+    `docs/specs/auth-password-reset-remember.md` ([SIS-189](/SIS/issues/SIS-189)).
+  - Templates HTML polidos / brand e-mail (handoff Design [SIS-190](/SIS/issues/SIS-190)).
   - Fila (Bull/Redis), retry avançado, webhooks de bounce.
   - OAuth / social login.
   - Painel super-admin para forçar verificação ([SIS-116](/SIS/issues/SIS-116)).
@@ -72,13 +81,21 @@ Critérios de aceite testáveis:
    reenvio do e-mail de verificação (`sendOnSignIn: true`).
 5. Usuário pode solicitar **reenvio** pela UI sem criar conta duplicada.
 6. Token expirado / inválido: verificação falha com mensagem pt-BR clara; usuário
-   pode pedir novo e-mail.
+   pode pedir novo e-mail. TTL do JWT de ativação = **30 dias**.
 7. Em produção (`NODE_ENV=production` ou equivalente explícito), ausência das
    vars SMTP obrigatórias **impede boot** da API (fail-fast). Em teste, mailer é
    mock; em dev local, SMTP real **ou** transport de captura documentado
    (ex. Mailpit) — sem logar o corpo com secrets.
 8. `.env.example` lista todas as vars novas; nenhum secret real no git.
 9. `bun run check` verde após a implementação.
+10. **Delta [SIS-189](/SIS/issues/SIS-189) — erros de cadastro:** sign-up com senha
+    abaixo de `minPasswordLength` (default BA = 8) mostra copy específica pt-BR
+    (não o erro genérico). Idem `PASSWORD_TOO_LONG`, `INVALID_EMAIL`,
+    `USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL` (ou equivalentes da versão pinada).
+    Códigos desconhecidos caem no genérico.
+11. **Delta [SIS-189](/SIS/issues/SIS-189) — sucesso pós-cadastro:** após sign-up ok,
+    UI deixa claro que a **conta foi criada** e que o **e-mail de ativação foi
+    enviado** (título + corpo; polish visual do handoff [SIS-190](/SIS/issues/SIS-190)).
 
 ## Dados / API
 
@@ -110,12 +127,12 @@ betterAuth({
     sendOnSignUp: true,
     sendOnSignIn: true,
     autoSignInAfterVerification: true,
-    expiresIn: 3600,
+    expiresIn: 60 * 60 * 24 * 30, // 30 dias
     sendVerificationEmail: async ({ user, url }) => {
       void sendMail({
         to: user.email,
         subject: "Ative sua conta no CondoPartners",
-        text: `Olá${user.name ? `, ${user.name}` : ""}!\n\nClique no link para ativar sua conta:\n${url}\n\nO link expira em 1 hora.`,
+        text: `Olá${user.name ? `, ${user.name}` : ""}!\n\nClique no link para ativar sua conta:\n${url}\n\nO link expira em 30 dias.`,
         html: `<!-- HTML mínimo equivalente, um <a href="{url}">Ativar conta</a> -->`,
       })
     },
@@ -163,19 +180,29 @@ implementação o comando/procedimento.
 
 ## UI
 
-Wiring mínimo (copy pt-BR). Polimento visual alinhado ao shell existente; sem
-novo handoff de Design obrigatório (e-mail é texto/HTML cru).
+Wiring mínimo (copy pt-BR). **Fonte de polish/copy de UI:**
+`docs/design/sis-190/HANDOFF.md` ([SIS-190](/SIS/issues/SIS-190)).
+Códigos de erro Better Auth e TTL permanecem desta spec; strings de tela
+seguem o handoff.
 
 | Contexto | Copy |
 |----------|------|
-| Pós-cadastro | Verifique seu e-mail |
-| Pós-cadastro (corpo) | Enviamos um link de ativação para {email}. Abra a mensagem e clique em Ativar conta. |
+| Pós-cadastro (título) | Conta criada |
+| Pós-cadastro (banner) | Conta criada. Verifique seu e-mail para ativar o acesso. |
+| Pós-cadastro (corpo) | Enviamos um link de ativação para {email}. Abra a mensagem e clique em Ativar conta. O link vale por 30 dias. |
 | CTA reenvio | Reenviar e-mail de ativação |
 | Reenvio ok | E-mail reenviado. Confira a caixa de entrada e o spam. |
 | Login bloqueado | Conta ainda não ativada. Verifique seu e-mail ou reenvie o link. |
 | Link expirado | Este link expirou. Solicite um novo e-mail de ativação. |
+| Hint senha | Use pelo menos 8 caracteres. |
+| Senha curta | A senha deve ter pelo menos {n} caracteres. |
+| Senha longa | A senha é longa demais. Use no máximo {n} caracteres. |
+| E-mail inválido | Informe um e-mail válido. |
+| E-mail já usado | Este e-mail já está em uso. Entre ou use outro e-mail. |
+| Erro genérico cadastro | Não foi possível criar a conta. Verifique os dados e tente de novo. |
 | Assunto e-mail | Ative sua conta no CondoPartners |
 | CTA no e-mail | Ativar conta |
+| TTL no e-mail | O link expira em 30 dias. |
 | Rodapé e-mail | Se você não criou esta conta, ignore esta mensagem. |
 
 ## Riscos
@@ -204,18 +231,21 @@ novo handoff de Design obrigatório (e-mail é texto/HTML cru).
    - sign-up de ativação **não** incrementa linhas em `verification`.
    - sign-in sem verificar → sem cookie de sessão + tentativa de reenvio.
    - verify-email com token JWT válido → `emailVerified === true`.
-   - token expirado → erro esperado.
-2. Smoke web: cadastro → tela “verifique seu e-mail” → (em lab) abrir URL do
-   mock/Mailpit → shell autenticado; login bloqueado antes da ativação; reenvio.
+   - token expirado → erro esperado; TTL configurado = 30 dias.
+   - sign-up senha curta → resposta com código `PASSWORD_TOO_SHORT` (ou equivalente).
+2. Smoke web: cadastro ok → sucesso (conta criada + e-mail enviado) → (em lab)
+   abrir URL do mock/Mailpit → shell autenticado; login bloqueado antes da
+   ativação; reenvio; cadastro com senha curta mostra erro específico.
 3. `bun run check` verde.
 4. Evidência QA: print ou log do e-mail capturado em ambiente de staging/dev com
-   SMTP de lab (sem expor `SMTP_PASS`).
+   SMTP de lab (sem expor `SMTP_PASS`); e-mail menciona expiração em 30 dias.
 
-## Ordem de implementação (pós-aprovação)
+## Ordem de implementação (pós-aprovação do delta SIS-189)
 
-1. Issue DEV: mailer + Better Auth flags + testes API (TDD).
-2. Mesma PR ou fatia seguinte: UI estados pt-BR + reenvio.
-3. Issue QA: aceite + regressão auth fundação + evidência de e-mail.
-4. Ops (humano/CEO): preencher secrets SMTP no Portainer + DNS SPF/DKIM.
+1. Issue DEV (API): `expiresIn` 30d + copy e-mail TTL + testes TDD.
+2. Issue DEV (web): mapa de erros de cadastro + copy de sucesso pós-cadastro
+   (alinhar handoff [SIS-190](/SIS/issues/SIS-190) quando disponível).
+3. Issue QA: aceite dos deltas + regressão ativação/SMTP + evidência `bun run check`.
 
-Não abrir issues de implementação até esta spec estar **Aprovada** pelo board.
+Não abrir implementação do **delta** até o board confirmar o plano em
+[SIS-189](/SIS/issues/SIS-189).
