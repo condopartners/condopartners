@@ -73,8 +73,24 @@ body {
   animation: cp-drawer-in 220ms ease-out;
 }
 
+@keyframes cp-app-update-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cp-app-update-banner {
+  animation: cp-app-update-in 180ms ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .cp-drawer {
+  .cp-drawer,
+  .cp-app-update-banner {
     animation: none;
   }
 }
