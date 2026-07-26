@@ -136,7 +136,7 @@ export function buildActivationEmail(input: {
     "Clique no link para ativar sua conta:",
     input.url,
     "",
-    "O link expira em 1 hora.",
+    "O link expira em 30 dias.",
     "",
     "Se você não criou esta conta, ignore esta mensagem.",
   ].join("\n")
@@ -144,8 +144,36 @@ export function buildActivationEmail(input: {
     `<p>${htmlGreeting}</p>`,
     `<p>Clique no link para ativar sua conta:</p>`,
     `<p><a href="${input.url}">Ativar conta</a></p>`,
-    `<p>O link expira em 1 hora.</p>`,
+    `<p>O link expira em 30 dias.</p>`,
     `<p>Se você não criou esta conta, ignore esta mensagem.</p>`,
+  ].join("")
+
+  return { subject, text, html }
+}
+
+export function buildResetPasswordEmail(input: {
+  name?: string | null
+  url: string
+}): Pick<SendMailInput, "subject" | "text" | "html"> {
+  const greeting = input.name ? `Olá, ${input.name}!` : "Olá!"
+  const htmlGreeting = input.name ? `Olá, ${escapeHtml(input.name)}!` : "Olá!"
+  const subject = "Redefina sua senha no CondoPartners"
+  const text = [
+    greeting,
+    "",
+    "Clique no link para redefinir sua senha:",
+    input.url,
+    "",
+    "O link expira em 24 horas.",
+    "",
+    "Se você não pediu esta redefinição, ignore esta mensagem.",
+  ].join("\n")
+  const html = [
+    `<p>${htmlGreeting}</p>`,
+    `<p>Clique no link para redefinir sua senha:</p>`,
+    `<p><a href="${input.url}">Redefinir senha</a></p>`,
+    `<p>O link expira em 24 horas.</p>`,
+    `<p>Se você não pediu esta redefinição, ignore esta mensagem.</p>`,
   ].join("")
 
   return { subject, text, html }
