@@ -6,45 +6,39 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export type SignUpFormProps = {
-  name: string
-  email: string
+export type ResetPasswordFormProps = {
   password: string
+  confirmPassword: string
   error: string | null
   fieldErrors: FieldErrors
   submitting: boolean
-  onNameChange: (value: string) => void
-  onEmailChange: (value: string) => void
   onPasswordChange: (value: string) => void
+  onConfirmPasswordChange: (value: string) => void
   onSubmit: (event: FormEvent<HTMLFormElement>) => void
-  onSwitchToSignIn: () => void
+  onRequestNewLink: () => void
 }
 
-export function SignUpForm({
-  name,
-  email,
+export function ResetPasswordForm({
   password,
+  confirmPassword,
   error,
   fieldErrors,
   submitting,
-  onNameChange,
-  onEmailChange,
   onPasswordChange,
+  onConfirmPasswordChange,
   onSubmit,
-  onSwitchToSignIn,
-}: SignUpFormProps) {
-  const nameId = useId()
-  const emailId = useId()
+  onRequestNewLink,
+}: ResetPasswordFormProps) {
   const passwordId = useId()
-  const nameErrorId = useId()
-  const emailErrorId = useId()
+  const confirmId = useId()
   const passwordErrorId = useId()
+  const confirmErrorId = useId()
   const passwordHintId = useId()
 
   return (
     <section className="rounded-[var(--radius)] border border-border bg-card p-6 shadow-[0_1px_2px_rgb(11_31_51_/_0.06)]">
       <h1 className="mb-6 text-2xl font-semibold tracking-tight text-foreground lg:text-3xl">
-        Criar conta
+        Escolha uma nova senha
       </h1>
 
       <form className="space-y-4" onSubmit={onSubmit}>
@@ -59,50 +53,7 @@ export function SignUpForm({
         ) : null}
 
         <div className="space-y-1.5">
-          <Label htmlFor={nameId}>Nome</Label>
-          <Input
-            id={nameId}
-            type="text"
-            autoComplete="name"
-            required
-            placeholder="Maria Silva…"
-            value={name}
-            readOnly={submitting}
-            aria-invalid={fieldErrors.name ? true : undefined}
-            aria-describedby={fieldErrors.name ? nameErrorId : undefined}
-            onChange={(e) => onNameChange(e.target.value)}
-          />
-          {fieldErrors.name ? (
-            <p id={nameErrorId} className="text-sm text-[var(--cp-danger)]">
-              {fieldErrors.name}
-            </p>
-          ) : null}
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor={emailId}>E-mail</Label>
-          <Input
-            id={emailId}
-            type="email"
-            autoComplete="email"
-            spellCheck={false}
-            required
-            placeholder="voce@empresa.com…"
-            value={email}
-            readOnly={submitting}
-            aria-invalid={fieldErrors.email ? true : undefined}
-            aria-describedby={fieldErrors.email ? emailErrorId : undefined}
-            onChange={(e) => onEmailChange(e.target.value)}
-          />
-          {fieldErrors.email ? (
-            <p id={emailErrorId} className="text-sm text-[var(--cp-danger)]">
-              {fieldErrors.email}
-            </p>
-          ) : null}
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor={passwordId}>Senha</Label>
+          <Label htmlFor={passwordId}>Nova senha</Label>
           <Input
             id={passwordId}
             type="password"
@@ -130,27 +81,54 @@ export function SignUpForm({
           )}
         </div>
 
+        <div className="space-y-1.5">
+          <Label htmlFor={confirmId}>Confirmar senha</Label>
+          <Input
+            id={confirmId}
+            type="password"
+            autoComplete="new-password"
+            required
+            value={confirmPassword}
+            readOnly={submitting}
+            aria-invalid={fieldErrors.confirm ? true : undefined}
+            aria-describedby={fieldErrors.confirm ? confirmErrorId : undefined}
+            className={
+              fieldErrors.confirm
+                ? "border-[var(--cp-danger)] focus-visible:ring-[var(--cp-danger)]"
+                : undefined
+            }
+            onChange={(e) => onConfirmPasswordChange(e.target.value)}
+          />
+          {fieldErrors.confirm ? (
+            <p id={confirmErrorId} className="text-sm text-[var(--cp-danger)]">
+              {fieldErrors.confirm}
+            </p>
+          ) : null}
+        </div>
+
         <Button type="submit" className="h-11 w-full touch-manipulation" disabled={submitting}>
           {submitting ? (
             <>
               <Loader2 className="size-4 animate-spin" aria-hidden />
-              Criando conta…
+              Salvando…
             </>
           ) : (
-            "Criar conta"
+            "Salvar nova senha"
           )}
         </Button>
       </form>
 
-      <Button
-        type="button"
-        variant="ghost"
-        className="mt-3 h-11 w-full touch-manipulation"
-        onClick={onSwitchToSignIn}
-        disabled={submitting}
-      >
-        Já tem conta? Entrar
-      </Button>
+      {error ? (
+        <Button
+          type="button"
+          variant="outline"
+          className="mt-3 h-11 w-full touch-manipulation"
+          onClick={onRequestNewLink}
+          disabled={submitting}
+        >
+          Pedir novo link
+        </Button>
+      ) : null}
     </section>
   )
 }

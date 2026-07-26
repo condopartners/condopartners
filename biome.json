@@ -16,7 +16,7 @@
       "!**/.github/skills",
       "!**/.github/hooks",
       "!**/docs/design",
-      "!**/.worktrees"
+      "!.worktrees"
     ]
   },
   "formatter": {
