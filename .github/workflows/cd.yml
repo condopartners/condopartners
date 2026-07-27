@@ -2,7 +2,7 @@ name: CD
 
 # Publish images to GHCR and redeploy Portainer stacks.
 # main → prod · branch dev → stack DEV.
-# Secrets: DEPLOY_SSH_HOST, DEPLOY_SSH_USER, DEPLOY_SSH_KEY
+# Secrets: DEPLOY_SSH_HOST, DEPLOY_SSH_USER, DEPLOY_SSH_KEY, DEPLOY_SSH_KNOWN_HOSTS
 # Variable: DEPLOY_REPO_ROOT (absolute path to monorepo on the host)
 # See docs/specs/cd-continuous-deploy.md — never commit secrets.
 
@@ -90,12 +90,13 @@ jobs:
       DEPLOY_SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
       DEPLOY_SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
       DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      DEPLOY_SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
       DEPLOY_REPO_ROOT: ${{ vars.DEPLOY_REPO_ROOT }}
     steps:
       - name: Require deploy secrets and host path
         run: |
           missing=0
-          for key in DEPLOY_SSH_HOST DEPLOY_SSH_USER DEPLOY_SSH_KEY DEPLOY_REPO_ROOT; do
+          for key in DEPLOY_SSH_HOST DEPLOY_SSH_USER DEPLOY_SSH_KEY DEPLOY_SSH_KNOWN_HOSTS DEPLOY_REPO_ROOT; do
             if [ -z "${!key}" ]; then
               echo "::error::$key is not set (Actions secrets/vars). See docs/specs/cd-continuous-deploy.md"
               missing=1
@@ -128,11 +129,10 @@ jobs:
       - name: Add host to known_hosts
         run: |
           mkdir -p ~/.ssh
-          if ! ssh-keyscan -T 10 -H "$DEPLOY_SSH_HOST" >> ~/.ssh/known_hosts 2>keyscan.err; then
-            echo "::error::ssh-keyscan failed — porta 22 precisa ser alcançável pelos runners do GitHub (ou use self-hosted runner). Ver docs/specs/cd-continuous-deploy.md"
-            cat keyscan.err
-            exit 1
-          fi
+          chmod 700 ~/.ssh
+          # Pin host keys via Actions secret (no live keyscan from the runner).
+          printf '%s\n' "$DEPLOY_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
 
       - name: Redeploy on host
         env:

@@ -27,12 +27,20 @@ Workflow [`.github/workflows/cd.yml`](../.github/workflows/cd.yml):
 
 | Nome | Onde | Uso |
 |------|------|-----|
-| `DEPLOY_SSH_HOST` | secret | host SSH |
+| `DEPLOY_SSH_HOST` | secret | host SSH (alcançável do egress do Actions) |
 | `DEPLOY_SSH_USER` | secret | usuário SSH |
 | `DEPLOY_SSH_KEY` | secret | chave privada SSH |
+| `DEPLOY_SSH_KNOWN_HOSTS` | secret | host keys pinadas (`ssh-keyscan <host>` no host confiável) |
 | `DEPLOY_REPO_ROOT` | variable | path absoluto do monorepo no host |
 
 `GITHUB_TOKEN` do workflow já tem `packages: write` para publicar no GHCR.
+
+Para (re)gerar o pin de known_hosts **no host de deploy** (não no runner):
+
+```bash
+ssh-keyscan -T 10 "$DEPLOY_SSH_HOST"
+# cole a saída no secret Actions DEPLOY_SSH_KNOWN_HOSTS (sem commitá-la)
+```
 
 ### Branch `dev`
 

@@ -281,6 +281,20 @@ describe("deploy artifacts (SIS-39)", () => {
     )
   })
 
+  test("CD usa known_hosts pinado via secret (SIS-224)", () => {
+    const workflow = read(join(root, ".github", "workflows", "cd.yml"))
+    expect(workflow).toContain("DEPLOY_SSH_KNOWN_HOSTS")
+    expect(workflow).toMatch(/secrets\.DEPLOY_SSH_KNOWN_HOSTS/)
+    // Live keyscan from Actions is fragile (egress/firewall); pin host keys instead.
+    expect(workflow).not.toMatch(/^\s*ssh-keyscan\b/m)
+
+    const spec = read(join(root, "docs/specs/cd-continuous-deploy.md"))
+    expect(spec).toContain("DEPLOY_SSH_KNOWN_HOSTS")
+
+    const readme = read(join(deploy, "README.md"))
+    expect(readme).toContain("DEPLOY_SSH_KNOWN_HOSTS")
+  })
+
   test("Dockerfiles aceitam build-arg GIT_SHA (SIS-198)", () => {
     for (const app of ["api", "web", "landing"]) {
       const body = read(join(root, "apps", app, "Dockerfile"))
