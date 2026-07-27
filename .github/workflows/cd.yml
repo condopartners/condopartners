@@ -128,7 +128,11 @@ jobs:
       - name: Add host to known_hosts
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H "$DEPLOY_SSH_HOST" >> ~/.ssh/known_hosts
+          if ! ssh-keyscan -T 10 -H "$DEPLOY_SSH_HOST" >> ~/.ssh/known_hosts 2>keyscan.err; then
+            echo "::error::ssh-keyscan failed — porta 22 precisa ser alcançável pelos runners do GitHub (ou use self-hosted runner). Ver docs/specs/cd-continuous-deploy.md"
+            cat keyscan.err
+            exit 1
+          fi
 
       - name: Redeploy on host
         env:
@@ -165,7 +169,8 @@ jobs:
 
           echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
 
-          docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" -p "$PROJECT" pull api web landing
+          API_IMAGE="$API_IMAGE" WEB_IMAGE="$WEB_IMAGE" LANDING_IMAGE="$LANDING_IMAGE" \
+            docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" -p "$PROJECT" pull api web landing
           API_IMAGE="$API_IMAGE" WEB_IMAGE="$WEB_IMAGE" LANDING_IMAGE="$LANDING_IMAGE" \
             docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" -p "$PROJECT" up -d api web landing
 

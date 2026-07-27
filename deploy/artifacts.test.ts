@@ -270,6 +270,17 @@ describe("deploy artifacts (SIS-39)", () => {
     expect(doc.jobs?.deploy, "job `deploy` missing in cd.yml").toBeDefined()
   })
 
+  test("CD pinna imagens no pull e no up (SIS-198)", () => {
+    const workflow = read(join(root, ".github", "workflows", "cd.yml"))
+    // pull e up devem exportar as três imagens (não só o up)
+    const pinned =
+      /API_IMAGE="\$API_IMAGE"\s+WEB_IMAGE="\$WEB_IMAGE"\s+LANDING_IMAGE="\$LANDING_IMAGE"\s+\\\s*\n\s*docker compose[^\n]*pull api web landing/
+    expect(workflow, "pull deve pinar API/WEB/LANDING_IMAGE").toMatch(pinned)
+    expect(workflow).toMatch(
+      /API_IMAGE="\$API_IMAGE"\s+WEB_IMAGE="\$WEB_IMAGE"\s+LANDING_IMAGE="\$LANDING_IMAGE"\s+\\\s*\n\s*docker compose[^\n]*up -d api web landing/,
+    )
+  })
+
   test("Dockerfiles aceitam build-arg GIT_SHA (SIS-198)", () => {
     for (const app of ["api", "web", "landing"]) {
       const body = read(join(root, "apps", app, "Dockerfile"))
