@@ -55,10 +55,15 @@ stack **dev**. Tags canônicas por SHA; evidência de versão via `gitSha` em
    - exporta `API_IMAGE` / `WEB_IMAGE` / `LANDING_IMAGE` pinadas no SHA
    - `docker compose -f deploy/portainer/{prod|dev}.portainer.yml pull && up -d`
 7. **Secrets / vars** (só GitHub Actions / host — nunca no git):
-   - Secrets: `DEPLOY_SSH_HOST`, `DEPLOY_SSH_USER`, `DEPLOY_SSH_KEY`
+   - Secrets: `DEPLOY_SSH_HOST`, `DEPLOY_SSH_USER`, `DEPLOY_SSH_KEY`,
+     `DEPLOY_SSH_KNOWN_HOSTS` (linhas de `known_hosts` pinadas; gerar no host
+     com `ssh-keyscan <DEPLOY_SSH_HOST>` e colar no secret — **não** fazer
+     keyscan live no runner do Actions)
    - Variable: `DEPLOY_REPO_ROOT` (path absoluto do monorepo no host)
    - `packages: write` no `GITHUB_TOKEN` do workflow (GHCR no mesmo repo)
    - Host precisa conseguir `docker pull` do GHCR (login no job de deploy)
+   - `DEPLOY_SSH_HOST` deve ser alcançável na porta SSH a partir do egress do
+     GitHub Actions (IP/DNS públicos; não usar só IP privado da VPC)
 8. **Se secret/ops faltar:** issue marcada `blocked` com owner nomeado
    (CEO/board) — não inventar secret no repo.
 
