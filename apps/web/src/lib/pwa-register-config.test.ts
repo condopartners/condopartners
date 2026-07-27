@@ -9,3 +9,11 @@ describe("vite PWA registerType", () => {
     expect(config).not.toContain('registerType: "autoUpdate"')
   })
 })
+
+describe("web package PWA runtime deps", () => {
+  test("declara workbox-window (virtual:pwa-register/react)", () => {
+    const pkg = JSON.parse(readFileSync(join(import.meta.dir, "../../package.json"), "utf8"))
+    const deps = { ...pkg.dependencies, ...pkg.devDependencies }
+    expect(deps["workbox-window"]).toBeTruthy()
+  })
+})
