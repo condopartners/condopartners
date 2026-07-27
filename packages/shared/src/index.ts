@@ -14,4 +14,6 @@ export interface HealthResponse {
   service: typeof APP_NAME
   timestamp: string
   database: DatabaseHealth
+  /** Commit SHA baked into the image (`GIT_SHA`); null when unset (local). */
+  gitSha: string | null
 }

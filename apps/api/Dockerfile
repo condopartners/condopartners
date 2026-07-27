@@ -24,6 +24,9 @@ COPY --from=deps /app/apps/api/node_modules ./apps/api/node_modules
 
 WORKDIR /app/apps/api
 
+ARG GIT_SHA=
+ENV GIT_SHA=$GIT_SHA
+
 ENV API_HOST=0.0.0.0
 ENV API_PORT=3000
 EXPOSE 3000

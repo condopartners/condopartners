@@ -237,6 +237,67 @@ describe("deploy artifacts (SIS-39)", () => {
     expect(dockerJob).toMatch(/"push":false/)
   })
 
+  test("CD publica GHCR por SHA e redeploya main→prod / dev→dev (SIS-198)", () => {
+    const workflowPath = join(root, ".github", "workflows", "cd.yml")
+    expect(existsSync(workflowPath), workflowPath).toBe(true)
+    const workflow = read(workflowPath)
+    const doc = parseYaml(workflow) as {
+      on?: { push?: { branches?: string[] } }
+      jobs?: Record<string, unknown>
+    }
+
+    const branches = doc.on?.push?.branches ?? []
+    expect(branches).toContain("main")
+    expect(branches).toContain("dev")
+
+    const raw = JSON.stringify(doc)
+    expect(raw).toMatch(/ghcr\.io/)
+    expect(raw).toMatch(/sha-\$\{|sha-\{\{|sha-\$GITHUB|sha-\$\{\{/)
+    expect(workflow).toMatch(/sha-\$\{\{\s*github\.sha\s*\}\}/)
+    expect(workflow).toMatch(/value=prod|:\s*prod|:prod|tags:.*prod/)
+    expect(workflow).toMatch(/value=dev|:\s*dev|:dev|tags:.*\bdev\b/)
+    expect(workflow).toContain("GIT_SHA")
+    expect(workflow).toContain("DEPLOY_SSH_HOST")
+    expect(workflow).toContain("DEPLOY_SSH_USER")
+    expect(workflow).toContain("DEPLOY_SSH_KEY")
+    expect(workflow).toContain("DEPLOY_REPO_ROOT")
+    expect(workflow).toContain("prod.portainer.yml")
+    expect(workflow).toContain("dev.portainer.yml")
+    expect(workflow).toMatch(/packages:\s*write/)
+    expect(workflow).toMatch(/push:\s*true/)
+    expect(workflow).not.toMatch(/-----BEGIN.*PRIVATE KEY-----/)
+    expect(doc.jobs?.publish, "job `publish` missing in cd.yml").toBeDefined()
+    expect(doc.jobs?.deploy, "job `deploy` missing in cd.yml").toBeDefined()
+  })
+
+  test("Dockerfiles aceitam build-arg GIT_SHA (SIS-198)", () => {
+    for (const app of ["api", "web", "landing"]) {
+      const body = read(join(root, "apps", app, "Dockerfile"))
+      expect(body, `${app}/Dockerfile missing ARG GIT_SHA`).toMatch(/ARG\s+GIT_SHA/)
+    }
+    const api = read(join(root, "apps", "api", "Dockerfile"))
+    expect(api).toMatch(/ENV\s+GIT_SHA=/)
+  })
+
+  test("spec CD e runbook documentam GHCR + pin por SHA (SIS-198)", () => {
+    const spec = read(join(root, "docs/specs/cd-continuous-deploy.md"))
+    expect(spec).toMatch(/GHCR|ghcr\.io/)
+    expect(spec).toMatch(/gitSha/)
+    expect(spec).toContain("main")
+    expect(spec).toContain("dev")
+
+    const envExample = read(join(deploy, ".env.example"))
+    expect(envExample).toMatch(/ghcr\.io/)
+    expect(envExample).toContain("API_IMAGE=")
+    expect(envExample).toContain("WEB_IMAGE=")
+    expect(envExample).toContain("LANDING_IMAGE=")
+
+    const readme = read(join(deploy, "README.md"))
+    expect(readme.toLowerCase()).toMatch(/ghcr|continuous deploy|cd contínuo|cd continuo/)
+    expect(readme).toMatch(/sha-|GIT_SHA|gitSha/)
+    expect(readme).toContain("DEPLOY_SSH_HOST")
+  })
+
   test("stacks e overlays Portainer passam WEB_ORIGIN e Better Auth ao api (SIS-117)", () => {
     const requiredApiEnv = ["WEB_ORIGIN", "BETTER_AUTH_URL", "BETTER_AUTH_SECRET"]
     for (const name of [
